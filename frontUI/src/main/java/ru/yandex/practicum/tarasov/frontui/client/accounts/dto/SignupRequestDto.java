@@ -1,4 +1,4 @@
-package ru.yandex.practicum.tarasov.frontui.DTO;
+package ru.yandex.practicum.tarasov.frontui.client.accounts.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class SignupRequestDto {
     @NotBlank(message = "First name cannot be empty")
     private String firstName;
     @NotBlank(message = "Last name cannot be empty")

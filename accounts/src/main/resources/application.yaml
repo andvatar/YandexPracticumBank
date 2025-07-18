@@ -21,21 +21,21 @@ spring:
     change-log: db/changelog/changelog.yaml
     default-schema: accounts
 
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: http://localhost:8085/realms/master
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/master
 
 server:
   port: 8082
 
-#logging:
-#  level:
-#    root: INFO
-#    org:
-#      springframework:
-#        security: DEBUG
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: DEBUG
 #        web: DEBUG
 #        boot:
 #          web: DEBUG

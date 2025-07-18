@@ -1,13 +1,31 @@
 spring:
   application:
     name: frontUI
- # datasource:
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: http://localhost:8085/realms/master/protocol/openid-connect/token
+#            http://localhost:8085/realms/master/protocol/openid-connect/token
+#            http://localhost:8080/realms/demo/protocol/openid-connect/token
+        registration:
+          yandex:
+            provider: keycloak
+            client-id: yandex-bank
+            client-secret: TIMXnhuV51qTYQrgGcZZQIgLpECAxAC2
+#            scope: resource.read
+            authorization-grant-type: client_credentials
+  # datasource:
  #   driver-class-name: org.postgresql.Driver
  #   url: jdbc:postgresql://localhost:5433/yandex_bank?currentSchema=front
  #   username: postgres
  #   password: postgres
   cloud:
     openfeign:
+      oauth2:
+        enabled: true
+        clientRegistrationId: yandex
       client:
         config:
           default:
@@ -34,4 +52,4 @@ logging:
   level:
     org:
       springframework:
-        security: ERROR
+        security: DEBUG

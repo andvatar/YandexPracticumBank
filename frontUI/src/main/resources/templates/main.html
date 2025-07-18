@@ -71,28 +71,28 @@
                 <td style="font-weight:bold;">Фамилия</td>
                 <td th:text="${last_name}"/>
                 <td>
-                    <input name="last_name" type="text" style="width:100%"/>
+                    <input name="lastName" type="text" style="width:100%"/>
                 </td>
             </tr>
             <tr>
                 <td style="font-weight:bold;">Имя</td>
                 <td th:text="${first_name}"/>
                 <td>
-                    <input name="first_name" type="text" style="width:100%"/>
+                    <input name="firstName" type="text" style="width:100%"/>
                 </td>
             </tr>
             <tr>
                 <td style="font-weight:bold;">Дата рождения</td>
                 <td th:text="${birthdate}"/>
                 <td>
-                    <input name="birthdate" type="date" style="width:100%"/>
+                    <input name="birthDate" type="date" style="width:100%"/>
                 </td>
             </tr>
             <tr th:each="account : ${accounts}">
-                <td style="font-weight:bold;" th:text="${account.getCurrency().getTitle()}"/>
-                <td th:text="${account.isExists() ? (account.getValue()+' '+account.getCurrency().name()) : ''}"/>
+                <td style="font-weight:bold;" th:text="${account.getCurrency().getName()}"/>
+                <td th:text="${account.isExists() ? (account.getBalance()+' '+account.getCurrency().getCode()) : ''}"/>
                 <td style="text-align:right">
-                    <input name="account" type="checkbox" th:checked="${account.isExists()}" th:value="${account.getCurrency().name()}"/>
+                    <input name="accounts" type="checkbox" th:checked="${account.isExists()}" th:value="${account.getCurrency().getCode()}"/>
                 </td>
             </tr>
             <tr>

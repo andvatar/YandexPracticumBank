@@ -14,11 +14,11 @@ import ru.yandex.practicum.tarasov.accounts.service.CustomUserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final CustomUserDetailsService userDetailsService;
+    //private final CustomUserDetailsService userDetailsService;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    /*public SecurityConfig(CustomUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-    }
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -29,11 +29,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        //.requestMatchers("/main/**").authenticated()
-                    .anyRequest().permitAll())
-                .formLogin(login -> login.defaultSuccessUrl("http://localhost:8080/main"))
-                .userDetailsService(userDetailsService)
-                .csrf(AbstractHttpConfigurer::disable);
+                    .requestMatchers("/actuator//**").permitAll()
+                    .anyRequest().authenticated())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+                //.formLogin(login -> login.defaultSuccessUrl("http://localhost:8080/main"))
+                //.userDetailsService(userDetailsService);
+                //.csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 

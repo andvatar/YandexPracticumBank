@@ -1,8 +1,6 @@
-package ru.yandex.practicum.tarasov.frontui.DTO;
+package ru.yandex.practicum.tarasov.frontui.client.accounts.dto;
 
 import jakarta.validation.constraints.NotBlank;
-
-import java.math.BigDecimal;
 
 public record ChangePasswordDto(
         @NotBlank

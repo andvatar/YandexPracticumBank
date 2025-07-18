@@ -2,7 +2,6 @@ package ru.yandex.practicum.tarasov.frontui.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,17 +29,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/main/**").authenticated()
                     .anyRequest().permitAll())
-                .formLogin(Customizer.withDefaults())
+                .formLogin(login -> login.defaultSuccessUrl("/main", true))
                 .userDetailsService(userDetailsService);
         return http.build();
     }
-
-/*    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setPasswordEncoder(passwordEncoder());
-        authProvider.setUserDetailsService(userService);
-        return authProvider;
-    }*/
-
 }

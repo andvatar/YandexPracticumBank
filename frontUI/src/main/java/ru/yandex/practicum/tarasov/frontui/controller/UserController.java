@@ -1,29 +1,29 @@
 package ru.yandex.practicum.tarasov.frontui.controller;
 
 import jakarta.validation.Valid;
-import org.apache.coyote.BadRequestException;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import ru.yandex.practicum.tarasov.frontui.DTO.ChangePasswordDto;
-import ru.yandex.practicum.tarasov.frontui.DTO.CreateUserResponseDto;
-import ru.yandex.practicum.tarasov.frontui.DTO.UserDto;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.yandex.practicum.tarasov.frontui.client.accounts.dto.*;
 import ru.yandex.practicum.tarasov.frontui.entity.User;
+import ru.yandex.practicum.tarasov.frontui.service.UserAccountsService;
 
 @Controller
 public class UserController {
 
-    private final RestTemplate restTemplate;
+    private final UserAccountsService userAccountsService;
 
-    public UserController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public UserController(
+                          UserAccountsService userAccountsService) {
+        this.userAccountsService = userAccountsService;
     }
 
     @GetMapping("/signup")
     public String getSignup(Model model) {
-        model.addAttribute("userDto", new UserDto());
+        model.addAttribute("userDto", new SignupRequestDto());
         return "signup";
     }
 
@@ -36,32 +36,48 @@ public class UserController {
         model.addAttribute("first_name", user.getFirstName());
         model.addAttribute("birthdate", user.getBirthDate());
 
+        UserAccountsDto userAccountsDto = userAccountsService.getUserAccounts(user.getUsername());
+
+        //System.out.println(userAccountsDto.accounts());
+
+        model.addAttribute("accounts", userAccountsDto.accounts());
+        //model.addAttribute("userAccountsDto", userAccountsDto);
+
         return "main";
     }
 
     @PostMapping("/signup")
-    public String postSignup(@Valid @ModelAttribute("userDto") UserDto userDto) throws BadRequestException {
-        //userService.createUser(userDto);
-        //CreateUserResponseDto resp = accountsClient.signup();
+    public String postSignup(@ModelAttribute("userDto") SignupRequestDto signupRequestDto,
+                             RedirectAttributes redirectAttributes) {
 
-        CreateUserResponseDto resp = restTemplate.postForObject("http://accounts/signup", userDto, CreateUserResponseDto.class);
-        if(resp == null) {
-            throw new BadRequestException("No response");
+        ResponseDto dto = userAccountsService.signup(signupRequestDto);
+        if(dto.hasErrors()) {
+            redirectAttributes.addFlashAttribute("errors", dto.errors());
+            return "redirect:/signup";
         }
-        if(resp.errors() != null) {
-            throw new BadRequestException(resp.errors().toString());
+        else {
+            return "redirect:/login";
         }
-        return "redirect:/login";
-
     }
 
     @PostMapping("/user/{login}/editPassword")
     public String changePassword(@PathVariable("login") String login,
                                  @RequestParam("password") String password,
-                                 @RequestParam("confirm_password") String confirm_password) {
-        ChangePasswordDto dto = new ChangePasswordDto(login, password, confirm_password);
-        restTemplate.postForObject("http://accounts/changePassword", dto, User.class);
+                                 @RequestParam("confirm_password") String confirm_password,
+                                 RedirectAttributes redirectAttributes) {
+        ResponseDto dto = userAccountsService.changePassword(new ChangePasswordDto(login, password, confirm_password));
 
+        redirectAttributes.addFlashAttribute("passwordErrors", dto.errors());
         return "redirect:/main";
+    }
+
+    @PostMapping(path = "/user/{login}/editUserAccounts",
+    consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public String editUserAccounts(@PathVariable("login") String login,
+                                   @ModelAttribute ChangeUserAccountsDto changeUserAccountsDto,
+                                   RedirectAttributes redirectAttributes) {
+        ResponseDto dto = userAccountsService.editUserAccounts(changeUserAccountsDto, login);
+            redirectAttributes.addFlashAttribute("userAccountsErrors", dto.errors());
+            return "redirect:/main";
     }
 }

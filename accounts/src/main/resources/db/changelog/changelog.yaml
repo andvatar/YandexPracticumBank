@@ -93,3 +93,70 @@ databaseChangeLog:
             tableName: authorities
         - dropTable:
             tableName: users
+  - changeSet:
+      id: 2
+      author: Andrey Tarasov
+      changes:
+        - createTable:
+            tableName: currencies
+            columns:
+              - column:
+                  name: curr_code
+                  type: varchar(3)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: curr_description
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: accounts
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_id
+                    references: users(id)
+              - column:
+                  name: currency
+                  type: varchar(3)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_currency_code
+                    references: currencies(curr_code)
+              - column:
+                  name: balance
+                  type: BIGINT
+                  defaultValueNumeric: 0
+        - tagDatabase:
+            tag: v.2.0
+      rollback:
+        - dropTable:
+            tableName: accounts
+            cascadeConstraints: true
+        - dropTable:
+            tableName: currencies
+  - changeSet:
+      id: 3
+      author: Andrey Tarasov
+      preConditions:
+        - onFail: CONTINUE
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from currencies
+      changes:
+        - loadData:
+            tableName: currencies
+            file: db/changelog/data/currencies.csv
+        - tagDatabase:
+            tag: v.3.0
+      rollback: []

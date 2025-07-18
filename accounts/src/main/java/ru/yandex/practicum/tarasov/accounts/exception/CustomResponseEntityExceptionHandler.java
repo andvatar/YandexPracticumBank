@@ -7,9 +7,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ru.yandex.practicum.tarasov.accounts.DTO.CreateUserResponseDto;
+import ru.yandex.practicum.tarasov.accounts.DTO.ResponseDto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestControllerAdvice
@@ -20,7 +19,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
                 .stream()
                 .map(x->x.getField() + ": " + x.getDefaultMessage())
                 .toList();
-        CreateUserResponseDto responseDto = new CreateUserResponseDto(LocalDateTime.now(), status.toString(), errors);
+        ResponseDto responseDto = new ResponseDto(errors);
         return new ResponseEntity<>(responseDto, headers, status);
     }
 }
