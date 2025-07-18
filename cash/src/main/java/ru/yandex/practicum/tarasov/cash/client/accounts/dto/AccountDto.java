@@ -1,11 +1,10 @@
-package ru.yandex.practicum.tarasov.accounts.DTO;
+package ru.yandex.practicum.tarasov.cash.client.accounts.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import ru.yandex.practicum.tarasov.accounts.entity.Currency;
 
 @NoArgsConstructor
 @AllArgsConstructor

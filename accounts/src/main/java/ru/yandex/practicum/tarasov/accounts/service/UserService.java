@@ -83,7 +83,9 @@ public class UserService {
 
     public UserAccountsDto getUserAccounts(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        return userMapper.userToUserAccountsDto(user);
+        var userDto = userMapper.userToUserAccountsDto(user);
+        System.out.println(userDto);
+        return userDto;
     }
 
     @Transactional

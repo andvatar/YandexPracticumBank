@@ -1,12 +1,13 @@
 package ru.yandex.practicum.tarasov.frontui.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.yandex.practicum.tarasov.frontui.DTO.CashDto;
+import ru.yandex.practicum.tarasov.frontui.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.frontui.client.accounts.dto.*;
 import ru.yandex.practicum.tarasov.frontui.entity.User;
 import ru.yandex.practicum.tarasov.frontui.service.UserAccountsService;
@@ -42,6 +43,8 @@ public class UserController {
 
         model.addAttribute("accounts", userAccountsDto.accounts());
         //model.addAttribute("userAccountsDto", userAccountsDto);
+
+        model.addAttribute("currency", userAccountsDto.accounts().stream().map(AccountDto::getCurrency).toList());
 
         return "main";
     }
@@ -80,4 +83,5 @@ public class UserController {
             redirectAttributes.addFlashAttribute("userAccountsErrors", dto.errors());
             return "redirect:/main";
     }
+
 }

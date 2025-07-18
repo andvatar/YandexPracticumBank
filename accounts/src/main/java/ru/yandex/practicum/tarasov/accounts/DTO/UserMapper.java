@@ -31,11 +31,15 @@ public abstract class UserMapper {
     @Named(value = "setAccountsDto")
     public List<AccountDto> setAccountsDto(List<Account> accounts) {
         List<Currency> currencies = currencyRepository.findAll();
-        return currencies.stream().map(c -> new AccountDto(0,
-                        accounts.stream().anyMatch(a -> a.getCurrency().equals(c)),
-                        c
+        return currencies.stream()
+                .map(c ->
+                        accounts.stream()
+                                .filter(a -> a.getCurrency().equals(c))
+                                .map(account -> new AccountDto(account.getBalance(), true, c))
+                                .findFirst()
+                                .orElse(new AccountDto(0, false, c))
                 )
-        ).toList();
+        .toList();
     }
 
     @Autowired

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import ru.yandex.practicum.tarasov.frontui.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.frontui.client.accounts.dto.*;
 import ru.yandex.practicum.tarasov.frontui.configuration.OAuthFeignConfig;
 import ru.yandex.practicum.tarasov.frontui.entity.User;

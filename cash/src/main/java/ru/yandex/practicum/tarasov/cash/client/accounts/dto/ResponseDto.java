@@ -1,4 +1,4 @@
-package ru.yandex.practicum.tarasov.frontui.client.accounts.dto;
+package ru.yandex.practicum.tarasov.cash.client.accounts.dto;
 
 import java.util.ArrayList;
 import java.util.List;

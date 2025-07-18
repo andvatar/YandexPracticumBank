@@ -1,4 +1,4 @@
-package ru.yandex.practicum.tarasov.accounts.DTO;
+package ru.yandex.practicum.tarasov.cash.client.accounts.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
