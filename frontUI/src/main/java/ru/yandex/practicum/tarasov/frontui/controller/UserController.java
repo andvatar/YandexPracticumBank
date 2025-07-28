@@ -6,11 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.yandex.practicum.tarasov.frontui.DTO.CashDto;
 import ru.yandex.practicum.tarasov.frontui.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.frontui.client.accounts.dto.*;
 import ru.yandex.practicum.tarasov.frontui.entity.User;
 import ru.yandex.practicum.tarasov.frontui.service.UserAccountsService;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -31,20 +32,17 @@ public class UserController {
     @GetMapping("/main")
     public String getMain(Model model,
                           @AuthenticationPrincipal User user) {
-        System.out.println(user.getUsername());
         model.addAttribute("login", user.getUsername());
         model.addAttribute("last_name", user.getLastName());
         model.addAttribute("first_name", user.getFirstName());
         model.addAttribute("birthdate", user.getBirthDate());
 
         UserAccountsDto userAccountsDto = userAccountsService.getUserAccounts(user.getUsername());
-
-        //System.out.println(userAccountsDto.accounts());
+        List<UserDto> users = userAccountsService.getOtherUsers(user.getUsername());
 
         model.addAttribute("accounts", userAccountsDto.accounts());
-        //model.addAttribute("userAccountsDto", userAccountsDto);
-
         model.addAttribute("currency", userAccountsDto.accounts().stream().map(AccountDto::getCurrency).toList());
+        model.addAttribute("users", users);
 
         return "main";
     }
@@ -80,8 +78,8 @@ public class UserController {
                                    @ModelAttribute ChangeUserAccountsDto changeUserAccountsDto,
                                    RedirectAttributes redirectAttributes) {
         ResponseDto dto = userAccountsService.editUserAccounts(changeUserAccountsDto, login);
-            redirectAttributes.addFlashAttribute("userAccountsErrors", dto.errors());
-            return "redirect:/main";
+        redirectAttributes.addFlashAttribute("userAccountsErrors", dto.errors());
+        return "redirect:/main";
     }
 
 }

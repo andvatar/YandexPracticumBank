@@ -3,17 +3,32 @@ spring:
     name: cash
   cloud:
     consul:
-      host: localhost
+      host: ${consul_host:localhost}
       port: 8500
       discovery:
-        hostname: localhost
+        hostname: cash
+        prefer-ip-address: false
+        health-check-url: http://${spring.cloud.consul.discovery.hostname}:${server.port}/actuator/health
       config:
-        enabled: false
-        defaultContext: application
+        enabled: true
+        format: yaml
+        data-key: data
+        prefixes: config
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8085/realms/master
+          issuer-uri: ${KEYCLOAK_URL:http://localhost:8085/realms/master}
+  config:
+    import: optional:consul:${consul_host:localhost}:8500
+
 server:
   port: 8083
+
+resilience4j:
+  retry:
+    instances:
+      checkTransaction:
+        max-attempts: 3
+        wait-duration:
+          seconds: 1

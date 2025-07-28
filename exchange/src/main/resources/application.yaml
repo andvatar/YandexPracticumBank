@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: exchange
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/yandex_bank?currentSchema=exchange}
+    username: postgres
+    password: postgres
+  cloud:
+    consul:
+      host: ${consul_host:localhost}
+      port: 8500
+      discovery:
+        hostname: exchange
+        prefer-ip-address: false
+        health-check-url: http://${spring.cloud.consul.discovery.hostname}:${server.port}/actuator/health
+      config:
+        enabled: false
+        defaultContext: application
+
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog.yaml
+    default-schema: exchange
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_URL:http://localhost:8085/realms/master}
+
+server:
+  port: 8084

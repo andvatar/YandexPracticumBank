@@ -12,7 +12,6 @@ public class JwtTokenPropagator implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
-        System.out.println("JwtTokenPropagator");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getCredentials() instanceof Jwt jwtToken) {
             template.header("Authorization", "Bearer " + jwtToken.getTokenValue());

@@ -83,9 +83,15 @@ public class UserService {
 
     public UserAccountsDto getUserAccounts(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        var userDto = userMapper.userToUserAccountsDto(user);
-        System.out.println(userDto);
-        return userDto;
+        return userMapper.userToUserAccountsDto(user);
+    }
+
+    public List<UserDto> getOtherUsers(String username) {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .filter(u -> !u.getUsername().equals(username))
+                .map(userMapper::userToUserDto)
+                .toList();
     }
 
     @Transactional
@@ -110,11 +116,11 @@ public class UserService {
             }
         }
 
-        if(changeUserAccountsDto.getFirstName() != null) {
+        if(changeUserAccountsDto.getFirstName() != null && !changeUserAccountsDto.getFirstName().isEmpty()) {
             user.setFirstName(changeUserAccountsDto.getFirstName());
         }
 
-        if(changeUserAccountsDto.getLastName() != null) {
+        if(changeUserAccountsDto.getLastName() != null && !changeUserAccountsDto.getLastName().isEmpty()) {
             user.setLastName(changeUserAccountsDto.getLastName());
         }
 

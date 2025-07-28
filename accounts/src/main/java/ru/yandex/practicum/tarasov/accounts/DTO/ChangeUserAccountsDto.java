@@ -17,4 +17,5 @@ public class ChangeUserAccountsDto {
     private String firstName;
     private LocalDate birthDate;
     private List<String> accounts = new ArrayList<>();
+
 }

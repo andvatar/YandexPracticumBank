@@ -11,6 +11,8 @@ import ru.yandex.practicum.tarasov.frontui.client.accounts.dto.*;
 import ru.yandex.practicum.tarasov.frontui.configuration.OAuthFeignConfig;
 import ru.yandex.practicum.tarasov.frontui.entity.User;
 
+import java.util.List;
+
 @FeignClient(name = "accounts", configuration = OAuthFeignConfig.class)
 public interface AccountsClient {
 
@@ -29,5 +31,8 @@ public interface AccountsClient {
     @PostMapping("/user/{login}/accounts")
     ResponseDto editUserAccounts(@RequestBody ChangeUserAccountsDto changeUserAccountsDto,
                                  @PathVariable String login);
+
+    @GetMapping("user/{login}/others")
+    List<UserDto> getOtherUsers(@PathVariable("login") String login);
 
 }

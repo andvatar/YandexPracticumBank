@@ -29,7 +29,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/main/**").authenticated()
                     .anyRequest().permitAll())
-                .formLogin(login -> login.defaultSuccessUrl("/main", true))
+                .formLogin(login -> login
+                        .defaultSuccessUrl("http://localhost:8090/main", true)
+                        .permitAll())
                 .userDetailsService(userDetailsService);
         return http.build();
     }

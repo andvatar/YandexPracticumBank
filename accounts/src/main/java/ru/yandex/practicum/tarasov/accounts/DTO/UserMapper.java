@@ -10,9 +10,6 @@ import ru.yandex.practicum.tarasov.accounts.entity.Currency;
 import ru.yandex.practicum.tarasov.accounts.entity.User;
 import ru.yandex.practicum.tarasov.accounts.repository.CurrencyRepository;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,6 +21,8 @@ public abstract class UserMapper {
     public abstract User signupRequestDtoToUser(SignupRequestDto signupRequestDto);
 
     public abstract User userAccountDtoToUser(UserAccountsDto userAccountsDto);
+
+    public abstract UserDto userToUserDto(User user);
 
     @Mapping(source = "accounts", target = "accounts", qualifiedByName = "setAccountsDto")
     public abstract UserAccountsDto userToUserAccountsDto(User user);

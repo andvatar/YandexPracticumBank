@@ -1,8 +1,11 @@
 package ru.yandex.practicum.tarasov.accounts.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ru.yandex.practicum.tarasov.accounts.DTO.CashDto;
 import ru.yandex.practicum.tarasov.accounts.DTO.ResponseDto;
+import ru.yandex.practicum.tarasov.accounts.DTO.TransferDto;
 import ru.yandex.practicum.tarasov.accounts.entity.Account;
 import ru.yandex.practicum.tarasov.accounts.entity.User;
 import ru.yandex.practicum.tarasov.accounts.repository.AccountRepository;
@@ -15,12 +18,10 @@ import java.util.Optional;
 public class AccountService {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
-    private final CurrencyRepository currencyRepository;
 
-    public AccountService(AccountRepository accountRepository, UserRepository userRepository, CurrencyRepository currencyRepository) {
+    public AccountService(AccountRepository accountRepository, UserRepository userRepository) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
-        this.currencyRepository = currencyRepository;
     }
 
     public ResponseDto getPutCash(CashDto  cashDto) {
@@ -66,5 +67,34 @@ public class AccountService {
         accountRepository.save(account);
 
         return responseDto;
+    }
+
+    @Transactional
+    public ResponseDto transfer(TransferDto transferDto) {
+        ResponseDto responseDto = new ResponseDto();
+
+        ResponseDto getResponseDto = getPutCash(
+                new CashDto(
+                    transferDto.fromLogin(),
+                    transferDto.fromCurrency(),
+                    transferDto.fromAmount(),
+                    "GET"));
+
+        responseDto.errors().addAll(getResponseDto.errors());
+
+        ResponseDto putResponseDto = getPutCash(
+                new CashDto(
+                        transferDto.toLogin(),
+                        transferDto.toCurrency(),
+                        transferDto.toAmount(),
+                        "PUT"));
+
+        responseDto.errors().addAll(putResponseDto.errors());
+
+        if(responseDto.hasErrors()) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+
+        return  responseDto;
     }
 }

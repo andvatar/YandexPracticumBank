@@ -1,10 +1,9 @@
-package ru.yandex.practicum.tarasov.cash.configuration;
+package ru.yandex.practicum.tarasov.transfer.configuration;
 
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-public class CashFeignConfig {
+public class FeignConfig {
     @Bean
     public RequestInterceptor jwtTokenPropagator() {
         return new JwtTokenPropagator();

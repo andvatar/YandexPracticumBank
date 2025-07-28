@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: exchangeGenerator
+  cloud:
+    consul:
+      host: ${consul_host:localhost}
+      port: 8500
+      discovery:
+        hostname: exchangeGenerator
+        prefer-ip-address: false
+        health-check-url: http://${spring.cloud.consul.discovery.hostname}:${server.port}/actuator/health
+      config:
+        enabled: false
+        defaultContext: application
+
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog.yaml
+    default-schema: exchange
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: ${KEYCLOAK_URL:http://localhost:8085/realms/master}/protocol/openid-connect/token
+        registration:
+          yandex:
+            provider: keycloak
+            client-id: yandex-bank
+            client-secret: TIMXnhuV51qTYQrgGcZZQIgLpECAxAC2
+            #            scope: resource.read
+            authorization-grant-type: client_credentials
+
+server:
+  port: 8086

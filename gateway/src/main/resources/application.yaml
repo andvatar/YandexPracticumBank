@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: application-gateway
+  cloud:
+    gateway:
+      forwarded:
+        enabled: true
+      server:
+        webmvc:
+          routes:
+            - id: exchange
+              #uri: http://localhost:8084
+              uri: http://exchangeApp:8084
+              predicates:
+                - Path=/exchange/**
+              filters:
+                - RewritePath=/exchange/(?<segment>.*), /${segment}
+            - id: frontUI
+              #uri: http://localhost:8090
+              uri: http://frontApp:8090
+              predicates:
+                - Path=/**
+              filters:
+                - StripPrefix=1
+                - RewritePath=/(?<segment>.*), /${segment}
+              metadata:
+                cors:
+                  allowedOrigins: '*'
+                  allowedMethods:
+                    - GET
+                  allowedHeaders: '*'
+                  allowCredentials: true
+                  maxAge: 30
+server:
+  port: 8080
+  forward-headers-strategy: framework
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.http.server.reactive: DEBUG
+    reactor.netty: DEBUG

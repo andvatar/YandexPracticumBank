@@ -7,6 +7,8 @@ import ru.yandex.practicum.tarasov.accounts.DTO.*;
 import ru.yandex.practicum.tarasov.accounts.service.CustomUserDetailsService;
 import ru.yandex.practicum.tarasov.accounts.service.UserService;
 
+import java.util.List;
+
 @RestController
 public class UserController {
 
@@ -44,5 +46,10 @@ public class UserController {
     public ResponseDto editUserAccounts(@RequestBody ChangeUserAccountsDto changeUserAccountsDto,
                                         @PathVariable String login) {
         return userService.updateUserAccounts(changeUserAccountsDto, login);
+    }
+
+    @GetMapping("user/{login}/others")
+    public List<UserDto> getOtherUsers(@PathVariable("login") String login) {
+        return userService.getOtherUsers(login);
     }
 }

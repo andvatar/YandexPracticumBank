@@ -28,10 +28,11 @@
     <module>frontUI</module>
     <module>accounts</module>
     <module>cash</module>
-    <!--module>transfer</module>
+    <module>transfer</module>
     <module>exchange</module>
     <module>exchangeGenerator</module>
     <module>blocker</module>
-    <module>notifications</module!-->
+    <module>notifications</module>
+    <module>gateway</module>
   </modules>
 </project>

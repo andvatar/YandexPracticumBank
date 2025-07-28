@@ -3,15 +3,19 @@ spring:
     name: accounts
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/yandex_bank?currentSchema=accounts
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/yandex_bank?currentSchema=accounts}
     username: postgres
     password: postgres
   cloud:
+    loadbalancer:
+      enabled: true
     consul:
-      host: localhost
+      host: ${consul_host:localhost}
       port: 8500
       discovery:
-        hostname: localhost
+        hostname: accounts
+        prefer-ip-address: false
+        health-check-url: http://${spring.cloud.consul.discovery.hostname}:${server.port}/actuator/health
       config:
         enabled: false
         defaultContext: application
@@ -25,20 +29,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8085/realms/master
+          issuer-uri: ${KEYCLOAK_URL:http://localhost:8085/realms/master}
 
 server:
   port: 8082
-
-logging:
-  level:
-    root: INFO
-    org:
-      springframework:
-        security: DEBUG
-#        web: DEBUG
-#        boot:
-#          web: DEBUG
-#      apache:
-#        coyote: DEBUG
-#        http: DEBUG

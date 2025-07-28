@@ -8,6 +8,8 @@ import ru.yandex.practicum.tarasov.frontui.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.frontui.client.accounts.AccountsClient;
 import ru.yandex.practicum.tarasov.frontui.client.accounts.dto.*;
 
+import java.util.List;
+
 @Service
 public class UserAccountsService {
     private final AccountsClient accountsClient;
@@ -45,5 +47,9 @@ public class UserAccountsService {
     public ResponseDto editUserAccounts(ChangeUserAccountsDto changeUserAccountsDto,
                                         String login) {
         return accountsClient.editUserAccounts(changeUserAccountsDto, login);
+    }
+
+    public List<UserDto> getOtherUsers(String login) {
+        return accountsClient.getOtherUsers(login);
     }
 }
