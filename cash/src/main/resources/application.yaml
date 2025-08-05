@@ -32,3 +32,13 @@ resilience4j:
         max-attempts: 3
         wait-duration:
           seconds: 1
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
