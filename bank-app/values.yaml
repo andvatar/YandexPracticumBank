@@ -1,0 +1,209 @@
+# Global values (if any)
+global:
+  domain: bank-app.local # Example domain for ingress
+
+accounts:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: accounts # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8082
+  ingress:
+    enabled: true
+    className: "nginx" # Specify your ingress controller class
+    hosts:
+      - host: accounts.local # Use global domain or specific
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+  # Database connection details passed to customer-service configmap
+  config:
+    # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
+    database_url: "jdbc:postgresql://{{ .Release.Name }}-customer-db:5432/bank-db"
+    # Secret reference for password is more secure
+    database_username: "postgres"
+    # database_password_secret: "{{ .Release.Name }}-customer-db-postgresql" # Reference to secret created by DB chart
+    # database_password_secret_key: "postgresql-password" # Key within the secret
+
+
+blocker:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: blocker # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8088
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: blocker.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+cash:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: cash # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8083
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: cash.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+exchange:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: exchange # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8084
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: exchange.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+exchangeGenerator:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: exchangeGenerator # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8086
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: exchangeGenerator.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+frontUI:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: frontUI # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8090
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: frontUI.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+notifications:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: notifications # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8092
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: notifications.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+transfer:
+  replicaCount: 1
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: transfer # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8087
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: transfer.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+# Configuration for the customer-db (PostgreSQL dependency)
+# Values here are prefixed according to the Bitnami PostgreSQL chart's structure
+# Check the Bitnami chart's values.yaml for all available options
+customer-db:
+  enabled: true
+  # Override values from the official postgresql chart
+  auth:
+    database: bank-db
+    username: postgres
+    # Use existingSecret or provide password (less secure for production)
+    # existingSecret: "{{ .Release.Name }}-customer-db-postgresql" # Name of the secret to use/create
+    password: "postgres" # Example: Not recommended for production
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi # Small size for example
+
+keycloak:
+  enabled: true
+  auth:
+    adminUser: "admin"
+    adminPassword: "admin"
+  extraEnvVars:
+    - name: KEYCLOAK_ADMIN
+      value: admin
+    - name: KEYCLOAK_ADMIN_PASSWORD
+      value: admin
+    - name: KEYCLOAK_EXTRA_ARGS
+      value: "--import-realm"
+  extraVolumes:
+    - name: realm-config
+      configMap:
+        name: keycloak-realm-config
+  extraVolumeMounts:
+    - name: realm-config
+      mountPath: /opt/bitnami/keycloak/data/import
+      readOnly: true
