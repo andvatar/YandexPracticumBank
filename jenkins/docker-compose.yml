@@ -3,6 +3,8 @@ services:
     build: .
     container_name: jenkins
     user: root
+    env_file:
+      - .env
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     ports:
