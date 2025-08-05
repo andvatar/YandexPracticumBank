@@ -1,0 +1,321 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = credentials('DOCKER_REGISTRY')
+        DB_PASSWORD     = credentials('DB_PASSWORD')
+        GITHUB_USERNAME = credentials('GITHUB_USERNAME')
+        DB_NAME         = 'bank-db'
+        DB_USER         = 'postgres'
+        IMAGE_TAG       = "latest"
+    }
+
+    stages {
+        stage('Build & Unit Tests') {
+            parallel {
+                stage('accounts') {
+                    steps {
+                        dir('accounts') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('blocker') {
+                    steps {
+                        dir('blocker') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('cash') {
+                    steps {
+                        dir('cash') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('exchange') {
+                    steps {
+                        dir('exchange') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('exchangeGenerator') {
+                    steps {
+                        dir('exchangeGenerator') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('frontUI') {
+                    steps {
+                        dir('frontUI') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('notifications') {
+                    steps {
+                        dir('notifications') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('transfer') {
+                    steps {
+                        dir('transfer') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                sh """
+                docker build -t accounts:${IMAGE_TAG} accounts
+                docker build -t blocker:${IMAGE_TAG} blocker
+                docker build -t cash:${IMAGE_TAG} cash
+                docker build -t exchange:${IMAGE_TAG} exchange
+                docker build -t exchangeGenerator:${IMAGE_TAG} exchangeGenerator
+                docker build -t frontUI:${IMAGE_TAG} frontUI
+                docker build -t notifications:${IMAGE_TAG} notifications
+                docker build -t transfer:${IMAGE_TAG} transfer
+                """
+            }
+        }
+
+        stage('Setup Ingress Nginx') {
+            steps {
+                script {
+                    sh 'helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx'
+                    sh 'helm repo update'
+                    sh 'helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace'
+                }
+            }
+        }
+
+        stage('Install PostgreSQL to TEST') {
+            steps {
+                sh """
+                helm repo add helm-stable https://charts.helm.sh/stable
+                helm repo update
+
+                helm upgrade --install postgres helm-stable/postgresql \\
+                  --namespace test --create-namespace \\
+                  --set auth.database=${DB_NAME} \\
+                  --set auth.username=${DB_USER} \\
+                  --set auth.password=${DB_PASSWORD}
+
+                echo ${DB_PASSWORD}
+                """
+            }
+        }
+
+        stage('Create DB Secrets for TEST') {
+            steps {
+                sh """
+                kubectl create secret generic customer-service-customer-db \\
+                  --from-literal=password=${DB_PASSWORD} \\
+                  -n test --dry-run=client -o yaml | kubectl apply -f -
+
+                kubectl create secret generic order-service-order-db \\
+                  --from-literal=password=${DB_PASSWORD} \\
+                  -n test --dry-run=client -o yaml | kubectl apply -f -
+                """
+            }
+        }
+
+//         export SPRING_DATASOURCE_PASSWORD=$(kubectl get secret --namespace test postgres-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)
+
+        stage('Helm Deploy to TEST') {
+            steps {
+                sh """
+                helm upgrade --install accounts bank-app/charts/accounts \\
+                  --namespace test --create-namespace \\
+                  --set image.repository=accounts \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=accounts.test.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install blocker bank-app/charts/blocker \\
+                  --namespace test --create-namespace \\
+                  --set image.repository=blocker \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=blocker.test.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install cash bank-app/charts/cash \\
+                  --namespace test --create-namespace \\
+                  --set image.repository=cash \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=cash.test.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install exchange bank-app/charts/exchange \\
+                  --namespace test --create-namespace \\
+                  --set image.repository=exchange \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=exchange.test.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install exchangeGenerator bank-app/charts/exchangeGenerator \\
+                  --namespace test --create-namespace \\
+                  --set image.repository=exchangeGenerator \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=exchangeGenerator.test.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install frontUI bank-app/charts/frontUI \\
+                  --namespace test --create-namespace \\
+                  --set image.repository=frontUI \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=frontUI.test.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install notifications bank-app/charts/notifications \\
+                  --namespace test --create-namespace \\
+                  --set image.repository=notifications \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=notifications.test.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install transfer bank-app/charts/transfer \\
+                  --namespace test --create-namespace \\
+                  --set image.repository=transfer \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=transfer.test.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                """
+            }
+        }
+
+        stage('Manual Approval for PROD') {
+            steps {
+                input message: 'Deploy to PROD environment?', ok: 'Yes, deploy'
+            }
+        }
+
+        stage('Install PostgreSQL to PROD') {
+            steps {
+                sh """
+                helm upgrade --install postgres helm-stable/postgresql \\
+                  --namespace prod --create-namespace \\
+                  --set auth.database=${DB_NAME} \\
+                  --set auth.username=${DB_USER} \\
+                  --set auth.password=${DB_PASSWORD}
+                """
+            }
+        }
+
+        stage('Create DB Secrets for PROD') {
+            steps {
+                sh """
+                kubectl create secret generic customer-service-customer-db \\
+                  --from-literal=password=${DB_PASSWORD} \\
+                  -n prod --dry-run=client -o yaml | kubectl apply -f -
+
+                kubectl create secret generic order-service-order-db \\
+                  --from-literal=password=${DB_PASSWORD} \\
+                  -n prod --dry-run=client -o yaml | kubectl apply -f -
+                """
+            }
+        }
+
+        stage('Helm Deploy to PROD') {
+            steps {
+                sh """
+                helm upgrade --install accounts bank-app/charts/accounts \\
+                  --namespace prod --create-namespace \\
+                  --set image.repository=accounts \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=accounts.prod.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install blocker bank-app/charts/blocker \\
+                  --namespace prod --create-namespace \\
+                  --set image.repository=blocker \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=blocker.prod.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install cash bank-app/charts/cash \\
+                  --namespace prod --create-namespace \\
+                  --set image.repository=cash \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=cash.prod.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install exchange bank-app/charts/exchange \\
+                  --namespace prod --create-namespace \\
+                  --set image.repository=exchange \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=exchange.prod.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install exchangeGenerator bank-app/charts/exchangeGenerator \\
+                  --namespace prod --create-namespace \\
+                  --set image.repository=exchangeGenerator \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=exchangeGenerator.prod.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install frontUI bank-app/charts/frontUI \\
+                  --namespace prod --create-namespace \\
+                  --set image.repository=frontUI \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=frontUI.prod.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install notifications bank-app/charts/notifications \\
+                  --namespace prod --create-namespace \\
+                  --set image.repository=notifications \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=notifications.prod.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+                helm upgrade --install transfer bank-app/charts/transfer \\
+                  --namespace prod --create-namespace \\
+                  --set image.repository=transfer \\
+                  --set image.tag=${IMAGE_TAG} \\
+                  --set ingress.enabled=true \\
+                  --set ingress.hosts[0].host=transfer.prod.local \\
+                  --set ingress.hosts[0].paths[0].path="/" \\
+                  --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                """
+            }
+        }
+    }
+}

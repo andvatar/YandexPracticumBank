@@ -1,19 +1,19 @@
 spring:
   application:
     name: blocker
-  cloud:
-    consul:
-      host: ${consul_host:localhost}
-      port: 8500
-      discovery:
-        hostname: blocker
-        prefer-ip-address: false
-        health-check-url: http://${spring.cloud.consul.discovery.hostname}:${server.port}/actuator/health
-      config:
-        enabled: true
-        format: yaml
-        data-key: data
-        prefixes: config
+  #cloud:
+#    consul:
+#      host: ${consul_host:localhost}
+#      port: 8500
+#      discovery:
+#        hostname: blocker
+#        prefer-ip-address: false
+#        health-check-url: http://${spring.cloud.consul.discovery.hostname}:${server.port}/actuator/health
+#      config:
+#        enabled: true
+#        format: yaml
+#        data-key: data
+#        prefixes: config
 
   security:
     oauth2:
