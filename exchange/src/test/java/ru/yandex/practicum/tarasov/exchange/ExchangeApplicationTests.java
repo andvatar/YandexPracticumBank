@@ -1,4 +1,4 @@
-package ru.yandex.practicum.tarasov.blocker;
+package ru.yandex.practicum.tarasov.exchange;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -6,10 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Disabled
-class BlockerApplicationTests {
+class ExchangeApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
