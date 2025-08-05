@@ -141,7 +141,7 @@ pipeline {
                 dir('bank-app') {
                     sh "helm dependency build"
                     sh """
-                    helm upgrade --install parent-app ./bank-app \\
+                    helm upgrade --install parent-app . \\
                         --namespace test --create-namespace
                     """
                 }
@@ -253,7 +253,7 @@ pipeline {
             steps {
                 sh "helm dependency build"
                 sh """
-                helm upgrade --install parent-app ./bank-app \\
+                helm upgrade --install parent-app . \\
                   --namespace test --create-namespace
                 """
                 /*sh """
