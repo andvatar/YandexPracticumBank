@@ -97,6 +97,16 @@ pipeline {
             }
         }
 
+        stage('Setup Keycloak') {
+          steps {
+            script {
+              sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
+              sh 'helm repo update'
+              sh 'helm upgrade --install keycloak bitnami/keycloak --namespace test --create-namespace'
+            }
+          }
+        }
+
         stage('Install PostgreSQL to TEST') {
             steps {
                 sh """
