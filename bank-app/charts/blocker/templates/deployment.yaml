@@ -44,6 +44,9 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "blocker.fullname" . }}
           env:
             - name: KEYCLOAK_URL
               value: "http://{{ .Release.Name }}-keycloak/realms/master"
