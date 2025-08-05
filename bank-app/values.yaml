@@ -2,6 +2,9 @@
 global:
   domain: bank-app.local # Example domain for ingress
 
+service:
+  port: 80
+
 accounts:
   replicaCount: 1
   image:
