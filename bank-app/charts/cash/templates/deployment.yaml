@@ -46,7 +46,7 @@ spec:
               protocol: TCP
           env:
             - name: KEYCLOAK_URL
-              value: "http://{{ .Release.Name }}-keycloak/realms/master"
+              value: "http://bank-keycloak/realms/master"
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
