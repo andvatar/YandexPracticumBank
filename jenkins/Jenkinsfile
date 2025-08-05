@@ -139,7 +139,7 @@ pipeline {
         stage('Helm Deploy to TEST') {
             steps {
                 sh """
-                helm upgrade --install parent-app bank-app/charts/parent-app \\
+                helm upgrade --install parent-app bank-app \\
                   --namespace test --create-namespace
                 """
                 /*sh """
@@ -249,7 +249,7 @@ pipeline {
         stage('Helm Deploy to PROD') {
             steps {
                 sh """
-                helm upgrade --install parent-app bank-app/charts/parent-app \\
+                helm upgrade --install parent-app bank-app \\
                   --namespace test --create-namespace
                 """
                 /*sh """

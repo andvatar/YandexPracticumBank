@@ -62,7 +62,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: transfer.local
+    - host: transfer.{{ .Release.Namespace }}.local
       paths:
         - path: /
           pathType: Prefix

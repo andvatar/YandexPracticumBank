@@ -62,7 +62,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: blocker.local
+    - host: blocker.{{ .Release.Namespace }}.local
       paths:
         - path: /
           pathType: Prefix
