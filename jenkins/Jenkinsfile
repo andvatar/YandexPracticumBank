@@ -139,6 +139,10 @@ pipeline {
         stage('Helm Deploy to TEST') {
             steps {
                 sh """
+                helm upgrade --install parent-app bank-app/charts/parent-app \\
+                  --namespace test --create-namespace
+                """
+                /*sh """
                 helm upgrade --install accounts bank-app/charts/accounts \\
                   --namespace test --create-namespace \\
                   --set image.repository=accounts \\
@@ -210,7 +214,7 @@ pipeline {
                   --set ingress.hosts[0].host=transfer.test.local \\
                   --set ingress.hosts[0].paths[0].path="/" \\
                   --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
-                """
+                """*/
             }
         }
 
@@ -245,6 +249,10 @@ pipeline {
         stage('Helm Deploy to PROD') {
             steps {
                 sh """
+                helm upgrade --install parent-app bank-app/charts/parent-app \\
+                  --namespace test --create-namespace
+                """
+                /*sh """
                 helm upgrade --install accounts bank-app/charts/accounts \\
                   --namespace prod --create-namespace \\
                   --set image.repository=accounts \\
@@ -316,7 +324,7 @@ pipeline {
                   --set ingress.hosts[0].host=transfer.prod.local \\
                   --set ingress.hosts[0].paths[0].path="/" \\
                   --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
-                """
+                """*/
             }
         }
     }
