@@ -79,7 +79,7 @@ pipeline {
                 docker build -t blocker:${IMAGE_TAG} blocker
                 docker build -t cash:${IMAGE_TAG} cash
                 docker build -t exchange:${IMAGE_TAG} exchange
-                docker build -t exchangeGenerator:${IMAGE_TAG} exchangeGenerator
+                docker build -t exchangegenerator:${IMAGE_TAG} exchangeGenerator
                 docker build -t frontUI:${IMAGE_TAG} frontUI
                 docker build -t notifications:${IMAGE_TAG} notifications
                 docker build -t transfer:${IMAGE_TAG} transfer
