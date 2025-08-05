@@ -165,7 +165,7 @@ pipeline {
                   --set ingress.hosts[0].paths[0].path="/" \\
                   --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-                helm upgrade --install exchangeGenerator bank-app/charts/exchangeGenerator \\
+                helm upgrade --install exchange-generator bank-app/charts/exchangeGenerator \\
                   --namespace test --create-namespace \\
                   --set image.repository=exchangeGenerator \\
                   --set image.tag=${IMAGE_TAG} \\
@@ -174,7 +174,7 @@ pipeline {
                   --set ingress.hosts[0].paths[0].path="/" \\
                   --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-                helm upgrade --install frontUI bank-app/charts/frontUI \\
+                helm upgrade --install front-ui bank-app/charts/frontUI \\
                   --namespace test --create-namespace \\
                   --set image.repository=frontUI \\
                   --set image.tag=${IMAGE_TAG} \\
@@ -271,7 +271,7 @@ pipeline {
                   --set ingress.hosts[0].paths[0].path="/" \\
                   --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-                helm upgrade --install exchangeGenerator bank-app/charts/exchangeGenerator \\
+                helm upgrade --install exchange-generator bank-app/charts/exchangeGenerator \\
                   --namespace prod --create-namespace \\
                   --set image.repository=exchangeGenerator \\
                   --set image.tag=${IMAGE_TAG} \\
@@ -280,7 +280,7 @@ pipeline {
                   --set ingress.hosts[0].paths[0].path="/" \\
                   --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-                helm upgrade --install frontUI bank-app/charts/frontUI \\
+                helm upgrade --install front-ui bank-app/charts/frontUI \\
                   --namespace prod --create-namespace \\
                   --set image.repository=frontUI \\
                   --set image.tag=${IMAGE_TAG} \\
