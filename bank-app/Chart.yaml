@@ -40,11 +40,11 @@ dependencies:
     version: "0.1.0"
     repository: "file://./charts/exchange"
 
-  - name: exchangeGenerator
+  - name: exchangegenerator
     version: "0.1.0"
     repository: "file://./charts/exchangeGenerator"
 
-  - name: frontUI
+  - name: frontui
     version: "0.1.0"
     repository: "file://./charts/frontUI"
 
