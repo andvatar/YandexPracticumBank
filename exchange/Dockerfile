@@ -6,7 +6,7 @@ RUN --mount=type=cache,target=/root/.m2 mvn clean package -DskipTests
 FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
-COPY --from=builder /app/exchange/target/*.jar app.jar
+COPY --from=builder /app/target/exchange-*.jar app.jar
 
 EXPOSE 8084
 
