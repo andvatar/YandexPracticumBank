@@ -51,7 +51,7 @@ blocker:
           - path: /
             pathType: ImplementationSpecific
   config:
-    suspect_amount: 400
+    suspect_amount: "400"
 
 cash:
   replicaCount: 1

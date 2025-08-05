@@ -121,4 +121,4 @@ tolerations: []
 affinity: {}
 
 config:
-  suspect_amount: 400
+  suspect_amount: "400"
