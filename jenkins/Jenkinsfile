@@ -80,7 +80,7 @@ pipeline {
                 docker build -t cash:${IMAGE_TAG} cash
                 docker build -t exchange:${IMAGE_TAG} exchange
                 docker build -t exchangegenerator:${IMAGE_TAG} exchangeGenerator
-                docker build -t front-ui:${IMAGE_TAG} front-ui
+                docker build -t front-ui:${IMAGE_TAG} frontUi
                 docker build -t notifications:${IMAGE_TAG} notifications
                 docker build -t transfer:${IMAGE_TAG} transfer
                 """
