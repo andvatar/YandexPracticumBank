@@ -57,16 +57,16 @@ service:
   port: 8086
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations: {}
-  hosts:
-    - host: eg.{{ .Release.Namespace }}.local
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
+#ingress:
+#  enabled: true
+#  className: "nginx"
+#  annotations: {}
+#  hosts:
+#    - host: eg.{{ .Release.Namespace }}.local
+#      paths:
+#        - path: /
+#          pathType: Prefix
+#  tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
