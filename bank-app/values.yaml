@@ -1,6 +1,6 @@
 # Global values (if any)
 global:
-  domain: bank-app.local # Example domain for ingress
+  domain: local # Example domain for ingress
 
 service:
   port: 80
