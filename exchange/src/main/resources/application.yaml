@@ -6,17 +6,17 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/yandex_bank}?currentSchema=exchange
     username: postgres
     password: postgres
-  cloud:
-    consul:
-      host: ${consul_host:localhost}
-      port: 8500
-      discovery:
-        hostname: exchange
-        prefer-ip-address: false
-        health-check-url: http://${spring.cloud.consul.discovery.hostname}:${server.port}/actuator/health
-      config:
-        enabled: false
-        defaultContext: application
+#  cloud:
+#    consul:
+#      host: ${consul_host:localhost}
+#      port: 8500
+#      discovery:
+#        hostname: exchange
+#        prefer-ip-address: false
+#        health-check-url: http://${spring.cloud.consul.discovery.hostname}:${server.port}/actuator/health
+#      config:
+#        enabled: false
+#        defaultContext: application
 
   liquibase:
     enabled: true

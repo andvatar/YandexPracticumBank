@@ -25,14 +25,14 @@ spring:
         config:
           default:
             logger-level: full
-    consul:
-      host: ${consul_host:localhost}
-      port: 8500
-      discovery:
-        hostname: localhost
-      config:
-        enabled: false
-        defaultContext: application
+#    consul:
+#      host: ${consul_host:localhost}
+#      port: 8500
+#      discovery:
+#        hostname: localhost
+#      config:
+#        enabled: false
+#        defaultContext: application
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
