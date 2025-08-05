@@ -225,7 +225,7 @@ pipeline {
         stage('Create DB Secrets for PROD') {
             steps {
                 sh """
-                kubectl create secret generic customer-service-customer-db \\
+                kubectl create secret generic bank-db \\
                   --from-literal=password=${DB_PASSWORD} \\
                   -n prod --dry-run=client -o yaml | kubectl apply -f -
                 """

@@ -51,7 +51,7 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-bank-db
+                  name: bank-db
                   key: password
             - name: KEYCLOAK_URL
               value: "http://{{ .Release.Name }}-keycloak/realms/master"
