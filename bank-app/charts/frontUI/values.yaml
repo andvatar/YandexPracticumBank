@@ -62,7 +62,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: front-ui.{{ .Release.Namespace }}.local
+    - host: front.{{ .Release.Namespace }}.local
       paths:
         - path: /
           pathType: Prefix
