@@ -222,3 +222,12 @@ keycloak:
     - name: realm-config
       mountPath: /opt/bitnami/keycloak/data/import
       readOnly: true
+  readinessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+  livenessProbe:
+    initialDelaySeconds: 180
+    periodSeconds: 10
+    timeoutSeconds: 5
