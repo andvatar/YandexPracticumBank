@@ -164,7 +164,7 @@ pipeline {
                         --set notifications.ingress.hosts[0].host=notifications.test.local \\
                         --set notifications.ingress.hosts[0].paths[0].path="/" \\
                         --set notifications.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
-                        --set transfer.ingress.hosts[0].host=transfer.test.local
+                        --set transfer.ingress.hosts[0].host=transfer.test.local \\
                         --set transfer.ingress.hosts[0].paths[0].path="/" \\
                         --set transfer.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
                     """
@@ -300,7 +300,7 @@ pipeline {
                     --set notifications.ingress.hosts[0].host=notifications.prod.local \\
                     --set notifications.ingress.hosts[0].paths[0].path="/" \\
                     --set notifications.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
-                    --set transfer.ingress.hosts[0].host=transfer.prod.local
+                    --set transfer.ingress.hosts[0].host=transfer.prod.local \\
                     --set transfer.ingress.hosts[0].paths[0].path="/" \\
                     --set transfer.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
                 """
