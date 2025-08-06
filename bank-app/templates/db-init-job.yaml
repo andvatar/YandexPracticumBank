@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-db-init
+  name: bank-app-db-init
   labels:
-    app: {{ .Release.Name }}-db-init
+    app: bank-app-db-init
 spec:
   template:
     spec:
