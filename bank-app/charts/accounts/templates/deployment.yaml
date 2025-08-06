@@ -44,10 +44,14 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          envFrom:
-            - configMapRef:
-                name: {{ include "accounts.fullname" . }}
+#          envFrom:
+#            - configMapRef:
+#                name: {{ include "accounts.fullname" . }}
           env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://{{ .Release.Name }}-bank-db.{{ .Release.Namespace }}.svc.cluster.local:5432/bank-db"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "postgres"
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
