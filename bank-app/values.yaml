@@ -27,7 +27,7 @@ accounts:
   # Database connection details passed to customer-service configmap
   config:
     # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
-    database_url: "jdbc:postgresql://{{ .Release.Name }}-bank-db:5432/bank-db"
+    database_url: "jdbc:postgresql://parent-app-bank-db.test.svc.cluster.local:5432/bank-db"
     # Secret reference for password is more secure
     database_username: "postgres"
     # database_password_secret: "{{ .Release.Name }}-customer-db-postgresql" # Reference to secret created by DB chart
@@ -97,7 +97,7 @@ exchange:
             pathType: ImplementationSpecific
   config:
     # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
-    database_url: "jdbc:postgresql://{{ .Release.Name }}-bank-db:5432/bank-db"
+    database_url: "jdbc:postgresql://parent-app-bank-db.test.svc.cluster.local:5432/bank-db"
     # Secret reference for password is more secure
     database_username: "postgres"
 
