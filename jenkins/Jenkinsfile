@@ -143,6 +143,7 @@ pipeline {
                     sh """
                     helm upgrade --install parent-app . \\
                         --namespace test --create-namespace \\
+                        --set global.domain=test.local \\
                         --set accounts.ingress.hosts[0].host=accounts.test.local \\
                         --set accounts.ingress.hosts[0].paths[0].path="/" \\
                         --set accounts.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
@@ -279,6 +280,7 @@ pipeline {
                 sh """
                 helm upgrade --install parent-app . \\
                     --namespace prod --create-namespace \\
+                    --set global.domain=prod.local \\
                     --set accounts.ingress.hosts[0].host=accounts.prod.local \\
                     --set accounts.ingress.hosts[0].paths[0].path="/" \\
                     --set accounts.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\

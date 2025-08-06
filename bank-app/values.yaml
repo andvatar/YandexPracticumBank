@@ -1,6 +1,6 @@
 # Global values (if any)
 global:
-  domain: local # Example domain for ingress
+  domain: test.local # Example domain for ingress
 
 service:
   port: 80

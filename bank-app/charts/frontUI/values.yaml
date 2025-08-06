@@ -62,7 +62,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: front.dev.local
+    - host: front.{{ .Values.global.domain }}
       paths:
         - path: /
           pathType: Prefix

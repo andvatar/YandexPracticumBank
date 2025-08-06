@@ -62,7 +62,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: notifications.dev.local
+    - host: notifications{{ .Values.global.domain }}
       paths:
         - path: /
           pathType: Prefix
