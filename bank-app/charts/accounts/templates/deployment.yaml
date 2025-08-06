@@ -48,11 +48,11 @@ spec:
             - configMapRef:
                 name: {{ include "accounts.fullname" . }}
           env:
-           # - name: SPRING_DATASOURCE_PASSWORD
-           #   valueFrom:
-           #     secretKeyRef:
-           #       name: bank-db
-           #       key: password
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bank-db
+                  key: password
             - name: KEYCLOAK_URL
               value: "http://bank-keycloak/realms/master"
           {{- with .Values.livenessProbe }}
