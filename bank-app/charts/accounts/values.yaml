@@ -123,3 +123,4 @@ affinity: {}
 config:
   database_url: "jdbc:postgresql://parent-app-bank-db.svc.cluster.local:5432/bank-db"
   database_username: "postgres"
+  database_password: "postgres"
