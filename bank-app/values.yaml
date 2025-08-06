@@ -205,6 +205,8 @@ keycloak:
   auth:
     adminUser: "admin"
     adminPassword: "admin"
+  postgresql:
+    enabled: false
   extraEnvVars:
     - name: KEYCLOAK_ADMIN
       value: admin
