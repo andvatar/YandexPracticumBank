@@ -62,7 +62,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: cash.{{ .Release.Namespace }}.local
+    - host: cash.dev.local
       paths:
         - path: /
           pathType: Prefix

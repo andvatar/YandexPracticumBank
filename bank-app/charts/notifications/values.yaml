@@ -62,7 +62,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: notifications.{{ .Release.Namespace }}.local
+    - host: notifications.dev.local
       paths:
         - path: /
           pathType: Prefix

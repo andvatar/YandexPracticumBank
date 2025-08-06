@@ -142,7 +142,31 @@ pipeline {
                     sh "helm dependency build"
                     sh """
                     helm upgrade --install parent-app . \\
-                        --namespace test --create-namespace
+                        --namespace test --create-namespace \\
+                        --set accounts.ingress.hosts[0].host=accounts.test.local \\
+                        --set accounts.ingress.hosts[0].paths[0].path="/" \\
+                        --set accounts.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                        --set blocker.ingress.hosts[0].host=blocker.test.local \\
+                        --set blocker.ingress.hosts[0].paths[0].path="/" \\
+                        --set blocker.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                        --set cash.ingress.hosts[0].host=cash.test.local \\
+                        --set cash.ingress.hosts[0].paths[0].path="/" \\
+                        --set cash.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                        --set exchange.ingress.hosts[0].host=exchange.test.local \\
+                        --set exchange.ingress.hosts[0].paths[0].path="/" \\
+                        --set exchange.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                        --set exchange-generator.ingress.hosts[0].host=exchange-generator.test.local \\
+                        --set exchange-generator.ingress.hosts[0].paths[0].path="/" \\
+                        --set exchange-generator.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                        --set front-ui.ingress.hosts[0].host=front-ui.test.local \\
+                        --set front-ui.ingress.hosts[0].paths[0].path="/" \\
+                        --set front-ui.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                        --set notifications.ingress.hosts[0].host=notifications.test.local \\
+                        --set notifications.ingress.hosts[0].paths[0].path="/" \\
+                        --set notifications.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                        --set transfer.ingress.hosts[0].host=transfer.test.local
+                        --set transfer.ingress.hosts[0].paths[0].path="/" \\
+                        --set transfer.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
                     """
                 }
                 /*sh """
@@ -254,7 +278,32 @@ pipeline {
                 sh "helm dependency build"
                 sh """
                 helm upgrade --install parent-app . \\
-                  --namespace test --create-namespace
+                    --namespace prod --create-namespace \\
+                    --set accounts.ingress.hosts[0].host=accounts.prod.local \\
+                    --set accounts.ingress.hosts[0].paths[0].path="/" \\
+                    --set accounts.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                    --set blocker.ingress.hosts[0].host=blocker.prod.local \\
+                    --set blocker.ingress.hosts[0].paths[0].path="/" \\
+                    --set blocker.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                    --set cash.ingress.hosts[0].host=cash.prod.local \\
+                    --set cash.ingress.hosts[0].paths[0].path="/" \\
+                    --set cash.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                    --set exchange.ingress.hosts[0].host=exchange.prod.local \\
+                    --set exchange.ingress.hosts[0].paths[0].path="/" \\
+                    --set exchange.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                    --set exchange-generator.ingress.hosts[0].host=exchange-generator.prod.local \\
+                    --set exchange-generator.ingress.hosts[0].paths[0].path="/" \\
+                    --set exchange-generator.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                    --set front-ui.ingress.hosts[0].host=front-ui.prod.local \\
+                    --set front-ui.ingress.hosts[0].paths[0].path="/" \\
+                    --set front-ui.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                    --set notifications.ingress.hosts[0].host=notifications.prod.local \\
+                    --set notifications.ingress.hosts[0].paths[0].path="/" \\
+                    --set notifications.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+                    --set transfer.ingress.hosts[0].host=transfer.prod.local
+                    --set transfer.ingress.hosts[0].paths[0].path="/" \\
+                    --set transfer.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
                 """
                 /*sh """
                 helm upgrade --install accounts bank-app/charts/accounts \\

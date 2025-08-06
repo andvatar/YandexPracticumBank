@@ -62,7 +62,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: eg.test.local
+    - host: eg.dev.local
       paths:
         - path: /
           pathType: Prefix

@@ -20,7 +20,7 @@ accounts:
     enabled: true
     className: "nginx" # Specify your ingress controller class
     hosts:
-      - host: accounts.{{ .Release.Namespace }}.local # Use global domain or specific
+      - host: accounts.dev.local # Use global domain or specific
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -49,7 +49,7 @@ blocker:
     enabled: true
     className: "nginx"
     hosts:
-      - host: blocker.{{ .Release.Namespace }}.local
+      - host: blocker.dev.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -71,7 +71,7 @@ cash:
     enabled: true
     className: "nginx"
     hosts:
-      - host: cash.{{ .Release.Namespace }}.local
+      - host: cash.dev.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -91,12 +91,12 @@ exchange:
     enabled: true
     className: "nginx"
     hosts:
-      - host: exchange.{{ .Release.Namespace }}.local
+      - host: exchange.dev.local
         paths:
           - path: /
             pathType: ImplementationSpecific
 
-exchangeGenerator:
+exchange-generator:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
@@ -111,12 +111,12 @@ exchangeGenerator:
     enabled: true
     className: "nginx"
     hosts:
-      - host: exchangegenerator.{{ .Release.Namespace }}.local
+      - host: exchangegenerator.dev.local
         paths:
           - path: /
             pathType: ImplementationSpecific
 
-frontUI:
+front-ui:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
@@ -131,7 +131,7 @@ frontUI:
     enabled: true
     className: "nginx"
     hosts:
-      - host: front-ui.{{ .Release.Namespace }}.local
+      - host: front-ui.dev.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -151,7 +151,7 @@ notifications:
     enabled: true
     className: "nginx"
     hosts:
-      - host: notifications.{{ .Release.Namespace }}.local
+      - host: notifications.dev.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -171,7 +171,7 @@ transfer:
     enabled: true
     className: "nginx"
     hosts:
-      - host: transfer.{{ .Release.Namespace }}.local
+      - host: transfer.dev.local
         paths:
           - path: /
             pathType: ImplementationSpecific
