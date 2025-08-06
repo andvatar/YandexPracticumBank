@@ -100,7 +100,7 @@ exchange-generator:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: exchange-generator # Removed registry prefix
+    repository: exchangegenerator # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -120,7 +120,7 @@ front-ui:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: front-ui # Removed registry prefix
+    repository: frontui # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------

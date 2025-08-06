@@ -121,5 +121,5 @@ tolerations: []
 affinity: {}
 
 config:
-  database_url: "jdbc:postgresql://postgres-postgresql.{{ .Release.Namespace }}.svc.cluster.local:5432/bank-db"
+  database_url: "jdbc:postgresql://postgres-postgresql.{{ .parent-app.customer-db.fullname }}.{{ .Release.Namespace }}.svc.cluster.local:5432/bank-db"
   database_username: "postgres"
