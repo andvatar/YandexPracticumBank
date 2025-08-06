@@ -10,7 +10,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: db-init
-          image: bitnami/postgresql:14.2.3
+          image: bitnami/postgresql:latest
           env:
             - name: PGPASSWORD
               valueFrom:
