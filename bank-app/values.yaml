@@ -186,7 +186,7 @@ customer-db:
     username: postgres
     # Use existingSecret or provide password (less secure for production)
     # existingSecret: "{{ .Release.Name }}-customer-db-postgresql" # Name of the secret to use/create
-    password: "postgres" # Example: Not recommended for production
+    password: postgres # Example: Not recommended for production
   primary:
     persistence:
       enabled: true
