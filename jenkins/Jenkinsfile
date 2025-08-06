@@ -97,7 +97,7 @@ pipeline {
             }
         }
 
-        stage('Setup Keycloak') {
+        /*stage('Setup Keycloak') {
           steps {
             script {
               sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
@@ -132,7 +132,7 @@ pipeline {
                   -n test --dry-run=client -o yaml | kubectl apply -f -
                 """
             }
-        }
+        }*/
 
 //         export SPRING_DATASOURCE_PASSWORD=$(kubectl get secret --namespace test postgres-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)
 
@@ -251,7 +251,7 @@ pipeline {
             }
         }
 
-        stage('Install PostgreSQL to PROD') {
+        /*stage('Install PostgreSQL to PROD') {
             steps {
                 sh """
                 helm upgrade --install postgres helm-stable/postgresql \\
@@ -271,7 +271,7 @@ pipeline {
                   -n prod --dry-run=client -o yaml | kubectl apply -f -
                 """
             }
-        }
+        }*/
 
         stage('Helm Deploy to PROD') {
             steps {

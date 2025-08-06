@@ -52,7 +52,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Release.Name }}-bank-db
-                  key: password
+                  key: postgres-password
             - name: KEYCLOAK_URL
               value: "http://bank-keycloak/realms/master"
           {{- with .Values.livenessProbe }}

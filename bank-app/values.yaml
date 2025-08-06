@@ -196,6 +196,9 @@ bank-db:
     persistence:
       enabled: true
       size: 1Gi # Small size for example
+    initdb:
+      scripts:
+        configMap: { { .Release.Name } }-db-scripts
 
 keycloak:
   enabled: true
