@@ -62,7 +62,7 @@ ingress:
   className: "nginx"
   annotations: {}
   hosts:
-    - host: exchange.{{ .Values.global.domain }}
+    - host: exchange.test.local
       paths:
         - path: /
           pathType: Prefix
