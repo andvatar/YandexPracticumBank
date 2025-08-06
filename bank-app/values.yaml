@@ -20,7 +20,7 @@ accounts:
     enabled: true
     className: "nginx" # Specify your ingress controller class
     hosts:
-      - host: accounts.local # Use global domain or specific
+      - host: accounts.{{ .Release.Namespace }}.local # Use global domain or specific
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -49,7 +49,7 @@ blocker:
     enabled: true
     className: "nginx"
     hosts:
-      - host: blocker.local
+      - host: blocker.{{ .Release.Namespace }}.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -71,7 +71,7 @@ cash:
     enabled: true
     className: "nginx"
     hosts:
-      - host: cash.local
+      - host: cash.{{ .Release.Namespace }}.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -91,7 +91,7 @@ exchange:
     enabled: true
     className: "nginx"
     hosts:
-      - host: exchange.local
+      - host: exchange.{{ .Release.Namespace }}.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -100,7 +100,7 @@ exchangeGenerator:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: exchangeGenerator # Removed registry prefix
+    repository: exchange-generator # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -111,7 +111,7 @@ exchangeGenerator:
     enabled: true
     className: "nginx"
     hosts:
-      - host: exchangeGenerator.local
+      - host: exchangegenerator.{{ .Release.Namespace }}.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -120,7 +120,7 @@ frontUI:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: frontUI # Removed registry prefix
+    repository: front-ui # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -131,7 +131,7 @@ frontUI:
     enabled: true
     className: "nginx"
     hosts:
-      - host: frontUI.local
+      - host: front-ui.{{ .Release.Namespace }}.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -151,7 +151,7 @@ notifications:
     enabled: true
     className: "nginx"
     hosts:
-      - host: notifications.local
+      - host: notifications.{{ .Release.Namespace }}.local
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -171,7 +171,7 @@ transfer:
     enabled: true
     className: "nginx"
     hosts:
-      - host: transfer.local
+      - host: transfer.{{ .Release.Namespace }}.local
         paths:
           - path: /
             pathType: ImplementationSpecific
