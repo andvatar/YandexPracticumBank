@@ -7,7 +7,7 @@ pipeline {
         GITHUB_USERNAME = credentials('GITHUB_USERNAME')
         DB_NAME         = 'bank-db'
         DB_USER         = 'postgres'
-        IMAGE_TAG       = "latest"
+        IMAGE_TAG       = "${env.BUILD_NUMBER}"
     }
 
     stages {
