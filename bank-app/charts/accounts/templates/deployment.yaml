@@ -58,7 +58,7 @@ spec:
                   name: {{ .Release.Name }}-bank-db
                   key: postgres-password
             - name: KEYCLOAK_URL
-              value: "http://bank-keycloak/realms/master"
+              value: "http://{{ .Release.Name }}-bank-keycloak.{{ .Release.Namespace }}.svc.cluster.local:8080/realms/master"
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
