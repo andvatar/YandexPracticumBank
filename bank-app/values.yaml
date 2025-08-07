@@ -2,8 +2,8 @@
 global:
   domain: test.local # Example domain for ingress
 
-#service:
-#  port: 80
+service:
+  port: 81
 
 accounts:
   replicaCount: 1
