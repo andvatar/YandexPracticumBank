@@ -929,7 +929,7 @@ data:
           "enabled": true,
           "alwaysDisplayInConsole": false,
           "clientAuthenticatorType": "client-secret",
-          "secret": "**********",
+          "secret": "TIMXnhuV51qTYQrgGcZZQIgLpECAxAC2",
           "redirectUris": [
             "http://localhost:8180/*"
           ],
