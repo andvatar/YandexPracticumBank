@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bank-app-db-init
+  labels:
+    app: bank-app-db-init
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: db-init
+          image: bitnami/postgresql:latest
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-bank-db
+                  key: postgres-password
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              psql -h {{ .Release.Name }}-bank-db -U postgres -d bank-db -c "
+                CREATE SCHEMA IF NOT EXISTS accounts;
+                CREATE SCHEMA IF NOT EXISTS exchange;
+              "
+  backoffLimit: 1
