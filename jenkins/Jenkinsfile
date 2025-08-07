@@ -146,28 +146,35 @@ pipeline {
                     helm upgrade --install parent-app . \\
                         --namespace test --create-namespace \\
                         --set global.domain=test.local \\
-                        --set global.image.tag=${IMAGE_TAG} \\
+                        --set accounts.image.tag=${IMAGE_TAG} \\
                         --set accounts.ingress.hosts[0].host=accounts.test.local \\
                         --set accounts.ingress.hosts[0].paths[0].path="/" \\
                         --set accounts.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                        --set blocker.image.tag=${IMAGE_TAG} \\
                         --set blocker.ingress.hosts[0].host=blocker.test.local \\
                         --set blocker.ingress.hosts[0].paths[0].path="/" \\
                         --set blocker.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                        --set cash.image.tag=${IMAGE_TAG} \\
                         --set cash.ingress.hosts[0].host=cash.test.local \\
                         --set cash.ingress.hosts[0].paths[0].path="/" \\
                         --set cash.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                        --set exchange.image.tag=${IMAGE_TAG} \\
                         --set exchange.ingress.hosts[0].host=exchange.test.local \\
                         --set exchange.ingress.hosts[0].paths[0].path="/" \\
                         --set exchange.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                        --set exchangegenerator.image.tag=${IMAGE_TAG} \\
                         --set exchangegenerator.ingress.hosts[0].host=exchange-generator.test.local \\
                         --set exchangegenerator.ingress.hosts[0].paths[0].path="/" \\
                         --set exchangegenerator.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                        --set frontui.image.tag=${IMAGE_TAG} \\
                         --set frontui.ingress.hosts[0].host=front-ui.test.local \\
                         --set frontui.ingress.hosts[0].paths[0].path="/" \\
                         --set frontui.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                        --set notifications.image.tag=${IMAGE_TAG} \\
                         --set notifications.ingress.hosts[0].host=notifications.test.local \\
                         --set notifications.ingress.hosts[0].paths[0].path="/" \\
                         --set notifications.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                        --set transfer.image.tag=${IMAGE_TAG} \\
                         --set transfer.ingress.hosts[0].host=transfer.test.local \\
                         --set transfer.ingress.hosts[0].paths[0].path="/" \\
                         --set transfer.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"

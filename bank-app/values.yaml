@@ -12,7 +12,7 @@ accounts:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: accounts # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -41,7 +41,7 @@ blocker:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: blocker # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -63,7 +63,7 @@ cash:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: cash # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -83,7 +83,7 @@ exchange:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: exchange # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -108,7 +108,7 @@ exchange-generator:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: exchangegenerator # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -128,7 +128,7 @@ front-ui:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: frontui # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -148,7 +148,7 @@ notifications:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: notifications # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -168,7 +168,7 @@ transfer:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: transfer # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
