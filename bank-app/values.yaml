@@ -200,64 +200,35 @@ bank-db:
       scripts:
         configMap: bank-app-db-init
 
-keycloak:
-  enabled: true
+bank-keycloak:
   auth:
-    adminUser: "admin"
-    adminPassword: "admin"
+    adminUser: admin
+    adminPassword: admin
+
   postgresql:
     enabled: false
+#    auth:
+#      username: bn_keycloak
+#      password: bn_keycloak
+#      database: bitnami_keycloak
 
-  # Init container with proper volume mounts
-  initContainers:
-    - name: prepare-realm-import
-      image: busybox
-      command:
-        - /bin/sh
-        - -c
-        - |
-          echo "Creating import directory..."
-          mkdir -p /bitnami/keycloak/import
-          cp /tmp-realm-config/yandex-bank.json /bitnami/keycloak/import/
-          chown -R 1001:1001 /bitnami/keycloak/import
-          ls -la /bitnami/keycloak/import
-      volumeMounts:
-        - name: realm-config
-          mountPath: /tmp-realm-config
-        - name: realm-data
-          mountPath: /bitnami/keycloak
-
-  # Volume configuration
-  extraVolumes:
-    - name: realm-data
-      emptyDir: {}
-    - name: realm-config
-      configMap:
-        name: keycloak-realm-config
-
-  # Volume mounts for main container
-  extraVolumeMounts:
-    - name: realm-data
-      mountPath: /opt/bitnami/keycloak/data
-
-  # Environment variables
   extraEnvVars:
     - name: KEYCLOAK_ADMIN
       value: admin
     - name: KEYCLOAK_ADMIN_PASSWORD
       value: admin
-    - name: KEYCLOAK_IMPORT
-      value: /opt/bitnami/keycloak/data/import/yandex-bank.json
     - name: KEYCLOAK_EXTRA_ARGS
       value: "--import-realm"
-#  extraVolumes:
-#    - name: realm-config
-#      configMap:
-#        name: keycloak-realm-config
-#  extraVolumeMounts:
-#    - name: realm-config
-#      mountPath: /opt/bitnami/keycloak/data/import
-#      readOnly: true
+
+  extraVolumes:
+    - name: realm-config
+      configMap:
+        name: keycloak-realm-config
+
+  extraVolumeMounts:
+    - name: realm-config
+      mountPath: /opt/bitnami/keycloak/data/import
+      readOnly: true
   readinessProbe:
     initialDelaySeconds: 120
     periodSeconds: 10
@@ -267,14 +238,14 @@ keycloak:
     initialDelaySeconds: 180
     periodSeconds: 10
     timeoutSeconds: 5
-  service:
-    ports:
-      http: 8080
-    targetPort: http
-    main:
-      ports:
-        http: 8080
-      targetPort: http
+  #service:
+  #  ports:
+  #    http: 8080
+  #  targetPort: http
+  #  main:
+  #    ports:
+  #      http: 8080
+  #    targetPort: http
   networkPolicy:
     enabled: true
     ingress:
