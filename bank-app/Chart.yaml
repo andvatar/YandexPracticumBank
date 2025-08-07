@@ -63,6 +63,6 @@ dependencies:
     condition: bank-db.enabled
 
   - name: keycloak
-    version: ">= 0.0.0"
+    version: "24.9.0"
     repository: "https://charts.bitnami.com/bitnami"
     alias: bank-keycloak
