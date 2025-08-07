@@ -75,14 +75,14 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 sh """
-                docker build -t accounts:${IMAGE_TAG} accounts
-                docker build -t blocker:${IMAGE_TAG} blocker
-                docker build -t cash:${IMAGE_TAG} cash
-                docker build -t exchange:${IMAGE_TAG} exchange
-                docker build -t exchangegenerator:${IMAGE_TAG} exchangeGenerator
-                docker build -t front-ui:${IMAGE_TAG} frontUI
-                docker build -t notifications:${IMAGE_TAG} notifications
-                docker build -t transfer:${IMAGE_TAG} transfer
+                docker build --no-cache -t accounts:${IMAGE_TAG} accounts
+                docker build --no-cache -t blocker:${IMAGE_TAG} blocker
+                docker build --no-cache -t cash:${IMAGE_TAG} cash
+                docker build --no-cache -t exchange:${IMAGE_TAG} exchange
+                docker build --no-cache -t exchangegenerator:${IMAGE_TAG} exchangeGenerator
+                docker build --no-cache -t front-ui:${IMAGE_TAG} frontUI
+                docker build --no-cache -t notifications:${IMAGE_TAG} notifications
+                docker build --no-cache -t transfer:${IMAGE_TAG} transfer
                 """
             }
         }
