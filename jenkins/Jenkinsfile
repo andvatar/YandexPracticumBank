@@ -75,14 +75,14 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 sh """
-                docker build --no-cache -t accounts:${IMAGE_TAG} accounts
-                docker build --no-cache -t blocker:${IMAGE_TAG} blocker
-                docker build --no-cache -t cash:${IMAGE_TAG} cash
-                docker build --no-cache -t exchange:${IMAGE_TAG} exchange
-                docker build --no-cache -t exchangegenerator:${IMAGE_TAG} exchangeGenerator
-                docker build --no-cache -t front-ui:${IMAGE_TAG} frontUI
-                docker build --no-cache -t notifications:${IMAGE_TAG} notifications
-                docker build --no-cache -t transfer:${IMAGE_TAG} transfer
+                docker build -t accounts:${IMAGE_TAG} accounts
+                docker build -t blocker:${IMAGE_TAG} blocker
+                docker build -t cash:${IMAGE_TAG} cash
+                docker build -t exchange:${IMAGE_TAG} exchange
+                docker build -t exchangegenerator:${IMAGE_TAG} exchangeGenerator
+                docker build -t front-ui:${IMAGE_TAG} frontUI
+                docker build -t notifications:${IMAGE_TAG} notifications
+                docker build -t transfer:${IMAGE_TAG} transfer
                 """
             }
         }
@@ -159,12 +159,12 @@ pipeline {
                         --set exchange.ingress.hosts[0].host=exchange.test.local \\
                         --set exchange.ingress.hosts[0].paths[0].path="/" \\
                         --set exchange.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
-                        --set exchange-generator.ingress.hosts[0].host=exchange-generator.test.local \\
-                        --set exchange-generator.ingress.hosts[0].paths[0].path="/" \\
-                        --set exchange-generator.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
-                        --set front-ui.ingress.hosts[0].host=front-ui.test.local \\
-                        --set front-ui.ingress.hosts[0].paths[0].path="/" \\
-                        --set front-ui.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                        --set exchangegenerator.ingress.hosts[0].host=exchange-generator.test.local \\
+                        --set exchangegenerator.ingress.hosts[0].paths[0].path="/" \\
+                        --set exchangegenerator.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                        --set frontui.ingress.hosts[0].host=front-ui.test.local \\
+                        --set frontui.ingress.hosts[0].paths[0].path="/" \\
+                        --set frontui.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
                         --set notifications.ingress.hosts[0].host=notifications.test.local \\
                         --set notifications.ingress.hosts[0].paths[0].path="/" \\
                         --set notifications.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
@@ -284,6 +284,7 @@ pipeline {
                 helm upgrade --install parent-app . \\
                     --namespace prod --create-namespace \\
                     --set global.domain=prod.local \\
+                    --set global.image.tag=${IMAGE_TAG} \\
                     --set accounts.ingress.hosts[0].host=accounts.prod.local \\
                     --set accounts.ingress.hosts[0].paths[0].path="/" \\
                     --set accounts.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
@@ -296,12 +297,12 @@ pipeline {
                     --set exchange.ingress.hosts[0].host=exchange.prod.local \\
                     --set exchange.ingress.hosts[0].paths[0].path="/" \\
                     --set exchange.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
-                    --set exchange-generator.ingress.hosts[0].host=exchange-generator.prod.local \\
-                    --set exchange-generator.ingress.hosts[0].paths[0].path="/" \\
-                    --set exchange-generator.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
-                    --set front-ui.ingress.hosts[0].host=front-ui.prod.local \\
-                    --set front-ui.ingress.hosts[0].paths[0].path="/" \\
-                    --set front-ui.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                    --set exchangegenerator.ingress.hosts[0].host=exchange-generator.prod.local \\
+                    --set exchangegenerator.ingress.hosts[0].paths[0].path="/" \\
+                    --set exchangegenerator.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
+                    --set frontui.ingress.hosts[0].host=front-ui.prod.local \\
+                    --set frontui.ingress.hosts[0].paths[0].path="/" \\
+                    --set frontui.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
                     --set notifications.ingress.hosts[0].host=notifications.prod.local \\
                     --set notifications.ingress.hosts[0].paths[0].path="/" \\
                     --set notifications.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
