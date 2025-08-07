@@ -232,9 +232,13 @@ keycloak:
     periodSeconds: 10
     timeoutSeconds: 5
   service:
-    type: ClusterIP
     ports:
       http: 8080
+    targetPort: http
+    main:
+      ports:
+        http: 8080
+      targetPort: http
   networkPolicy:
     enabled: true
     ingress:
