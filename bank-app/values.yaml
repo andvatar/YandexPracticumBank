@@ -231,3 +231,17 @@ keycloak:
     initialDelaySeconds: 180
     periodSeconds: 10
     timeoutSeconds: 5
+  service:
+    type: ClusterIP
+    ports:
+      http: 8080
+  networkPolicy:
+    enabled: true
+    ingress:
+      - from:
+          - namespaceSelector:
+              matchLabels:
+                kubernetes.io/metadata.name: "test"
+        ports:
+          - port: 8080
+            protocol: TCP
