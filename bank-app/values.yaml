@@ -206,11 +206,11 @@ bank-keycloak:
     adminPassword: admin
 
   postgresql:
-    enabled: false
-#    auth:
-#      username: bn_keycloak
-#      password: bn_keycloak
-#      database: bitnami_keycloak
+    enabled: true
+    auth:
+      username: bn_keycloak
+      password: bn_keycloak
+      database: bitnami_keycloak
 
   extraEnvVars:
     - name: KEYCLOAK_ADMIN
