@@ -207,34 +207,40 @@ keycloak:
     adminPassword: "admin"
   postgresql:
     enabled: false
+
+  # Init container with proper volume mounts
   initContainers:
-    - name: create-import-dir
+    - name: prepare-realm-import
       image: busybox
       command:
         - /bin/sh
         - -c
         - |
-          mkdir -p /opt/bitnami/keycloak/data/import
-          chown 1001:1001 /opt/bitnami/keycloak/data/import
-          chmod 775 /opt/bitnami/keycloak/data/import
+          echo "Creating import directory..."
+          mkdir -p /bitnami/keycloak/import
+          cp /tmp-realm-config/yandex-bank.json /bitnami/keycloak/import/
+          chown -R 1001:1001 /bitnami/keycloak/import
+          ls -la /bitnami/keycloak/import
       volumeMounts:
+        - name: realm-config
+          mountPath: /tmp-realm-config
         - name: realm-data
-          mountPath: /opt/bitnami/keycloak/data
+          mountPath: /bitnami/keycloak
 
+  # Volume configuration
   extraVolumes:
     - name: realm-data
-      emptyDir: { }
+      emptyDir: {}
     - name: realm-config
       configMap:
         name: keycloak-realm-config
 
+  # Volume mounts for main container
   extraVolumeMounts:
-    - name: realm-config
-      mountPath: /opt/bitnami/keycloak/data/import/yandex-bank.json
-      subPath: yandex-bank.json
     - name: realm-data
       mountPath: /opt/bitnami/keycloak/data
 
+  # Environment variables
   extraEnvVars:
     - name: KEYCLOAK_ADMIN
       value: admin
