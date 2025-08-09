@@ -47,8 +47,11 @@ spec:
               protocol: TCP
           env:
             {{- include "microservice.commonEnv" . | nindent 12 }}
+          {{- $specificEnv := include (printf "%s.specificEnv" .Chart.Name) . | trim }}
+          {{- if $specificEnv }}
           envFrom:
-            {{- include (printf "%s.specificEnv" .Chart.Name) . | nindent 12 }}
+            {{- $specificEnv | nindent 12 }}
+          {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
