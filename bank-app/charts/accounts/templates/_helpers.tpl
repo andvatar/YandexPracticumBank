@@ -5,6 +5,25 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{/* accounts specific environment variables */}}
+{{- define "accounts.specificEnv" -}}
+- name: DB_HOST
+  value: "jdbc:postgresql://{{ .Release.Name }}-bank-db.{{ .Release.Namespace }}.svc.cluster.local"
+- name: DB_PORT
+  value: 5432
+- name: DB_NAME
+  value: bank-db
+- name: DB_SCHEMA
+  value: accounts
+- name: SPRING_DATASOURCE_USERNAME
+  value: "postgres"
+- name: SPRING_DATASOURCE_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Release.Name }}-bank-db
+      key: postgres-password
+{{- end -}}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
