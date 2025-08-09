@@ -5,6 +5,12 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{/* frontui specific environment variables */}}
+{{- define "bank-frontui-service.specificEnv" -}}
+- name: EXCHANGE_RATES_URL
+  value: http://exchange.{{ .Release.Namespace }}.local/rates
+{{- end -}}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
