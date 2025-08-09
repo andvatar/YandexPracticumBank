@@ -26,56 +26,56 @@ appVersion: "1.0.0"
 dependencies:
   - name: bank-accounts-service
     version: "0.1.0"
-    repository: "file://./charts/accounts"
+    repository: "file://./charts/bank-accounts-service"
     import-values:
       - child: global
         parent: global
 
   - name: bank-blocker-service
     version: "0.1.0"
-    repository: "file://./charts/blocker"
+    repository: "file://./charts/bank-blocker-service"
     import-values:
       - child: global
         parent: global
 
   - name: bank-cash-service
     version: "0.1.0"
-    repository: "file://./charts/cash"
+    repository: "file://./charts/bank-cash-service"
     import-values:
       - child: global
         parent: global
 
   - name: bank-exchange-service
     version: "0.1.0"
-    repository: "file://./charts/exchange"
+    repository: "file://./charts/bank-exchange-service"
     import-values:
       - child: global
         parent: global
 
   - name: bank-exchangegenerator-service
     version: "0.1.0"
-    repository: "file://./charts/exchangeGenerator"
+    repository: "file://./charts/bank-exchangegenerator-service"
     import-values:
       - child: global
         parent: global
 
   - name: bank-frontui-service
     version: "0.1.0"
-    repository: "file://./charts/frontUI"
+    repository: "file://./charts/bank-frontui-service"
     import-values:
       - child: global
         parent: global
 
   - name: bank-notifications-service
     version: "0.1.0"
-    repository: "file://./charts/notifications"
+    repository: "file://./charts/bank-notifications-service"
     import-values:
       - child: global
         parent: global
 
   - name: bank-transfer-service
     version: "0.1.0"
-    repository: "file://./charts/transfer"
+    repository: "file://./charts/bank-transfer-service"
     import-values:
       - child: global
         parent: global
