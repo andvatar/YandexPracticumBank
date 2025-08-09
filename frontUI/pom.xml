@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.yandex.practicum.tarasov</groupId>
     <artifactId>bank-frontUI-service</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <name>bank-frontUI-service</name>
     <description>frontUI</description>
     <url/>
