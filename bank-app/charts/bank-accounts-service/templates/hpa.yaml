@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "accounts.fullname" . }}
+  name: {{ include "bank-accounts-service.fullname" . }}
   labels:
-    {{- include "accounts.labels" . | nindent 4 }}
+    {{- include "bank-accounts-service.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "accounts.fullname" . }}
+    name: {{ include "bank-accounts-service.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

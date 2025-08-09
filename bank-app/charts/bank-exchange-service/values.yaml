@@ -130,5 +130,8 @@ tolerations: []
 affinity: {}
 
 config:
-  database_url: "jdbc:postgresql://{{ .Release.Name }}-bank-db.{{ .Release.Namespace }}.svc.cluster.local:5432/bank-db"
+  DB_HOST: "{{ .Release.Name }}-bank-db.{{ .Release.Namespace }}.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_NAME: "yandex_bank"
+  DB_SCHEMA: "exchange"
   database_username: "postgres"

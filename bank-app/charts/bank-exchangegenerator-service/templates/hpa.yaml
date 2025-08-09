@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "exchangeGenerator.fullname" . }}
+  name: {{ include "bank-exchangegenerator-service.fullname" . }}
   labels:
-    {{- include "exchangeGenerator.labels" . | nindent 4 }}
+    {{- include "bank-exchangegenerator-service.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "exchangeGenerator.fullname" . }}
+    name: {{ include "bank-exchangegenerator-service.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

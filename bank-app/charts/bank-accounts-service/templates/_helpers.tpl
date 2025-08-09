@@ -1,22 +1,15 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "accounts.name" -}}
+{{- define "bank-accounts-service.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/* accounts specific environment variables */}}
-{{- define "accounts.specificEnv" -}}
-- name: DB_HOST
-  value: "jdbc:postgresql://{{ .Release.Name }}-bank-db.{{ .Release.Namespace }}.svc.cluster.local"
-- name: DB_PORT
-  value: 5432
-- name: DB_NAME
-  value: bank-db
-- name: DB_SCHEMA
-  value: accounts
-- name: SPRING_DATASOURCE_USERNAME
-  value: "postgres"
+{{- define "bank-accounts-service.specificEnv" -}}
+  envFrom:
+    - configMapRef:
+        name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
 - name: SPRING_DATASOURCE_PASSWORD
   valueFrom:
     secretKeyRef:
@@ -29,7 +22,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "accounts.fullname" -}}
+{{- define "bank-accounts-service.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -45,16 +38,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "accounts.chart" -}}
+{{- define "bank-accounts-service.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "accounts.labels" -}}
-helm.sh/chart: {{ include "accounts.chart" . }}
-{{ include "accounts.selectorLabels" . }}
+{{- define "bank-accounts-service.labels" -}}
+helm.sh/chart: {{ include "bank-accounts-service.chart" . }}
+{{ include "bank-accounts-service.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -64,17 +57,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "accounts.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "accounts.name" . }}
+{{- define "bank-accounts-service.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "bank-accounts-service.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "accounts.serviceAccountName" -}}
+{{- define "bank-accounts-service.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "accounts.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "bank-accounts-service.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

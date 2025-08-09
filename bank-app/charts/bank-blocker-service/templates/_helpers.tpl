@@ -1,16 +1,23 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "blocker.name" -}}
+{{- define "bank-blocker-service.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
+
+{{/* blocker specific environment variables */}}
+{{- define "bank-blocker-service.specificEnv" -}}
+  envFrom:
+    - configMapRef:
+        name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
+{{- end -}}
 
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "blocker.fullname" -}}
+{{- define "bank-blocker-service.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +33,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "blocker.chart" -}}
+{{- define "bank-blocker-service.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "blocker.labels" -}}
-helm.sh/chart: {{ include "blocker.chart" . }}
-{{ include "blocker.selectorLabels" . }}
+{{- define "bank-blocker-service.labels" -}}
+helm.sh/chart: {{ include "bank-blocker-service.chart" . }}
+{{ include "bank-blocker-service.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +52,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "blocker.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "blocker.name" . }}
+{{- define "bank-blocker-service.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "bank-blocker-service.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "blocker.serviceAccountName" -}}
+{{- define "bank-blocker-service.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "blocker.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "bank-blocker-service.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

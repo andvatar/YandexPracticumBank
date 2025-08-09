@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "cash.fullname" . }}
+  name: {{ include "bank-cash-service.fullname" . }}
   labels:
-    {{- include "cash.labels" . | nindent 4 }}
+    {{- include "bank-cash-service.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -35,7 +35,7 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ include "cash.fullname" $ }}
+                name: {{ include "bank-cash-service.fullname" $ }}
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}
