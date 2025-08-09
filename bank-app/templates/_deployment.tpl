@@ -2,19 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "bank-app.fullname" . }}
+  name: {{ include (printf "%s.fullname" .Chart.Name) . }}
   labels:
-    {{- include "bank-app.standardLabels" . | nindent 4 }}
-    {{- with .Values.podLabels }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
+    {{- include (printf "%s.labels" .Chart.Name) . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "bank-app.selectorLabels" . | nindent 6 }}
+      {{- include (printf "%s.selectorLabels" .Chart.Name) . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -22,7 +19,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "bank-app.selectorLabels" . | nindent 8 }}
+        {{- include (printf "%s.labels" .Chart.Name) . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
