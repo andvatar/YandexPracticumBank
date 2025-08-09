@@ -76,19 +76,19 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 sh """
-                docker build -t ${DOCKER_REGISTRY}/bank-accounts-service:${IMAGE_TAG} accounts
-                docker build -t ${DOCKER_REGISTRY}/bank-blocker-service:${IMAGE_TAG} blocker
-                docker build -t ${DOCKER_REGISTRY}/bank-cash-service:${IMAGE_TAG} cash
-                docker build -t ${DOCKER_REGISTRY}/bank-exchange-service:${IMAGE_TAG} exchange
-                docker build -t ${DOCKER_REGISTRY}/bank-exchangegenerator-service:${IMAGE_TAG} exchangeGenerator
-                docker build -t ${DOCKER_REGISTRY}/bank-frontui-service:${IMAGE_TAG} frontUI
-                docker build -t ${DOCKER_REGISTRY}/bank-notifications-service:${IMAGE_TAG} notifications
-                docker build -t ${DOCKER_REGISTRY}/bank-transfer-service:${IMAGE_TAG} transfer
+                docker build -t bank-accounts-service:${IMAGE_TAG} accounts
+                docker build -t bank-blocker-service:${IMAGE_TAG} blocker
+                docker build -t bank-cash-service:${IMAGE_TAG} cash
+                docker build -t bank-exchange-service:${IMAGE_TAG} exchange
+                docker build -t bank-exchangegenerator-service:${IMAGE_TAG} exchangeGenerator
+                docker build -t bank-frontui-service:${IMAGE_TAG} frontUI
+                docker build -t bank-notifications-service:${IMAGE_TAG} notifications
+                docker build -t bank-transfer-service:${IMAGE_TAG} transfer
                 """
             }
         }
 
-        stage('Push Docker Images') {
+        /*stage('Push Docker Images') {
              steps {
                  withCredentials([string(credentialsId: 'GHCR_TOKEN', variable: 'GHCR_TOKEN')]) {
                      sh """
@@ -104,7 +104,7 @@ pipeline {
                      """
                  }
              }
-         }
+         }*/
 
         stage('Setup Ingress Nginx') {
             steps {

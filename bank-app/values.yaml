@@ -11,7 +11,7 @@ accounts:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: bank-accounts-service # Removed registry prefix
+    repository: accounts # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -40,7 +40,7 @@ blocker:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: bank-blocker-service # Removed registry prefix
+    repository: blocker # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -62,7 +62,7 @@ cash:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: bank-cash-service # Removed registry prefix
+    repository: cash # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -82,7 +82,7 @@ exchange:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: bank-exchange-service # Removed registry prefix
+    repository: exchange # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -107,7 +107,7 @@ exchange-generator:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: bank-exchangegenerator-service # Removed registry prefix
+    repository: exchangegenerator # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -127,7 +127,7 @@ front-ui:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: bank-frontui-service # Removed registry prefix
+    repository: frontui # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -147,7 +147,7 @@ notifications:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: bank-notifications-service # Removed registry prefix
+    repository: notifications # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -167,7 +167,7 @@ transfer:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: bank-transfer-service # Removed registry prefix
+    repository: transfer # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
