@@ -27,34 +27,58 @@ dependencies:
   - name: bank-accounts-service
     version: "0.1.0"
     repository: "file://./charts/accounts"
+    import-values:
+      - child: global
+        parent: global
 
   - name: bank-blocker-service
     version: "0.1.0"
     repository: "file://./charts/blocker"
+    import-values:
+      - child: global
+        parent: global
 
   - name: bank-cash-service
     version: "0.1.0"
     repository: "file://./charts/cash"
+    import-values:
+      - child: global
+        parent: global
 
   - name: bank-exchange-service
     version: "0.1.0"
     repository: "file://./charts/exchange"
+    import-values:
+      - child: global
+        parent: global
 
   - name: bank-exchangegenerator-service
     version: "0.1.0"
     repository: "file://./charts/exchangeGenerator"
+    import-values:
+      - child: global
+        parent: global
 
   - name: bank-frontui-service
     version: "0.1.0"
     repository: "file://./charts/frontUI"
+    import-values:
+      - child: global
+        parent: global
 
   - name: bank-notifications-service
     version: "0.1.0"
     repository: "file://./charts/notifications"
+    import-values:
+      - child: global
+        parent: global
 
   - name: bank-transfer-service
     version: "0.1.0"
     repository: "file://./charts/transfer"
+    import-values:
+      - child: global
+        parent: global
 
   - name: postgresql
     version: "14.2.3"

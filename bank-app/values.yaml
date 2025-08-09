@@ -12,7 +12,7 @@ bank-accounts-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-accounts-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: {{ .Values.global.image.tag }}
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -41,7 +41,7 @@ bank-blocker-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-blocker-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: {{ .Values.global.image.tag }}
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -63,7 +63,7 @@ bank-cash-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-cash-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: {{ .Values.global.image.tag }}
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -83,7 +83,7 @@ bank-exchange-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-exchange-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: {{ .Values.global.image.tag }}
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -108,7 +108,7 @@ bank-exchangegenerator-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-exchangegenerator-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: {{ .Values.global.image.tag }}
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -128,7 +128,7 @@ bank-frontui-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-frontui-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: {{ .Values.global.image.tag }}
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -148,7 +148,7 @@ bank-notifications-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-notifications-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: {{ .Values.global.image.tag }}
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -168,7 +168,7 @@ bank-transfer-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-transfer-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: {{ .Values.global.image.tag }}
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
