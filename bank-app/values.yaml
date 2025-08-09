@@ -11,8 +11,8 @@ accounts:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: accounts # Removed registry prefix
-    tag: "latest"
+    repository: bank-accounts-service # Removed registry prefix
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -40,8 +40,8 @@ blocker:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: blocker # Removed registry prefix
-    tag: "latest"
+    repository: bank-blocker-service # Removed registry prefix
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -62,8 +62,8 @@ cash:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: cash # Removed registry prefix
-    tag: "latest"
+    repository: bank-cash-service # Removed registry prefix
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -82,8 +82,8 @@ exchange:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: exchange # Removed registry prefix
-    tag: "latest"
+    repository: bank-exchange-service # Removed registry prefix
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -107,8 +107,8 @@ exchange-generator:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: exchangegenerator # Removed registry prefix
-    tag: "latest"
+    repository: bank-exchangegenerator-service # Removed registry prefix
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -127,8 +127,8 @@ front-ui:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: frontui # Removed registry prefix
-    tag: "latest"
+    repository: bank-frontui-service # Removed registry prefix
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -147,8 +147,8 @@ notifications:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: notifications # Removed registry prefix
-    tag: "latest"
+    repository: bank-notifications-service # Removed registry prefix
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -167,8 +167,8 @@ transfer:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: transfer # Removed registry prefix
-    tag: "latest"
+    repository: bank-transfer-service # Removed registry prefix
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:

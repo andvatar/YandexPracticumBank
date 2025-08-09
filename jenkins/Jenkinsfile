@@ -9,6 +9,7 @@ pipeline {
         DB_NAME         = 'bank-db'
         DB_USER         = 'postgres'
         IMAGE_TAG       = "${env.BUILD_NUMBER}"
+        //IMAGE_TAG       = 'latest'
     }
 
     stages {
