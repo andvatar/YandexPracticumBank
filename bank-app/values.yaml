@@ -12,7 +12,7 @@ bank-accounts-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-accounts-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -22,7 +22,7 @@ bank-accounts-service:
     enabled: true
     className: "nginx" # Specify your ingress controller class
     hosts:
-      - host: "accounts.{{ .Values.global.domain }}" # Use global domain or specific
+      - host: "accounts.test.local" # Use global domain or specific
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -40,7 +40,7 @@ bank-blocker-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-blocker-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -50,7 +50,7 @@ bank-blocker-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "blocker.{{ .Values.global.domain }}"
+      - host: "blocker.test.local"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -62,7 +62,7 @@ bank-cash-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-cash-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -72,7 +72,7 @@ bank-cash-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "cash.{{ .Values.global.domain }}"
+      - host: "cash.test.local"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -82,7 +82,7 @@ bank-exchange-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-exchange-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -92,7 +92,7 @@ bank-exchange-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "exchange.{{ .Values.global.domain }}"
+      - host: "exchange.test.local"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -108,7 +108,7 @@ bank-exchangegenerator-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-exchangegenerator-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -118,7 +118,7 @@ bank-exchangegenerator-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "exchange-generator.{{ .Values.global.domain }}"
+      - host: "exchange-generator.test.local"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -128,7 +128,7 @@ bank-frontui-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-frontui-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -138,7 +138,7 @@ bank-frontui-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "front-ui.{{ .Values.global.domain }}"
+      - host: "front-ui.test.local"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -148,7 +148,7 @@ bank-notifications-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-notifications-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -158,7 +158,7 @@ bank-notifications-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "notifications.{{ .Values.global.domain }}"
+      - host: "notifications.test.local"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -168,7 +168,7 @@ bank-transfer-service:
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-transfer-service # Removed registry prefix
-    tag: "{{ .Values.global.image.tag }}"
+    tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -178,7 +178,7 @@ bank-transfer-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "transfer.{{ .Values.global.domain }}"
+      - host: "transfer.test.local"
         paths:
           - path: /
             pathType: ImplementationSpecific
