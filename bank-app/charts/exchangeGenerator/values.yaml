@@ -1,7 +1,9 @@
 # Default values for exchangeGenerator.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
+global:
+  image:
+    tag: 'latest_test'
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicaCount: 1
 
