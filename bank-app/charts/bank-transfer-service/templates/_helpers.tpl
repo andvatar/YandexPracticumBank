@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "bank-transfer-service.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "transfer.name" . }}
+app.kubernetes.io/name: {{ include "bank-transfer-service.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
