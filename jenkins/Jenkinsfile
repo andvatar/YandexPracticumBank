@@ -75,14 +75,14 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 sh """
-                docker build -t accounts:${IMAGE_TAG} accounts
-                docker build -t blocker:${IMAGE_TAG} blocker
-                docker build -t cash:${IMAGE_TAG} cash
-                docker build -t exchange:${IMAGE_TAG} exchange
-                docker build -t exchangegenerator:${IMAGE_TAG} exchangeGenerator
-                docker build -t frontui:${IMAGE_TAG} frontUI
-                docker build -t notifications:${IMAGE_TAG} notifications
-                docker build -t transfer:${IMAGE_TAG} transfer
+                docker build -t bank-accounts-service:${IMAGE_TAG} accounts
+                docker build -t bank-blocker-service:${IMAGE_TAG} blocker
+                docker build -t bank-cash-service:${IMAGE_TAG} cash
+                docker build -t bank-exchange-service:${IMAGE_TAG} exchange
+                docker build -t bank-exchangegenerator-service:${IMAGE_TAG} exchangeGenerator
+                docker build -t bank-frontui-service:${IMAGE_TAG} frontUI
+                docker build -t bank-notifications-service:${IMAGE_TAG} notifications
+                docker build -t bank-transfer-service:${IMAGE_TAG} transfer
                 """
             }
         }
@@ -140,13 +140,15 @@ pipeline {
         stage('Helm Deploy to TEST') {
             steps {
                 dir('bank-app') {
-                    sh "helm dependency update"
-                    sh "helm dependency build"
                     sh """
+                    helm dependency update
+                    helm dependency build
                     helm upgrade --install parent-app . \\
                         --namespace test --create-namespace \\
                         --set global.domain=test.local \\
-                        --set accounts.image.tag=${IMAGE_TAG} \\
+                        --set global.image.tag=${IMAGE_TAG}
+                    """
+/*                        --set accounts.image.tag=${IMAGE_TAG} \\
                         --set accounts.ingress.hosts[0].host=accounts.test.local \\
                         --set accounts.ingress.hosts[0].paths[0].path="/" \\
                         --set accounts.ingress.hosts[0].paths[0].pathType="ImplementationSpecific" \\
@@ -179,6 +181,7 @@ pipeline {
                         --set transfer.ingress.hosts[0].paths[0].path="/" \\
                         --set transfer.ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
                     """
+                    */
                 }
                 /*sh """
                 helm upgrade --install accounts bank-app/charts/accounts \\
