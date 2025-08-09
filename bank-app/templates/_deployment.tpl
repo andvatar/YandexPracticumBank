@@ -47,6 +47,7 @@ spec:
               protocol: TCP
           env:
             {{- include "microservice.commonEnv" . | nindent 12 }}
+          envFrom:
             {{- include (printf "%s.specificEnv" .Chart.Name) . | nindent 12 }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
@@ -58,6 +59,10 @@ spec:
           {{- end }}
           {{- with .Values.resources }}
           resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.volumes }}

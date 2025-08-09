@@ -1,27 +1,27 @@
 dependencies:
-- name: accounts
-  repository: file://./charts/accounts
+- name: bank-accounts-service
+  repository: file://./charts/bank-accounts-service
   version: 0.1.0
-- name: blocker
-  repository: file://./charts/blocker
+- name: bank-blocker-service
+  repository: file://./charts/bank-blocker-service
   version: 0.1.0
-- name: cash
-  repository: file://./charts/cash
+- name: bank-cash-service
+  repository: file://./charts/bank-cash-service
   version: 0.1.0
-- name: exchange
-  repository: file://./charts/exchange
+- name: bank-exchange-service
+  repository: file://./charts/bank-exchange-service
   version: 0.1.0
-- name: exchangegenerator
-  repository: file://./charts/exchangeGenerator
+- name: bank-exchangegenerator-service
+  repository: file://./charts/bank-exchangegenerator-service
   version: 0.1.0
-- name: frontui
-  repository: file://./charts/frontUI
+- name: bank-frontui-service
+  repository: file://./charts/bank-frontui-service
   version: 0.1.0
-- name: notifications
-  repository: file://./charts/notifications
+- name: bank-notifications-service
+  repository: file://./charts/bank-notifications-service
   version: 0.1.0
-- name: transfer
-  repository: file://./charts/transfer
+- name: bank-transfer-service
+  repository: file://./charts/bank-transfer-service
   version: 0.1.0
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
@@ -29,5 +29,5 @@ dependencies:
 - name: keycloak
   repository: https://charts.bitnami.com/bitnami
   version: 24.9.0
-digest: sha256:a3d747f587c06116b5da12e46867e0be11656ad8d0a91de9d34323ff6694f3e3
-generated: "2025-08-07T16:20:04.7686586+03:00"
+digest: sha256:d56110da652f56a7746a99c0af5c529876cbcfc7f0fb3b3f408877c5eabded79
+generated: "2025-08-09T23:56:26.2340628+03:00"

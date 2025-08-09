@@ -8,7 +8,7 @@ Expand the name of the chart.
 {{/* frontui specific environment variables */}}
 {{- define "bank-frontui-service.specificEnv" -}}
 - name: EXCHANGE_RATES_URL
-  value: http://exchange.{{ .Release.Namespace }}.local/rates
+  value: "http://exchange.{{ .Release.Namespace }}.local/rates"
 {{- end -}}
 
 {{/*

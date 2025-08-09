@@ -7,14 +7,11 @@ Expand the name of the chart.
 
 {{/* accounts specific environment variables */}}
 {{- define "bank-accounts-service.specificEnv" -}}
-  envFrom:
-    - configMapRef:
-        name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
-- name: SPRING_DATASOURCE_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Release.Name }}-bank-db
-      key: postgres-password
+envFrom:
+  - configMapRef:
+    name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
+  - secretRef:
+    name: {{ .Release.Name }}-bank-db
 {{- end -}}
 
 {{/*

@@ -5,16 +5,13 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/* accounts specific environment variables */}}
+{{/* exchange specific environment variables */}}
 {{- define "bank-exchange-service.specificEnv" -}}
-  envFrom:
-    - configMapRef:
-        name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
-- name: SPRING_DATASOURCE_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Release.Name }}-bank-db
-      key: postgres-password
+envFrom:
+  - configMapRef:
+    name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
+  - secretRef:
+    name: {{ .Release.Name }}-bank-db
 {{- end -}}
 
 {{/*
