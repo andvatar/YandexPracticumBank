@@ -7,12 +7,12 @@ global:
 service:
   port: 81
 
-accounts:
+bank-accounts-service:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-accounts-service # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -36,12 +36,12 @@ accounts:
     # database_password_secret_key: "postgresql-password" # Key within the secret
 
 
-blocker:
+bank-blocker-service:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-blocker-service # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -58,12 +58,12 @@ blocker:
   config:
     suspect_amount: "400"
 
-cash:
+bank-cash-service:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-cash-service # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -78,12 +78,12 @@ cash:
           - path: /
             pathType: ImplementationSpecific
 
-exchange:
+bank-exchange-service:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-exchange-service # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -103,12 +103,12 @@ exchange:
     # Secret reference for password is more secure
     database_username: "postgres"
 
-exchange-generator:
+bank-exchangegenerator-service:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-exchangegenerator-service # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -123,12 +123,12 @@ exchange-generator:
           - path: /
             pathType: ImplementationSpecific
 
-front-ui:
+bank-frontui-service:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-frontui-service # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -143,12 +143,12 @@ front-ui:
           - path: /
             pathType: ImplementationSpecific
 
-notifications:
+bank-notifications-service:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-notifications-service # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
@@ -163,12 +163,12 @@ notifications:
           - path: /
             pathType: ImplementationSpecific
 
-transfer:
+bank-transfer-service:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-transfer-service # Removed registry prefix
-    tag: {{ .Values.global.image.tag }}
+    tag: "{{ .Values.global.image.tag }}"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
   service:
