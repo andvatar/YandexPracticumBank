@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.yandex.practicum.tarasov</groupId>
-	<artifactId>notifications</artifactId>
+	<artifactId>bank-notifications-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>notifications</name>
+	<name>bank-notifications-service</name>
 	<description>notifications</description>
 	<properties>
 		<java.version>21</java.version>

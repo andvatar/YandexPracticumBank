@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.yandex.practicum.tarasov</groupId>
-    <artifactId>exchangeGenerator</artifactId>
+    <artifactId>bank-exchangeGenerator-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>exchangeGenerator</name>
+    <name>bank-exchangeGenerator-service</name>
     <description>exchangeGenerator</description>
     <url/>
     <licenses>

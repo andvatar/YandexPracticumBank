@@ -42,8 +42,9 @@ def source = new GitHubSCMSource(owner, repo)
 source.setCredentialsId(credentialsId)
 source.setTraits([
         new BranchDiscoveryTrait(1),
-        new OriginPullRequestDiscoveryTrait(1),
-        new ForkPullRequestDiscoveryTrait(1, new ForkPullRequestDiscoveryTrait.TrustPermission())
+        new org.jenkinsci.plugins.github_branch_source.FilterByWildcard("sprint10-fixes"),
+        new OriginPullRequestDiscoveryTrait(1)//,
+        //new ForkPullRequestDiscoveryTrait(1, new ForkPullRequestDiscoveryTrait.TrustPermission())
 ])
 
 def branchSource = new BranchSource(source)

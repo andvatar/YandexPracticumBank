@@ -24,35 +24,35 @@ version: 0.1.0
 appVersion: "1.0.0"
 
 dependencies:
-  - name: accounts
+  - name: bank-accounts-service
     version: "0.1.0"
     repository: "file://./charts/accounts"
 
-  - name: blocker
+  - name: bank-blocker-service
     version: "0.1.0"
     repository: "file://./charts/blocker"
 
-  - name: cash
+  - name: bank-cash-service
     version: "0.1.0"
     repository: "file://./charts/cash"
 
-  - name: exchange
+  - name: bank-exchange-service
     version: "0.1.0"
     repository: "file://./charts/exchange"
 
-  - name: exchangegenerator
+  - name: bank-exchangegenerator-service
     version: "0.1.0"
     repository: "file://./charts/exchangeGenerator"
 
-  - name: frontui
+  - name: bank-frontui-service
     version: "0.1.0"
     repository: "file://./charts/frontUI"
 
-  - name: notifications
+  - name: bank-notifications-service
     version: "0.1.0"
     repository: "file://./charts/notifications"
 
-  - name: transfer
+  - name: bank-transfer-service
     version: "0.1.0"
     repository: "file://./charts/transfer"
 

@@ -29,7 +29,7 @@ public class ExchangeController {
     }
 
     @GetMapping("/rates")
-    @CrossOrigin(origins = {"http://front-ui.test.local", "http://front-ui.prod.local"})
+    //@CrossOrigin(origins = {"http://front-ui.test.local", "http://front-ui.prod.local"})
     public List<ExchangeRateDto> getExchangeRates() {
         return exchangeService.getExchangeRates();
     }

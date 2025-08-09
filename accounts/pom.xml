@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.yandex.practicum.tarasov</groupId>
-    <artifactId>accounts</artifactId>
+    <artifactId>bank-accounts-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>accounts</name>
+    <name>bank-accounts-service</name>
     <description>accounts</description>
     <url/>
     <licenses>

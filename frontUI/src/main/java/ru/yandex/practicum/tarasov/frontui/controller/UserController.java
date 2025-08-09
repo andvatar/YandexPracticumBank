@@ -1,5 +1,6 @@
 package ru.yandex.practicum.tarasov.frontui.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class UserController {
 
     private final UserAccountsService userAccountsService;
 
+    @Value("${exchange.rates.url}")
+    private String exchangeRatesUrl;
+
     public UserController(
                           UserAccountsService userAccountsService) {
         this.userAccountsService = userAccountsService;
@@ -32,6 +36,7 @@ public class UserController {
     @GetMapping("/main")
     public String getMain(Model model,
                           @AuthenticationPrincipal User user) {
+        model.addAttribute("exchangeRatesUrl", exchangeRatesUrl);
         model.addAttribute("login", user.getUsername());
         model.addAttribute("last_name", user.getLastName());
         model.addAttribute("first_name", user.getFirstName());

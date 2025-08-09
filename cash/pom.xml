@@ -9,9 +9,9 @@
         <relativePath/>
     </parent>
     <groupId>ru.yandex.practicum.tarasov</groupId>
-    <artifactId>cash</artifactId>
+    <artifactId>bank-cash-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>cash</name>
+    <name>bank-cash-service</name>
     <description>cash</description>
     <properties>
         <java.version>21</java.version>

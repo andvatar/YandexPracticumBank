@@ -11,7 +11,7 @@ accounts:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: accounts # Removed registry prefix
+    repository: bank-accounts-service # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -22,7 +22,7 @@ accounts:
     enabled: true
     className: "nginx" # Specify your ingress controller class
     hosts:
-      - host: accounts.test.local # Use global domain or specific
+      - host: "accounts.{{ .Values.global.domain }}" # Use global domain or specific
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -40,7 +40,7 @@ blocker:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: blocker # Removed registry prefix
+    repository: bank-blocker-service # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -51,7 +51,7 @@ blocker:
     enabled: true
     className: "nginx"
     hosts:
-      - host: blocker.test.local
+      - host: "blocker.{{ .Values.global.domain }}"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -62,7 +62,7 @@ cash:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: cash # Removed registry prefix
+    repository: bank-cash-service # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -73,7 +73,7 @@ cash:
     enabled: true
     className: "nginx"
     hosts:
-      - host: cash.test.local
+      - host: "cash.{{ .Values.global.domain }}"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -82,7 +82,7 @@ exchange:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: exchange # Removed registry prefix
+    repository: bank-exchange-service # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -93,7 +93,7 @@ exchange:
     enabled: true
     className: "nginx"
     hosts:
-      - host: exchange.test.local
+      - host: "exchange.{{ .Values.global.domain }}"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -107,7 +107,7 @@ exchange-generator:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: exchangegenerator # Removed registry prefix
+    repository: bank-exchangegenerator-service # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -118,7 +118,7 @@ exchange-generator:
     enabled: true
     className: "nginx"
     hosts:
-      - host: exchange-generator.test.local
+      - host: "exchange-generator.{{ .Values.global.domain }}"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -127,7 +127,7 @@ front-ui:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: frontui # Removed registry prefix
+    repository: bank-frontui-service # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -138,7 +138,7 @@ front-ui:
     enabled: true
     className: "nginx"
     hosts:
-      - host: front-ui.test.local
+      - host: "front-ui.{{ .Values.global.domain }}"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -147,7 +147,7 @@ notifications:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: notifications # Removed registry prefix
+    repository: bank-notifications-service # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -158,7 +158,7 @@ notifications:
     enabled: true
     className: "nginx"
     hosts:
-      - host: notifications.test.local
+      - host: "notifications.{{ .Values.global.domain }}"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -167,7 +167,7 @@ transfer:
   replicaCount: 1
   image:
     # --- REVERTED TO LOCAL REPO ---
-    repository: transfer # Removed registry prefix
+    repository: bank-transfer-service # Removed registry prefix
     tag: "latest"
     pullPolicy: IfNotPresent # Use IfNotPresent for local images
     # -----------------------------
@@ -178,7 +178,7 @@ transfer:
     enabled: true
     className: "nginx"
     hosts:
-      - host: transfer.test.local
+      - host: "transfer.{{ .Values.global.domain }}"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -240,14 +240,6 @@ bank-keycloak:
     initialDelaySeconds: 180
     periodSeconds: 10
     timeoutSeconds: 5
-  #service:
-  #  ports:
-  #    http: 8080
-  #  targetPort: http
-  #  main:
-  #    ports:
-  #      http: 8080
-  #    targetPort: http
   networkPolicy:
     enabled: true
     ingress:

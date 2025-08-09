@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.yandex.practicum.tarasov</groupId>
-    <artifactId>frontUI</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
-    <name>frontUI</name>
+    <artifactId>bank-frontUI-service</artifactId>
+    <version>0.0.4-SNAPSHOT</version>
+    <name>bank-frontUI-service</name>
     <description>frontUI</description>
     <url/>
     <licenses>
