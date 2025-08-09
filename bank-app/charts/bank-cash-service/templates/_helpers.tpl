@@ -5,8 +5,8 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/* exchangegenerator specific environment variables */}}
-{{- define "bank-exchangegenerator-service.specificEnv" -}}
+{{/* cash specific environment variables */}}
+{{- define "bank-cash-service.specificEnv" -}}
 {{- end -}}
 
 {{/*
