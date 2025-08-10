@@ -10,4 +10,3 @@ data:
   DB_NAME: {{ .Values.config.DB_NAME | quote }}
   DB_SCHEMA: {{ .Values.config.DB_SCHEMA | quote }}
   SPRING_DATASOURCE_USERNAME: {{ .Values.config.database_username | quote }}
-  SPRING_DATASOURCE_PASSWORD: {{ .Values.config.database_password | quote }}

@@ -7,9 +7,9 @@ Expand the name of the chart.
 
 {{/* exchange specific environment variables */}}
 {{- define "bank-exchange-service.specificEnv" -}}
-  - configMapRef:
+- configMapRef:
     name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
-  - secretRef:
+- secretRef:
     name: {{ .Release.Name }}-bank-db
 {{- end -}}
 
