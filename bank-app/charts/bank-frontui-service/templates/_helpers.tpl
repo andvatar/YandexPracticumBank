@@ -7,7 +7,6 @@ Expand the name of the chart.
 
 {{/* frontui specific environment variables */}}
 {{- define "bank-frontui-service.specificEnv" -}}
-envFrom:
   - configMapRef:
     name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
 {{- end -}}

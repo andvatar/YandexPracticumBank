@@ -7,7 +7,6 @@ Expand the name of the chart.
 
 {{/* accounts specific environment variables */}}
 {{- define "bank-accounts-service.specificEnv" -}}
-envFrom:
   - configMapRef:
     name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
   - secretRef:
