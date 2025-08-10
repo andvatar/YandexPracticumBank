@@ -36,7 +36,7 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ include (printf "%s.fullname" $.Chart.Name) $ }}
+                name: {{ .serviceName | include (printf "%s.fullname" $.Chart.Name) $ }}
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}
