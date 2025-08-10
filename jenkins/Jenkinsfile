@@ -103,7 +103,7 @@ pipeline {
         stage('Helm Deploy to TEST') {
             steps {
                 script {
-                    helmDeploy('prod', 'prod.local')
+                    helmDeploy('test', 'test.local')
                 }
             }
         }
