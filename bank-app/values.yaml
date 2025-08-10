@@ -292,3 +292,13 @@ bank-keycloak:
     initialDelaySeconds: 180
     periodSeconds: 10
     timeoutSeconds: 5
+  networkPolicy:
+    enabled: true
+    ingress:
+      - from:
+          - namespaceSelector:
+              matchLabels:
+                kubernetes.io/metadata.name: "bank-keycloak"
+        ports:
+          - port: 8080
+            protocol: TCP
