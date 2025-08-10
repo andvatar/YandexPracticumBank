@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import ru.yandex.practicum.tarasov.transfer.configuration.FeignConfig;
 
-@FeignClient(name = "exchange", configuration = FeignConfig.class)
+@FeignClient(name = "bank-exchange-service", configuration = FeignConfig.class)
 public interface ExchangeClient {
     @GetMapping("/exchange/{fromCurrency}/{toCurrency}/{amount}")
     long exchangeCurrencies(@PathVariable("fromCurrency") String fromCurrency,

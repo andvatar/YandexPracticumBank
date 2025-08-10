@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import ru.yandex.practicum.tarasov.cash.client.blocker.dto.BlockerResponseDto;
 import ru.yandex.practicum.tarasov.cash.configuration.FeignConfig;
 
-@FeignClient(name = "blocker", configuration = FeignConfig.class)
+@FeignClient(name = "bank-blocker-service", configuration = FeignConfig.class)
 public interface BlockerClient {
 
     @GetMapping("/check/{operation}/{amount}")

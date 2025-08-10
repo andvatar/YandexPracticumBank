@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import ru.yandex.practicum.tarasov.transfer.client.blocker.dto.BlockerResponseDto;
 import ru.yandex.practicum.tarasov.transfer.configuration.FeignConfig;
 
-@FeignClient(name = "blocker", configuration = FeignConfig.class)
+@FeignClient(name = "bank-blocker-service", configuration = FeignConfig.class)
 public interface BlockerClient {
     @GetMapping("/check/{operation}/{amount}")
     @Retry(name = "checkTransaction", fallbackMethod = "checkTransactionFallback")

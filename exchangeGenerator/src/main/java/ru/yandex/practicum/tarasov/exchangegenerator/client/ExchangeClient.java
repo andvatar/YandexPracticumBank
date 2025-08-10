@@ -9,7 +9,7 @@ import ru.yandex.practicum.tarasov.exchangegenerator.configuration.OAuthFeignCon
 
 import java.util.List;
 
-@FeignClient(name = "exchange", configuration = OAuthFeignConfig.class)
+@FeignClient(name = "bank-exchange-service", configuration = OAuthFeignConfig.class)
 public interface ExchangeClient {
     @PostMapping("/exchangeRate")
     ResponseDto addRates(@RequestBody List<ExchangeRate> exchangeRates);

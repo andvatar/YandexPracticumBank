@@ -73,7 +73,6 @@ ingress:
     - host: cash.test.local
       paths:
         - path: /
-          serviceName: cash
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls

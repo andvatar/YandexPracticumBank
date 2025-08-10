@@ -7,7 +7,7 @@ import ru.yandex.practicum.tarasov.cash.client.accounts.dto.ResponseDto;
 import ru.yandex.practicum.tarasov.cash.configuration.FeignConfig;
 import ru.yandex.practicum.tarasov.cash.dto.CashDto;
 
-@FeignClient(name = "accounts", configuration = FeignConfig.class)
+@FeignClient(name = "bank-accounts-service", configuration = FeignConfig.class)
 public interface AccountsClient {
     @PostMapping("/account/cash")
     ResponseDto getPutCash(@RequestBody CashDto cashDto);

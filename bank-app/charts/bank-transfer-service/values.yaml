@@ -73,7 +73,6 @@ ingress:
     - host: transfer.test.local
       paths:
         - path: /
-          serviceName: transfer
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls

@@ -7,7 +7,7 @@ import ru.yandex.practicum.tarasov.transfer.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.transfer.client.notifications.dto.NotificationDto;
 import ru.yandex.practicum.tarasov.transfer.configuration.FeignConfig;
 
-@FeignClient(name = "notifications", configuration = FeignConfig.class)
+@FeignClient(name = "bank-notifications-service", configuration = FeignConfig.class)
 public interface NotificationsClient {
     @PostMapping("/notify")
     ResponseDto sendNotification(@RequestBody NotificationDto notificationDto);

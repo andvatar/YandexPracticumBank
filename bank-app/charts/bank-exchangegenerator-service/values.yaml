@@ -73,7 +73,6 @@ ingress:
     - host: exchange-generator.test.local
       paths:
         - path: /
-          serviceName: exchange-generator
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
