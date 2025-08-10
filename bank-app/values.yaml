@@ -259,6 +259,8 @@ bank-keycloak:
 
   postgresql:
     enabled: true
+    service:
+      port: 5433
     auth:
       username: bn_keycloak
       password: bn_keycloak
