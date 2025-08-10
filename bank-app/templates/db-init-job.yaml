@@ -24,7 +24,7 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              psql -h {{ .Release.Name }}-bank-db -U postgres -d yandex-bank -c "
+              psql -h {{ .Release.Name }}-bank-db -U postgres -d yandex_bank -c "
                 CREATE SCHEMA IF NOT EXISTS accounts;
                 CREATE SCHEMA IF NOT EXISTS exchange;
               "
