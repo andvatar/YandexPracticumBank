@@ -7,6 +7,9 @@ Expand the name of the chart.
 
 {{/* blocker specific environment variables */}}
 {{- define "bank-blocker-service.specificEnv" -}}
+  envFrom:
+    - configMapRef:
+        name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
 {{- end -}}
 
 {{/*

@@ -49,10 +49,10 @@ spec:
             {{- include "microservice.commonEnv" . | nindent 12 }}
           {{- $specificEnv := include (printf "%s.specificEnv" .Chart.Name) . | trim }}
           {{- if $specificEnv }}
-          envFrom:
-            {{- $specificEnv | nindent 12 }}
+            envFrom:
+              {{- $specificEnv | nindent 12 }}
+            {{- with .Values.livenessProbe }}
           {{- end }}
-          {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}

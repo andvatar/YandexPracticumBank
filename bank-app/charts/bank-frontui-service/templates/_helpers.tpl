@@ -7,8 +7,9 @@ Expand the name of the chart.
 
 {{/* frontui specific environment variables */}}
 {{- define "bank-frontui-service.specificEnv" -}}
-- name: EXCHANGE_RATES_URL
-  value: "http://exchange.{{ .Release.Namespace }}.local/rates"
+envFrom:
+  - configMapRef:
+    name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
 {{- end -}}
 
 {{/*
