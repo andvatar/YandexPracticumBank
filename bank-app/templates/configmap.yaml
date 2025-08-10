@@ -4,4 +4,4 @@ metadata:
   name: keycloak-realm-config
   namespace: {{ .Release.Namespace }}
 data:
-  {{- (.Files.Glob "keycloak/yandex-realm.json").AsConfig | nindent 2 }}
+  {{- (.Files.Glob "keycloak/master-realm.json").AsConfig | nindent 2 }}
