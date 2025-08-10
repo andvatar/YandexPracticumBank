@@ -74,6 +74,7 @@ ingress:
     - host: blocker.test.local
       paths:
         - path: /
+          serviceName: blocker
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls

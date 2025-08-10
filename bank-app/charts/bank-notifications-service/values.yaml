@@ -73,6 +73,7 @@ ingress:
     - host: notifications.test.local
       paths:
         - path: /
+          serviceName: notifications
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls

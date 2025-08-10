@@ -1,6 +1,8 @@
 # Global values (if any)
 global:
   domain: test.local # Example domain for ingress
+  service:
+    name: "accounts"
   image:
     tag: "latest"
 
@@ -32,6 +34,7 @@ bank-accounts-service:
       - host: "accounts" # Use global domain or specific
         paths:
           - path: /
+            serviceName: accounts
             pathType: ImplementationSpecific
   # Database connection details passed to customer-service configmap
   config:
@@ -65,6 +68,7 @@ bank-blocker-service:
       - host: "blocker"
         paths:
           - path: /
+            serviceName: blocker
             pathType: ImplementationSpecific
   config:
     suspect_amount: "400"
@@ -93,6 +97,7 @@ bank-cash-service:
       - host: "cash"
         paths:
           - path: /
+            serviceName: cash
             pathType: ImplementationSpecific
 
 bank-exchange-service:
@@ -120,6 +125,7 @@ bank-exchange-service:
       - host: "exchange"
         paths:
           - path: /
+            serviceName: exchange
             pathType: ImplementationSpecific
   config:
     DB_HOST: "{{ .Release.Name }}-bank-db.{{ .Release.Namespace }}.svc.cluster.local"
@@ -152,6 +158,7 @@ bank-exchangegenerator-service:
       - host: "exchange-generator"
         paths:
           - path: /
+            serviceName: exchangeGenerator
             pathType: ImplementationSpecific
 
 bank-frontui-service:
@@ -179,6 +186,7 @@ bank-frontui-service:
       - host: "front-ui"
         paths:
           - path: /
+            serviceName: frontUI
             pathType: ImplementationSpecific
 
 bank-notifications-service:
@@ -205,6 +213,7 @@ bank-notifications-service:
       - host: "notifications"
         paths:
           - path: /
+            serviceName: notifications
             pathType: ImplementationSpecific
 
 bank-transfer-service:
@@ -231,6 +240,7 @@ bank-transfer-service:
       - host: "transfer"
         paths:
           - path: /
+            serviceName: transfer
             pathType: ImplementationSpecific
 # Configuration for the customer-db (PostgreSQL dependency)
 # Values here are prefixed according to the Bitnami PostgreSQL chart's structure

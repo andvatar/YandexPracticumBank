@@ -73,6 +73,7 @@ ingress:
     - host: front-ui.test.local
       paths:
         - path: /
+          serviceName: frontUI
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls

@@ -74,6 +74,7 @@ ingress:
     - host: accounts.test.local
       paths:
         - path: /
+          serviceName: accounts
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
