@@ -5,15 +5,6 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/* accounts specific environment variables */}}
-{{- define "bank-accounts-service.specificEnv" -}}
-- configMapRef:
-    name: {{ include (printf "%s.fullname" .Chart.Name) . }}-config
-- secretRef:
-    name: {{ .Release.Name }}-bank-db
-    key: postgres-password
-{{- end -}}
-
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).

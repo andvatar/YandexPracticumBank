@@ -9,6 +9,13 @@ service:
 
 bank-accounts-service:
   replicaCount: 1
+
+  configmap:
+    enabled: true
+    name: bank-accounts-service-config
+  secret:
+    enabled: true
+
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-accounts-service # Removed registry prefix
@@ -22,7 +29,7 @@ bank-accounts-service:
     enabled: true
     className: "nginx" # Specify your ingress controller class
     hosts:
-      - host: "accounts.test.local" # Use global domain or specific
+      - host: "accounts" # Use global domain or specific
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -37,6 +44,11 @@ bank-accounts-service:
 
 bank-blocker-service:
   replicaCount: 1
+  configmap:
+    enabled: true
+    name: bank-blocker-service-config
+  secret:
+    enabled: false
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-blocker-service # Removed registry prefix
@@ -50,7 +62,7 @@ bank-blocker-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "blocker.test.local"
+      - host: "blocker"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -59,6 +71,12 @@ bank-blocker-service:
 
 bank-cash-service:
   replicaCount: 1
+
+  configmap:
+    enabled: false
+  secret:
+    enabled: false
+
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-cash-service # Removed registry prefix
@@ -72,13 +90,20 @@ bank-cash-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "cash.test.local"
+      - host: "cash"
         paths:
           - path: /
             pathType: ImplementationSpecific
 
 bank-exchange-service:
   replicaCount: 1
+
+  configmap:
+    enabled: true
+    name: bank-exchange-service-config
+  secret:
+    enabled: true
+
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-exchange-service # Removed registry prefix
@@ -92,7 +117,7 @@ bank-exchange-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "exchange.test.local"
+      - host: "exchange"
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -105,6 +130,12 @@ bank-exchange-service:
 
 bank-exchangegenerator-service:
   replicaCount: 1
+
+  configmap:
+    enabled: false
+  secret:
+    enabled: false
+
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-exchangegenerator-service # Removed registry prefix
@@ -118,13 +149,20 @@ bank-exchangegenerator-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "exchange-generator.test.local"
+      - host: "exchange-generator"
         paths:
           - path: /
             pathType: ImplementationSpecific
 
 bank-frontui-service:
   replicaCount: 1
+
+  configmap:
+    enabled: true
+    name: bank-frontui-service-config
+  secret:
+    enabled: false
+
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-frontui-service # Removed registry prefix
@@ -138,13 +176,19 @@ bank-frontui-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "front-ui.test.local"
+      - host: "front-ui"
         paths:
           - path: /
             pathType: ImplementationSpecific
 
 bank-notifications-service:
   replicaCount: 1
+
+  configmap:
+    enabled: false
+  secret:
+    enabled: false
+
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-notifications-service # Removed registry prefix
@@ -158,13 +202,19 @@ bank-notifications-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "notifications.test.local"
+      - host: "notifications"
         paths:
           - path: /
             pathType: ImplementationSpecific
 
 bank-transfer-service:
   replicaCount: 1
+
+  configmap:
+    enabled: false
+  secret:
+    enabled: false
+
   image:
     # --- REVERTED TO LOCAL REPO ---
     repository: bank-transfer-service # Removed registry prefix
@@ -178,7 +228,7 @@ bank-transfer-service:
     enabled: true
     className: "nginx"
     hosts:
-      - host: "transfer.test.local"
+      - host: "transfer"
         paths:
           - path: /
             pathType: ImplementationSpecific

@@ -2,11 +2,17 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 global:
+  domain: test.local
   image:
-    tag: 'latest_test'
+    tag: 'latest'
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicaCount: 1
 
+configmap:
+  enabled: true
+  name: bank-frontui-service-config
+secret:
+  enabled: false
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
   repository: bank-frontui-service

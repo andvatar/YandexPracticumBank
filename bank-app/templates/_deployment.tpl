@@ -47,10 +47,17 @@ spec:
               protocol: TCP
           env:
             {{- include "microservice.commonEnv" . | nindent 12 }}
-          {{- $specificEnv := include (printf "%s.specificEnv" .Chart.Name) . | trim }}
-          {{- if $specificEnv }}
+          {{- if or .Values.configmap.enabled .Values.secret.enabled }}
           envFrom:
-            {{- $specificEnv | nindent 12 }}
+          {{- if .Values.configmap.enabled }}
+            - configMapRef:
+                name: {{ .Values.configmap.name }}
+          {{- end }}
+
+          {{- if .Values.secret.enabled }}
+            - secretRef:
+                name: {{ .Release.Name }}-bank-db
+          {{- end }}
           {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
