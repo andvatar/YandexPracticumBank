@@ -6,7 +6,7 @@ import ru.yandex.practicum.tarasov.frontui.DTO.CashDto;
 import ru.yandex.practicum.tarasov.frontui.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.frontui.configuration.OAuthFeignConfig;
 
-@FeignClient(name = "cash", configuration = OAuthFeignConfig.class)
+@FeignClient(name = "bank-cash-service", configuration = OAuthFeignConfig.class)
 public interface CashClient {
 
     @PostMapping("account/cash")

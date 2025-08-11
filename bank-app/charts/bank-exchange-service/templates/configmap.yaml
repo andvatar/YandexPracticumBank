@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.name }}
+  labels:
+    {{- include "bank-exchange-service.labels" . | nindent 4 }}
+data:
+  DB_HOST: {{ tpl .Values.config.DB_HOST . | quote }}
+  DB_PORT: {{ .Values.config.DB_PORT | quote }}
+  DB_NAME: {{ .Values.config.DB_NAME | quote }}
+  DB_SCHEMA: {{ .Values.config.DB_SCHEMA | quote }}
+  SPRING_DATASOURCE_USERNAME: {{ .Values.config.database_username | quote }}

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-realm-config
+  namespace: {{ .Release.Namespace }}
+data:
+  {{- (.Files.Glob "keycloak/master-realm.json").AsConfig | nindent 2 }}

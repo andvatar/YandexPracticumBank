@@ -1,0 +1,33 @@
+dependencies:
+- name: bank-accounts-service
+  repository: file://./charts/bank-accounts-service
+  version: 0.1.0
+- name: bank-blocker-service
+  repository: file://./charts/bank-blocker-service
+  version: 0.1.0
+- name: bank-cash-service
+  repository: file://./charts/bank-cash-service
+  version: 0.1.0
+- name: bank-exchange-service
+  repository: file://./charts/bank-exchange-service
+  version: 0.1.0
+- name: bank-exchangegenerator-service
+  repository: file://./charts/bank-exchangegenerator-service
+  version: 0.1.0
+- name: bank-frontui-service
+  repository: file://./charts/bank-frontui-service
+  version: 0.1.0
+- name: bank-notifications-service
+  repository: file://./charts/bank-notifications-service
+  version: 0.1.0
+- name: bank-transfer-service
+  repository: file://./charts/bank-transfer-service
+  version: 0.1.0
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 14.2.3
+- name: keycloak
+  repository: https://charts.bitnami.com/bitnami
+  version: 24.9.0
+digest: sha256:d56110da652f56a7746a99c0af5c529876cbcfc7f0fb3b3f408877c5eabded79
+generated: "2025-08-09T23:56:26.2340628+03:00"

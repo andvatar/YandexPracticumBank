@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.name }}
+  labels:
+    {{- include "bank-frontui-service.labels" . | nindent 4 }}
+data:
+  EXCHANGE_RATES_URL: "http://exchange.{{ .Release.Namespace }}.local/rates"

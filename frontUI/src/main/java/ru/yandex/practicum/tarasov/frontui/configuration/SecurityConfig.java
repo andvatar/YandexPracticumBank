@@ -30,7 +30,7 @@ public class SecurityConfig {
                     .requestMatchers("/main/**").authenticated()
                     .anyRequest().permitAll())
                 .formLogin(login -> login
-                        .defaultSuccessUrl("http://localhost:8090/main", true)
+                        .defaultSuccessUrl("/main", true)
                         .permitAll())
                 .userDetailsService(userDetailsService);
         return http.build();

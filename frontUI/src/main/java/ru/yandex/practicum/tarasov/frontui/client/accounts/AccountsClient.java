@@ -13,7 +13,7 @@ import ru.yandex.practicum.tarasov.frontui.entity.User;
 
 import java.util.List;
 
-@FeignClient(name = "accounts", configuration = OAuthFeignConfig.class)
+@FeignClient(name = "bank-accounts-service", configuration = OAuthFeignConfig.class)
 public interface AccountsClient {
 
     @PostMapping("/signup")

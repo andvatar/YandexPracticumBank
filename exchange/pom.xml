@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.yandex.practicum.tarasov</groupId>
-	<artifactId>exchange</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>exchange</name>
+	<artifactId>bank-exchange-service</artifactId>
+	<version>0.0.5-SNAPSHOT</version>
+	<name>bank-exchange-service</name>
 	<description>exchange</description>
 
 	<properties>
@@ -47,13 +47,21 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-consul-discovery</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-consul-config</artifactId>
+		</dependency-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-client-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-client-config</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

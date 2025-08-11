@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bank-app-db-init
+  labels:
+    app: bank-app-db-init
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.36.1
+          command: [ 'sh', '-c', 'until nc -z -v -w 30 parent-app-bank-db 5432; do echo "Waiting for database connection..."; sleep 5; done;' ]
+      containers:
+        - name: db-init
+          image: bitnami/postgresql:latest
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-bank-db
+                  key: postgres-password
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              psql -h {{ .Release.Name }}-bank-db -U postgres -d yandex_bank -c "
+                CREATE SCHEMA IF NOT EXISTS accounts;
+                CREATE SCHEMA IF NOT EXISTS exchange;
+              "
+  backoffLimit: 1

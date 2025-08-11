@@ -1,0 +1,314 @@
+# Global values (if any)
+global:
+  domain: test.local # Example domain for ingress
+  service:
+    name: "accounts"
+  image:
+    tag: "latest"
+
+service:
+  port: 81
+
+bank-accounts-service:
+  replicaCount: 1
+
+  configmap:
+    enabled: true
+    name: bank-accounts-service-config
+  secret:
+    enabled: true
+
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: bank-accounts-service # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8082
+  ingress:
+    enabled: true
+    className: "nginx" # Specify your ingress controller class
+    hosts:
+      - host: "accounts" # Use global domain or specific
+        paths:
+          - path: /
+            serviceName: accounts
+            pathType: ImplementationSpecific
+  # Database connection details passed to customer-service configmap
+  config:
+    DB_HOST: "{{ .Release.Name }}-bank-db.{{ .Release.Namespace }}.svc.cluster.local"
+    DB_PORT: "5432"
+    DB_NAME: "yandex_bank"
+    DB_SCHEMA: "accounts"
+    database_username: "postgres"
+
+
+bank-blocker-service:
+  replicaCount: 1
+  configmap:
+    enabled: true
+    name: bank-blocker-service-config
+  secret:
+    enabled: false
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: bank-blocker-service # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8088
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "blocker"
+        paths:
+          - path: /
+            serviceName: blocker
+            pathType: ImplementationSpecific
+  config:
+    suspect_amount: "400"
+
+bank-cash-service:
+  replicaCount: 1
+
+  configmap:
+    enabled: false
+  secret:
+    enabled: false
+
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: bank-cash-service # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8083
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "cash"
+        paths:
+          - path: /
+            serviceName: cash
+            pathType: ImplementationSpecific
+
+bank-exchange-service:
+  replicaCount: 1
+
+  configmap:
+    enabled: true
+    name: bank-exchange-service-config
+  secret:
+    enabled: true
+
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: bank-exchange-service # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8084
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "exchange"
+        paths:
+          - path: /
+            serviceName: exchange
+            pathType: ImplementationSpecific
+  config:
+    DB_HOST: "{{ .Release.Name }}-bank-db.{{ .Release.Namespace }}.svc.cluster.local"
+    DB_PORT: "5432"
+    DB_NAME: "yandex_bank"
+    DB_SCHEMA: "exchange"
+    database_username: "postgres"
+
+bank-exchangegenerator-service:
+  replicaCount: 1
+
+  configmap:
+    enabled: false
+  secret:
+    enabled: false
+
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: bank-exchangegenerator-service # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8086
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "exchange-generator"
+        paths:
+          - path: /
+            serviceName: exchange-generator
+            pathType: ImplementationSpecific
+
+bank-frontui-service:
+  replicaCount: 1
+
+  configmap:
+    enabled: true
+    name: bank-frontui-service-config
+  secret:
+    enabled: false
+
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: bank-frontui-service # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8090
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "front-ui"
+        paths:
+          - path: /
+            serviceName: front-ui
+            pathType: ImplementationSpecific
+
+bank-notifications-service:
+  replicaCount: 1
+
+  configmap:
+    enabled: false
+  secret:
+    enabled: false
+
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: bank-notifications-service # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8092
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "notifications"
+        paths:
+          - path: /
+            serviceName: notifications
+            pathType: ImplementationSpecific
+
+bank-transfer-service:
+  replicaCount: 1
+
+  configmap:
+    enabled: false
+  secret:
+    enabled: false
+
+  image:
+    # --- REVERTED TO LOCAL REPO ---
+    repository: bank-transfer-service # Removed registry prefix
+    tag: "latest"
+    pullPolicy: IfNotPresent # Use IfNotPresent for local images
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8087
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "transfer"
+        paths:
+          - path: /
+            serviceName: transfer
+            pathType: ImplementationSpecific
+# Configuration for the customer-db (PostgreSQL dependency)
+# Values here are prefixed according to the Bitnami PostgreSQL chart's structure
+# Check the Bitnami chart's values.yaml for all available options
+bank-db:
+  enabled: true
+  # Override values from the official postgresql chart
+  auth:
+    database: yandex_bank
+    username: postgres
+    # Use existingSecret or provide password (less secure for production)
+    # existingSecret: "{{ .Release.Name }}-customer-db-postgresql" # Name of the secret to use/create
+    password: postgres # Example: Not recommended for production
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi # Small size for example
+    initdb:
+      scripts:
+        configMap: bank-app-db-init
+
+bank-keycloak:
+  auth:
+    adminUser: admin
+    adminPassword: admin
+
+  postgresql:
+    enabled: true
+    service:
+      port: 5433
+    auth:
+      username: bn_keycloak
+      password: bn_keycloak
+      database: bitnami_keycloak
+
+  extraEnvVars:
+    - name: KEYCLOAK_ADMIN
+      value: admin
+    - name: KEYCLOAK_ADMIN_PASSWORD
+      value: admin
+    - name: KEYCLOAK_EXTRA_ARGS
+      value: "--import-realm"
+
+  extraVolumes:
+    - name: realm-config
+      configMap:
+        name: keycloak-realm-config
+
+  extraVolumeMounts:
+    - name: realm-config
+      mountPath: /opt/bitnami/keycloak/data/import
+      readOnly: true
+  readinessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+  livenessProbe:
+    initialDelaySeconds: 180
+    periodSeconds: 10
+    timeoutSeconds: 5
+  networkPolicy:
+    enabled: true
+    ingress:
+      - from:
+          - namespaceSelector:
+              matchLabels:
+                kubernetes.io/metadata.name: "bank-keycloak"
+        ports:
+          - port: 8080
+            protocol: TCP

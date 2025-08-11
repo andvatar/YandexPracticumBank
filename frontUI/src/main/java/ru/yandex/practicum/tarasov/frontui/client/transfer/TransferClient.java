@@ -6,7 +6,7 @@ import ru.yandex.practicum.tarasov.frontui.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.frontui.client.transfer.dto.TransferRequestDto;
 import ru.yandex.practicum.tarasov.frontui.configuration.OAuthFeignConfig;
 
-@FeignClient(name = "transfer", configuration = OAuthFeignConfig.class)
+@FeignClient(name = "bank-transfer-service", configuration = OAuthFeignConfig.class)
 public interface TransferClient {
     @PostMapping("/transfer")
     ResponseDto transfer(TransferRequestDto transferRequestDto);

@@ -1,24 +1,11 @@
 spring:
   application:
-    name: accounts
+    name: bank-accounts-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/yandex_bank?currentSchema=accounts}
-    username: postgres
-    password: postgres
-  cloud:
-    loadbalancer:
-      enabled: true
-    consul:
-      host: ${consul_host:localhost}
-      port: 8500
-      discovery:
-        hostname: accounts
-        prefer-ip-address: false
-        health-check-url: http://${spring.cloud.consul.discovery.hostname}:${server.port}/actuator/health
-      config:
-        enabled: false
-        defaultContext: application
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:yandex_bank}?currentSchema=${DB_SCHEMA:accounts}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${postgres-password:postgres}
 
   liquibase:
     enabled: true
@@ -33,3 +20,13 @@ spring:
 
 server:
   port: 8082
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health

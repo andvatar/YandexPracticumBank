@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@FeignClient(name = "accounts", configuration = FeignConfig.class)
+@FeignClient(name = "bank-accounts-service", configuration = FeignConfig.class)
 public interface AccountClient {
     @PostMapping("/account/transfer")
     @Retry(name = "transfer", fallbackMethod = "transferFallback")

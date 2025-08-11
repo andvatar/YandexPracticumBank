@@ -1,0 +1,138 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = credentials('DOCKER_REGISTRY')
+        DB_PASSWORD     = credentials('DB_PASSWORD')
+        GITHUB_USERNAME = credentials('GITHUB_USERNAME')
+        GHCR_TOKEN      = credentials('GHCR_TOKEN')
+        DB_NAME         = 'bank-db'
+        DB_USER         = 'postgres'
+        IMAGE_TAG       = "${env.BUILD_NUMBER}"
+        //IMAGE_TAG       = 'latest'
+    }
+
+    stages {
+        stage('Build & Unit Tests') {
+            parallel {
+                stage('accounts') {
+                    steps {
+                        dir('accounts') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('blocker') {
+                    steps {
+                        dir('blocker') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('cash') {
+                    steps {
+                        dir('cash') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('exchange') {
+                    steps {
+                        dir('exchange') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('exchangeGenerator') {
+                    steps {
+                        dir('exchangeGenerator') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('frontUI') {
+                    steps {
+                        dir('frontUI') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('notifications') {
+                    steps {
+                        dir('notifications') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+                stage('transfer') {
+                    steps {
+                        dir('transfer') {
+                            sh 'mvn clean test'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                sh """
+                docker build -t bank-accounts-service:${IMAGE_TAG} accounts
+                docker build -t bank-blocker-service:${IMAGE_TAG} blocker
+                docker build -t bank-cash-service:${IMAGE_TAG} cash
+                docker build -t bank-exchange-service:${IMAGE_TAG} exchange
+                docker build -t bank-exchangegenerator-service:${IMAGE_TAG} exchangeGenerator
+                docker build -t bank-frontui-service:${IMAGE_TAG} frontUI
+                docker build -t bank-notifications-service:${IMAGE_TAG} notifications
+                docker build -t bank-transfer-service:${IMAGE_TAG} transfer
+                """
+            }
+        }
+
+        stage('Setup Ingress Nginx') {
+            steps {
+                script {
+                    sh 'helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx'
+                    sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
+                    sh 'helm repo update'
+                    sh 'helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --set controller.admissionWebhooks.service.targetPort=443'
+                }
+            }
+        }
+
+        stage('Helm Deploy to TEST') {
+            steps {
+                script {
+                    helmDeploy('test', 'test.local')
+                }
+            }
+        }
+
+        stage('Manual Approval for PROD') {
+            steps {
+                input message: 'Deploy to PROD environment?', ok: 'Yes, deploy'
+            }
+        }
+
+        stage('Helm Deploy to PROD') {
+            steps {
+                script {
+                    helmDeploy('prod', 'prod.local')
+                }
+            }
+        }
+    }
+}
+
+def helmDeploy(namespace, domain) {
+    dir('bank-app') {
+        sh """
+        helm dependency update
+        helm dependency build
+        helm upgrade --install parent-app . \\
+            --namespace ${namespace} --create-namespace \\
+            --set global.domain=${domain} \\
+            --set global.image.tag=${env.IMAGE_TAG}
+        """
+    }
+}
