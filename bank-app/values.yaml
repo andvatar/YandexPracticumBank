@@ -318,15 +318,21 @@ bank-kafka:
   replicaCount: 2
   persistence:
     size: 1Gi
+  auth:
+    interBrokerProtocol: plaintext
   controller:
     enabled: true
     replicaCount: 2
     automountServiceAccountToken: true
   listeners:
-    client:
+    - name: internal
+      port: 9092
+      type: ClusterIP
       protocol: PLAINTEXT
-    controller:
-      protocol: PLAINTEXT
+  advertisedListeners:
+    - listener: internal
+      advertisedAddress: "bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
+      advertisedPort: 9092
   topics:
     - name: notifications-topic
       partitions: 1
