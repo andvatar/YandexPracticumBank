@@ -138,7 +138,8 @@ bank-exchangegenerator-service:
   replicaCount: 1
 
   configmap:
-    enabled: false
+    enabled: true
+    name: bank-exchange-generator-service-config
   secret:
     enabled: false
 
