@@ -21,6 +21,16 @@ spring:
             #            scope: resource.read
             authorization-grant-type: client_credentials
 
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST}
+    admin:
+      client-id: exchange-generator
+      fail-fast: true
+    producer:
+      bootstrap-servers: ${KAFKA_HOST}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.JsonSerializer
+
 server:
   port: 8086
 

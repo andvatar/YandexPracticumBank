@@ -161,6 +161,10 @@ bank-exchangegenerator-service:
             serviceName: exchange-generator
             pathType: ImplementationSpecific
 
+  config:
+    KAFKA_HOST: "bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
+    KAFKA_TOPIC: "exchange-rates-topic"
+
 bank-frontui-service:
   replicaCount: 1
 
@@ -319,18 +323,44 @@ bank-kafka:
   persistence:
     size: 1Gi
   auth:
+    sasl:
+      enabled: false
+    tls:
+      enabled: false
     interBrokerProtocol: plaintext
+    clientProtocol: plaintext
+    jaas: {}
   zookeeper:
     enabled: false
   controller:
     enabled: true
     replicaCount: 2
-    automountServiceAccountToken: true
+    startReplicaCount: 2
   listeners:
-    - name: internal
-      port: 9092
-      type: ClusterIP
+    client:
+      name: CLIENT
+      containerPort: 9092
       protocol: PLAINTEXT
+      sslClientAuth: ""
+
+    interbroker:
+      name: INTERNAL
+      containerPort: 9094
+      protocol: PLAINTEXT
+      sslClientAuth: ""
+
+    external:
+      name: EXTERNAL
+      containerPort: 9095
+      protocol: PLAINTEXT
+      sslClientAuth: ""
+
+    controller:
+      name: CONTROLLER
+      containerPort: 9093
+      protocol: PLAINTEXT
+      sslClientAuth: ""
+
   advertisedListeners:
     - listener: internal
       advertisedAddress: "bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
@@ -346,3 +376,28 @@ bank-kafka:
       replicationFactor: 1
       config:
         cleanup.policy: compact
+  extraEnvVars:
+    - name: KAFKA_ENABLE_KRAFT
+      value: "true"
+    - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
+      value: "true"
+#  extraInitContainers:
+#    - name: create-topics
+#      image: bitnami/kafka:latest
+#      command:
+#        - /bin/bash
+#        - -c
+#        - |
+#          until /opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092; do sleep 2; done
+#          /opt/bitnami/kafka/bin/kafka-topics.sh --create \
+#            --bootstrap-server localhost:9092 \
+#            --topic notifications-topic \
+#            --partitions 1 \
+#            --replication-factor 1
+#            --config cleanup.policy=delete
+#          /opt/bitnami/kafka/bin/kafka-topics.sh --create \
+#            --bootstrap-server localhost:9092 \
+#            --topic exchange-rates-topic \
+#            --partitions 1 \
+#            --replication-factor 1
+#            --config cleanup.policy=compact
