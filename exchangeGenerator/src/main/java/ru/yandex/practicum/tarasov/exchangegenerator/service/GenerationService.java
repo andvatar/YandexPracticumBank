@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 @Service
 public class GenerationService {
     private final ExchangeClient  exchangeClient;
-    private final KafkaTemplate<String, List<ExchangeRate>> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     public GenerationService(ExchangeClient exchangeClient,
-                             KafkaTemplate<String, List<ExchangeRate>> kafkaTemplate) {
+                             KafkaTemplate<String, Object> kafkaTemplate) {
         this.exchangeClient = exchangeClient;
         this.kafkaTemplate = kafkaTemplate;
     }

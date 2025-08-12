@@ -29,7 +29,7 @@ spring:
     producer:
       bootstrap-servers: ${KAFKA_HOST}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 server:
   port: 8086
