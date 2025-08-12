@@ -320,6 +320,8 @@ bank-kafka:
     size: 1Gi
   auth:
     interBrokerProtocol: plaintext
+  zookeeper:
+    enabled: false
   controller:
     enabled: true
     replicaCount: 2
