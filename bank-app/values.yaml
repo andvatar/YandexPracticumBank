@@ -312,3 +312,29 @@ bank-keycloak:
         ports:
           - port: 8080
             protocol: TCP
+
+bank-kafka:
+  enabled: true
+  replicaCount: 2
+  persistence:
+    size: 1Gi
+  controller:
+    enabled: true
+    replicaCount: 2
+    automountServiceAccountToken: true
+  listeners:
+    client:
+      protocol: PLAINTEXT
+    controller:
+      protocol: PLAINTEXT
+  topics:
+    - name: notifications-topic
+      partitions: 1
+      replicationFactor: 1
+      config:
+        cleanup.policy: delete
+    - name: exchange-rates-topic
+      partitions: 1
+      replicationFactor: 1
+      config:
+        cleanup.policy: compact
