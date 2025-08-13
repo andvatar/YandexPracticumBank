@@ -133,6 +133,9 @@ bank-exchange-service:
     DB_NAME: "yandex_bank"
     DB_SCHEMA: "exchange"
     database_username: "postgres"
+    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local:9092"
+    KAFKA_PORT: 9092
+    KAFKA_TOPIC: "exchange-rates-topic"
 
 bank-exchangegenerator-service:
   replicaCount: 1
