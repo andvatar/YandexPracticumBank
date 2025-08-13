@@ -164,6 +164,7 @@ bank-exchangegenerator-service:
 
   config:
     KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local:9092"
+    KAFKA_PORT: 9092
     KAFKA_TOPIC: "exchange-rates-topic"
 
 bank-frontui-service:

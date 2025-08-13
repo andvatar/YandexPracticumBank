@@ -1,9 +1,9 @@
 package ru.yandex.practicum.tarasov.exchangegenerator.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.tarasov.exchangegenerator.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.exchangegenerator.client.ExchangeClient;
 import ru.yandex.practicum.tarasov.exchangegenerator.client.dto.ExchangeRate;
 
@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 public class GenerationService {
     private final ExchangeClient  exchangeClient;
     private final KafkaTemplate<String, Object> kafkaTemplate;
+    @Value("KAFKA_TOPIC")
+    private String kafkaTopic;
 
     public GenerationService(ExchangeClient exchangeClient,
                              KafkaTemplate<String, Object> kafkaTemplate) {
@@ -31,7 +33,8 @@ public class GenerationService {
 
         //ResponseDto responseDto = exchangeClient.addRates(rates);
 
-        kafkaTemplate.send("exchange-rates-topic",
+        kafkaTemplate.send(
+                kafkaTopic,
                 rates.stream().map(ExchangeRate::getCurrencyCode).collect(Collectors.joining()),
                 rates);
 

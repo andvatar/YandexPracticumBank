@@ -22,14 +22,15 @@ spring:
             authorization-grant-type: client_credentials
 
   kafka:
-    bootstrap-servers: ${KAFKA_HOST}
+    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
     admin:
       client-id: exchange-generator
       fail-fast: true
     producer:
-      bootstrap-servers: ${KAFKA_HOST}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: "0"
+      retries: 0
 
 server:
   port: 8086
@@ -43,3 +44,5 @@ management:
     web:
       exposure:
         include: health
+
+KAFKA_TOPIC: ${KAFKA_TOPIC:"exchange-rates-topic"}

@@ -6,4 +6,5 @@ metadata:
     {{- include "bank-accounts-service.labels" . | nindent 4 }}
 data:
   KAFKA_HOST: {{ tpl .Values.config.KAFKA_HOST . | quote }}
+  KAFKA_PORT: {{ tpl .Values.config.KAFKA_PORT . | quote }}
   KAFKA_TOPIC: {{ tpl .Values.config.KAFKA_TOPIC . | quote }}
