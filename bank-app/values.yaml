@@ -324,10 +324,10 @@ bank-keycloak:
 
 bank-kafka:
   enabled: true
+  image:
+    tag: "3.6.1"
   controller:
     replicaCount: 1
-  zookeeper:
-    enabled: false
   listeners:
     client:
       name: CLIENT

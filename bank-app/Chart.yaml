@@ -70,6 +70,6 @@ dependencies:
     alias: bank-keycloak
 
   - name: kafka
-    version: 32.3.11
+    version: 26.11.4
     repository: "https://charts.bitnami.com/bitnami"
     alias: bank-kafka
