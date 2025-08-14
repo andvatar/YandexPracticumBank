@@ -324,11 +324,9 @@ bank-keycloak:
 
 bank-kafka:
   enabled: true
-  replicaCount: 2
+  replicaCount: 1
   persistence:
-    enabled: true
     size: 1Gi
-    mountPath: /opt/bitnami/kafka/data
   auth:
     sasl:
       enabled: false
@@ -341,8 +339,8 @@ bank-kafka:
     enabled: false
   controller:
     enabled: true
-    replicaCount: 2
-    startReplicaCount: 2
+    replicaCount: 1
+    startReplicaCount: 1
   listeners:
     client:
       name: CLIENT
@@ -388,14 +386,6 @@ bank-kafka:
       value: "true"
     - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
       value: "true"
-  volumeMounts:
-    - name: kafka-data
-      mountPath: /opt/bitnami/kafka/data
-
-  volumes:
-    - name: kafka-data
-      persistentVolumeClaim:
-        claimName: kafka-data-pvc
 #  extraInitContainers:
 #    - name: create-topics
 #      image: bitnami/kafka:latest
