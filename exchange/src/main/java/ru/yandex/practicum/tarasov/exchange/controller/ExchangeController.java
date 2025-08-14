@@ -8,6 +8,7 @@ import ru.yandex.practicum.tarasov.exchange.DTO.ExchangeRateDto;
 import ru.yandex.practicum.tarasov.exchange.entity.ExchangeRate;
 import ru.yandex.practicum.tarasov.exchange.service.ExchangeService;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -39,9 +40,9 @@ public class ExchangeController {
     }
 
     @KafkaListener(topics = "${kafka.topic}")
-    public void addExchangeRates(List<ExchangeRate> exchangeRates) {
-        log.info("Received rates: {}", exchangeRates);
-        var responseDto = exchangeService.addRates(exchangeRates);
+    public void addExchangeRates(ExchangeRate[] exchangeRates) {
+        log.info("Received rates: {}", Arrays.toString(exchangeRates));
+        var responseDto = exchangeService.addRates(Arrays.asList(exchangeRates));
         log.info("Added rates: {}", responseDto);
     }
 }
