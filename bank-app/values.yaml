@@ -352,7 +352,7 @@ bank-kafka:
     # Topic defaults (relaxed for dev)
     "num.partitions": "1"
     "log.retention.hours": "72"  # 3 days
-    "log.segment.bytes": "104857600
+    "log.segment.bytes": "104857600"
 
   listeners:
     client:
