@@ -134,7 +134,7 @@ bank-exchange-service:
     DB_SCHEMA: "exchange"
     database_username: "postgres"
     KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-    KAFKA_PORT: 9092
+    KAFKA_PORT: "9092"
     KAFKA_TOPIC: "exchange-rates-topic"
 
 bank-exchangegenerator-service:
@@ -167,7 +167,7 @@ bank-exchangegenerator-service:
 
   config:
     KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-    KAFKA_PORT: 9092
+    KAFKA_PORT: "9092"
     KAFKA_TOPIC: "exchange-rates-topic"
 
 bank-frontui-service:
