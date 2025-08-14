@@ -10,6 +10,6 @@ data:
   DB_NAME: {{ .Values.config.DB_NAME | quote }}
   DB_SCHEMA: {{ .Values.config.DB_SCHEMA | quote }}
   SPRING_DATASOURCE_USERNAME: {{ .Values.config.database_username | quote }}
-  KAFKA_HOST: {{ tpl .Values.config.KAFKA_HOST | quote }}
+  KAFKA_HOST: {{ tpl .Values.config.KAFKA_HOST . | quote }}
   KAFKA_PORT: {{ .Values.config.KAFKA_PORT | quote }}
   KAFKA_TOPIC: {{ .Values.config.KAFKA_TOPIC | quote }}
