@@ -375,12 +375,12 @@ bank-kafka:
   topics:
     - name: notifications-topic
       partitions: 1
-      replicationFactor: 1
+      replicationFactor: 2
       config:
         cleanup.policy: delete
     - name: exchange-rates-topic
       partitions: 1
-      replicationFactor: 1
+      replicationFactor: 2
       config:
         cleanup.policy: delete
   extraEnvVars:
