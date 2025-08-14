@@ -42,7 +42,6 @@ public class ExchangeController {
     @KafkaListener(topics = "${kafka.topic}")
     public void addExchangeRates(@Payload List<ExchangeRate> exchangeRates) {
         log.info("Received rates: {}", exchangeRates);
-        var responseDto = exchangeService.addRates(exchangeRates);
-        log.info("Added rates: {}", responseDto);
+        exchangeService.addRates(exchangeRates);
     }
 }
