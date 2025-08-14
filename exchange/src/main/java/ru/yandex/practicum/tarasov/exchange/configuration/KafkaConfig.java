@@ -26,20 +26,9 @@ public class KafkaConfig {
         //JsonDeserializer<ExchangeRate> valueDeserializer = new JsonDeserializer<>(ExchangeRate.class);
         //valueDeserializer.addTrustedPackages("ru.yandex.practicum.tarasov.exchange.entity");
 
-        JsonDeserializer<List<ExchangeRate>> deserializer = new JsonDeserializer<>() {
-            private final ObjectMapper objectMapper = new ObjectMapper();
-
-            @Override
-            public List<ExchangeRate> deserialize(String topic, byte[] data) {
-                try {
-                    JavaType type = objectMapper.getTypeFactory()
-                            .constructCollectionType(List.class, ExchangeRate.class);
-                    return objectMapper.readValue(data, type);
-                } catch (IOException e) {
-                    throw new SerializationException("Error deserializing message", e);
-                }
-            }
-        };
+        ObjectMapper om = new ObjectMapper();
+        om.getTypeFactory().constructParametricType(List.class, ExchangeRate.class);
+        JsonDeserializer<List<ExchangeRate>> deserializer = new JsonDeserializer<>();
 
         deserializer.addTrustedPackages("ru.yandex.practicum.tarasov.exchange.entity");
 
