@@ -29,8 +29,8 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      acks: "0"
-      retries: 0
+      acks: "all"
+      retries: 3
 
 server:
   port: 8086
@@ -47,7 +47,7 @@ management:
 
 kafka:
   topic: ${KAFKA_TOPIC:"exchange-rates-topic"}
-logging:
-  level:
-    org.springframework.kafka: DEBUG
-    org.apache.kafka: DEBUG
+#logging:
+#  level:
+#    org.springframework.kafka: DEBUG
+#    org.apache.kafka: DEBUG
