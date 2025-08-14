@@ -35,7 +35,7 @@ public class ExchangeController {
         return exchangeService.getExchangeRates();
     }
 
-    @KafkaListener(topics = "${KAFKA_TOPIC}")
+    @KafkaListener(topics = "${kafka.topic}")
     public void addExchangeRates(List<ExchangeRate> exchangeRates) {
         exchangeService.addRates(exchangeRates);
     }

@@ -19,7 +19,7 @@ spring:
           issuer-uri: ${KEYCLOAK_URL:http://localhost:8085/realms/master}
 
   kafka:
-    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
+    bootstrap-servers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:9092}
     admin:
       client-id: exchange
       fail-fast: true
@@ -41,4 +41,5 @@ management:
       exposure:
         include: health
 
-KAFKA_TOPIC: ${KAFKA_TOPIC:"exchange-rates-topic"}
+kafka:
+  topic: ${KAFKA_TOPIC:"exchange-rates-topic"}

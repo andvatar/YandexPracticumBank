@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class GenerationService {
     private final ExchangeClient  exchangeClient;
     private final KafkaTemplate<String, Object> kafkaTemplate;
-    @Value("KAFKA_TOPIC")
+    @Value("${kafka.topic}")
     private String kafkaTopic;
 
     public GenerationService(ExchangeClient exchangeClient,

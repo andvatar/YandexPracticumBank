@@ -45,4 +45,5 @@ management:
       exposure:
         include: health
 
-KAFKA_TOPIC: ${KAFKA_TOPIC:"exchange-rates-topic"}
+kafka:
+  topic: ${KAFKA_TOPIC:"exchange-rates-topic"}
