@@ -3,12 +3,12 @@ package ru.yandex.practicum.tarasov.exchange.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.tarasov.exchange.DTO.ExchangeRateDto;
 import ru.yandex.practicum.tarasov.exchange.entity.ExchangeRate;
 import ru.yandex.practicum.tarasov.exchange.service.ExchangeService;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -40,9 +40,9 @@ public class ExchangeController {
     }
 
     @KafkaListener(topics = "${kafka.topic}")
-    public void addExchangeRates(ExchangeRate[] exchangeRates) {
-        log.info("Received rates: {}", Arrays.toString(exchangeRates));
-        var responseDto = exchangeService.addRates(Arrays.asList(exchangeRates));
+    public void addExchangeRates(@Payload List<ExchangeRate> exchangeRates) {
+        log.info("Received rates: {}", exchangeRates);
+        var responseDto = exchangeService.addRates(exchangeRates);
         log.info("Added rates: {}", responseDto);
     }
 }

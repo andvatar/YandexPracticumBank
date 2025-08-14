@@ -17,15 +17,14 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
     @Bean
-    public ConsumerFactory<String, ExchangeRate[]> consumerFactory(KafkaProperties properties) {
+    public ConsumerFactory<String, List<ExchangeRate>> consumerFactory(KafkaProperties properties) {
         Map<String, Object> configProps = properties.buildConsumerProperties();
 
         ObjectMapper om = new ObjectMapper();
         om.getTypeFactory().constructParametricType(List.class, ExchangeRate.class);
-        JsonDeserializer<ExchangeRate[]> deserializer = new JsonDeserializer<>();
+        JsonDeserializer<List<ExchangeRate>> deserializer = new JsonDeserializer<>(om);
 
         deserializer.addTrustedPackages("ru.yandex.practicum.tarasov.exchange.entity");
-
 
         return new DefaultKafkaConsumerFactory<>(
                 configProps,
@@ -35,8 +34,8 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ExchangeRate[]> kafkaListenerContainerFactory(KafkaProperties kafkaProperties) {
-        ConcurrentKafkaListenerContainerFactory<String, ExchangeRate[]> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, List<ExchangeRate>> kafkaListenerContainerFactory(KafkaProperties kafkaProperties) {
+        ConcurrentKafkaListenerContainerFactory<String, List<ExchangeRate>> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(kafkaProperties));
         factory.setBatchListener(false);
