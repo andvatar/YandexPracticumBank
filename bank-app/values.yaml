@@ -326,6 +326,8 @@ bank-kafka:
   enabled: true
   controller:
     replicaCount: 1
+  zookeeper:
+    enabled: false
   listeners:
     client:
       name: CLIENT
