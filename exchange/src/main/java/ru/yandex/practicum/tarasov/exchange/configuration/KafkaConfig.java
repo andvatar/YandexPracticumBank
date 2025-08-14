@@ -1,6 +1,8 @@
 package ru.yandex.practicum.tarasov.exchange.configuration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import ru.yandex.practicum.tarasov.exchange.entity.ExchangeRate;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +23,25 @@ public class KafkaConfig {
     public ConsumerFactory<String, List<ExchangeRate>> consumerFactory(KafkaProperties properties) {
         Map<String, Object> configProps = properties.buildConsumerProperties();
 
-        TypeReference<List<ExchangeRate>> typeReference = new TypeReference<>() {};
-        JsonDeserializer<List<ExchangeRate>> deserializer = new JsonDeserializer<>(typeReference);
-        deserializer.addTrustedPackages("ru.yandex.practicum.tarasov.exchange.entity");
-        return new DefaultKafkaConsumerFactory<>(configProps,
+        //JsonDeserializer<ExchangeRate> valueDeserializer = new JsonDeserializer<>(ExchangeRate.class);
+        //valueDeserializer.addTrustedPackages("ru.yandex.practicum.tarasov.exchange.entity");
+
+        return new DefaultKafkaConsumerFactory<>(
+                configProps,
                 new StringDeserializer(),
-                deserializer);
+                new JsonDeserializer<List<ExchangeRate>>() {
+                    @Override
+                    public List<ExchangeRate> deserialize(String topic, byte[] data) {
+                        try {
+                            ObjectMapper mapper = new ObjectMapper();
+                            return mapper.readValue(data,
+                                    mapper.getTypeFactory().constructCollectionType(List.class, ExchangeRate.class));
+                        } catch (IOException e) {
+                            throw new SerializationException("Error deserializing message", e);
+                        }
+                    }
+                }
+        );
     }
 
     @Bean
