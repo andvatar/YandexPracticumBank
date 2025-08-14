@@ -324,23 +324,8 @@ bank-keycloak:
 
 bank-kafka:
   enabled: true
-  replicaCount: 1
-  persistence:
-    size: 1Gi
-  auth:
-    sasl:
-      enabled: false
-    tls:
-      enabled: false
-    interBrokerProtocol: plaintext
-    clientProtocol: plaintext
-    jaas: {}
-  zookeeper:
-    enabled: false
   controller:
-    enabled: true
     replicaCount: 1
-    startReplicaCount: 1
   listeners:
     client:
       name: CLIENT
@@ -366,21 +351,6 @@ bank-kafka:
       protocol: PLAINTEXT
       sslClientAuth: ""
 
-  advertisedListeners:
-    - listener: internal
-      advertisedAddress: "bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-      advertisedPort: 9092
-  topics:
-    - name: notifications-topic
-      partitions: 1
-      replicationFactor: 2
-      config:
-        cleanup.policy: delete
-    - name: exchange-rates-topic
-      partitions: 1
-      replicationFactor: 2
-      config:
-        cleanup.policy: delete
   extraEnvVars:
     - name: KAFKA_ENABLE_KRAFT
       value: "true"
