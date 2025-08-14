@@ -40,7 +40,7 @@ public class GenerationService {
 
         kafkaTemplate.send(
                     kafkaTopic,
-                    rates.stream().map(ExchangeRate::getCurrencyCode).collect(Collectors.joining()),
+//                    rates.stream().map(ExchangeRate::getCurrencyCode).collect(Collectors.joining()),
                     rates
                 ).whenComplete((result, e) -> {
                     if (e != null) {

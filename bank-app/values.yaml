@@ -380,7 +380,7 @@ bank-kafka:
       partitions: 1
       replicationFactor: 1
       config:
-        cleanup.policy: compact
+        cleanup.policy: delete
   extraEnvVars:
     - name: KAFKA_ENABLE_KRAFT
       value: "true"
