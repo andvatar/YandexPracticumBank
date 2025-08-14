@@ -328,7 +328,7 @@ bank-kafka:
     tag: "3.6.1"
 
   controller:
-    replicaCount: 1
+    replicaCount: 3
 
   kraft:
     enabled: true
