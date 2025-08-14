@@ -335,24 +335,24 @@ bank-kafka:
 
   config:
     # Essential dev settings
-    "auto.create.topics.enable": "true"
-    "default.replication.factor": "1"
-    "min.insync.replicas": "1"
+    auto.create.topics.enable: "true"
+    default.replication.factor: "1"
+    min.insync.replicas: "1"
 
     # KRaft single-node setup
-    "process.roles": "broker,controller"
-    "controller.quorum.voters": "1@$(POD_NAME).$(HEADLESS_SERVICE_NAME).$(NAMESPACE).svc.cluster.local:9093"
+    process.roles: "broker,controller"
+    controller.quorum.voters: "1@$(POD_NAME).$(HEADLESS_SERVICE_NAME).$(NAMESPACE).svc.cluster.local:9093"
 
     # Performance/durability tradeoffs for dev
-    "log.flush.interval.messages": "1000"
-    "log.flush.interval.ms": "1000"
-    "num.io.threads": "2"
-    "num.network.threads": "2"
+    log.flush.interval.messages: "1000"
+    log.flush.interval.ms: "1000"
+    num.io.threads: "2"
+    num.network.threads: "2"
 
     # Topic defaults (relaxed for dev)
-    "num.partitions": "1"
-    "log.retention.hours": "72"  # 3 days
-    "log.segment.bytes": "104857600"
+    num.partitions: "1"
+    log.retention.hours: "72"  # 3 days
+    log.segment.bytes: "104857600"
 
   listeners:
     client:
