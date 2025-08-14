@@ -20,16 +20,18 @@ public class ExchangeService {
         this.exchangeRateMapper = exchangeRateMapper;
     }
 
-    public ResponseDto addRates(List<ExchangeRate> rates) {
-        ResponseDto responseDto = new ResponseDto();
-        try {
-            exchangeRepository.saveAll(rates);
-        } catch (Exception e) {
-            responseDto.errors().add(e.getMessage());
-        }
-
-        return responseDto;
+    public void addRates(List<ExchangeRate> rates) {
+        exchangeRepository.saveAll(rates);
     }
+        //ResponseDto responseDto = new ResponseDto();
+        //try {
+
+        //} catch (Exception e) {
+        //    responseDto.errors().add(e.getMessage());
+        //}
+
+        //return responseDto;
+
 
     public long convert(long amount, String fromCurrency, String toCurrency) {
 
