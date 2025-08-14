@@ -47,3 +47,7 @@ management:
 
 kafka:
   topic: ${KAFKA_TOPIC:"exchange-rates-topic"}
+logging:
+  level:
+    org.springframework.kafka: DEBUG
+    org.apache.kafka: DEBUG

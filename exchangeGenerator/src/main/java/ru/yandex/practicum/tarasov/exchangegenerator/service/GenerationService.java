@@ -1,5 +1,8 @@
 package ru.yandex.practicum.tarasov.exchangegenerator.service;
 
+import org.apache.kafka.clients.producer.RecordMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,6 +21,8 @@ public class GenerationService {
     @Value("${kafka.topic}")
     private String kafkaTopic;
 
+    private static final Logger log = LoggerFactory.getLogger(GenerationService.class);
+
     public GenerationService(ExchangeClient exchangeClient,
                              KafkaTemplate<String, Object> kafkaTemplate) {
         this.exchangeClient = exchangeClient;
@@ -34,9 +39,19 @@ public class GenerationService {
         //ResponseDto responseDto = exchangeClient.addRates(rates);
 
         kafkaTemplate.send(
-                kafkaTopic,
-                rates.stream().map(ExchangeRate::getCurrencyCode).collect(Collectors.joining()),
-                rates);
+                    kafkaTopic,
+                    rates.stream().map(ExchangeRate::getCurrencyCode).collect(Collectors.joining()),
+                    rates
+                ).whenComplete((result, e) -> {
+                    if (e != null) {
+                        log.error("Ошибка при отправке сообщения: {}", e.getMessage(), e);
+                        return;
+                    }
+
+                    RecordMetadata metadata = result.getRecordMetadata();
+                    log.info("Сообщение отправлено. Topic = {}, partition = {}, offset = {}",
+                            metadata.topic(), metadata.partition(), metadata.offset());
+                });
 
     }
 }
