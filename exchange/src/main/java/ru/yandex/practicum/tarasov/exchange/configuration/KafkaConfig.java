@@ -44,7 +44,7 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, List<ExchangeRate>> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(kafkaProperties));
-        factory.setBatchListener(true);
+        factory.setBatchListener(false);
         return factory;
     }
 }
