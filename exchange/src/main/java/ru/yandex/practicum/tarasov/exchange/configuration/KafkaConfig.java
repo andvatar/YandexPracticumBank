@@ -1,5 +1,6 @@
 package ru.yandex.practicum.tarasov.exchange.configuration;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -21,8 +22,8 @@ public class KafkaConfig {
         Map<String, Object> configProps = properties.buildConsumerProperties();
 
         ObjectMapper om = new ObjectMapper();
-        om.getTypeFactory().constructParametricType(List.class, ExchangeRate.class);
-        JsonDeserializer<List<ExchangeRate>> deserializer = new JsonDeserializer<>(om);
+        JavaType type = om.getTypeFactory().constructParametricType(List.class, ExchangeRate.class);
+        JsonDeserializer<List<ExchangeRate>> deserializer = new JsonDeserializer<>(type, om, false);
 
         deserializer.addTrustedPackages("ru.yandex.practicum.tarasov.exchange.entity");
 
