@@ -332,6 +332,7 @@ bank-kafka:
 
   kraft:
     enabled: true
+    clusterId: "yandex-bank"
 
   listeners:
     client:
