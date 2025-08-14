@@ -386,6 +386,14 @@ bank-kafka:
       value: "true"
     - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
       value: "true"
+  volumeMounts:
+    - name: kafka-data
+      mountPath: /opt/bitnami/kafka/data
+
+  volumes:
+    - name: kafka-data
+      persistentVolumeClaim:
+        claimName: kafka-data-pvc
 #  extraInitContainers:
 #    - name: create-topics
 #      image: bitnami/kafka:latest
