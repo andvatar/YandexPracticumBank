@@ -326,7 +326,9 @@ bank-kafka:
   enabled: true
   replicaCount: 2
   persistence:
+    enabled: true
     size: 1Gi
+    mountPath: /opt/bitnami/kafka/data
   auth:
     sasl:
       enabled: false
