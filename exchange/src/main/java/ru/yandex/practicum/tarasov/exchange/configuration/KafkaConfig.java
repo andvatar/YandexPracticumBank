@@ -1,6 +1,6 @@
 package ru.yandex.practicum.tarasov.exchange.configuration;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -26,21 +26,27 @@ public class KafkaConfig {
         //JsonDeserializer<ExchangeRate> valueDeserializer = new JsonDeserializer<>(ExchangeRate.class);
         //valueDeserializer.addTrustedPackages("ru.yandex.practicum.tarasov.exchange.entity");
 
+        JsonDeserializer<List<ExchangeRate>> deserializer = new JsonDeserializer<>() {
+            private final ObjectMapper objectMapper = new ObjectMapper();
+
+            @Override
+            public List<ExchangeRate> deserialize(String topic, byte[] data) {
+                try {
+                    JavaType type = objectMapper.getTypeFactory()
+                            .constructCollectionType(List.class, ExchangeRate.class);
+                    return objectMapper.readValue(data, type);
+                } catch (IOException e) {
+                    throw new SerializationException("Error deserializing message", e);
+                }
+            }
+        };
+
+        deserializer.addTrustedPackages("ru.yandex.practicum.tarasov.exchange.entity");
+
         return new DefaultKafkaConsumerFactory<>(
                 configProps,
                 new StringDeserializer(),
-                new JsonDeserializer<List<ExchangeRate>>() {
-                    @Override
-                    public List<ExchangeRate> deserialize(String topic, byte[] data) {
-                        try {
-                            ObjectMapper mapper = new ObjectMapper();
-                            return mapper.readValue(data,
-                                    mapper.getTypeFactory().constructCollectionType(List.class, ExchangeRate.class));
-                        } catch (IOException e) {
-                            throw new SerializationException("Error deserializing message", e);
-                        }
-                    }
-                }
+                deserializer
         );
     }
 
@@ -49,6 +55,7 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, List<ExchangeRate>> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(kafkaProperties));
+        factory.setBatchListener(true);
         return factory;
     }
 }
