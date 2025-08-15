@@ -20,7 +20,11 @@ spring:
       group-id: notifications
       properties:
         spring.json.value.default.type: "ru.yandex.practicum.tarasov.notifications.DTO.NotificationDto"
-        spring.json.trusted.packages: "ru.yandex.practicum.tarasov.notifications.DTO"
+        spring.json.trusted.packages:
+          - ru.yandex.practicum.tarasov.accounts.DTO
+          - ru.yandex.practicum.tarasov.transfer.DTO
+          - ru.yandex.practicum.tarasov.cash.client.notifications.dto
+          - ru.yandex.practicum.tarasov.notifications.DTO
 
 server:
   port: 8092
