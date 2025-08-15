@@ -1,6 +1,5 @@
 package ru.yandex.practicum.tarasov.exchangegenerator.service;
 
-import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,16 +41,7 @@ public class GenerationService {
                     kafkaTopic,
                     rates.stream().map(ExchangeRate::getCurrencyCode).collect(Collectors.joining()),
                     rates
-                ).whenComplete((result, e) -> {
-                    if (e != null) {
-                        log.error("Ошибка при отправке сообщения: {}", e.getMessage(), e);
-                        return;
-                    }
-
-                    RecordMetadata metadata = result.getRecordMetadata();
-                    log.info("Сообщение отправлено. Topic = {}, partition = {}, offset = {}",
-                            metadata.topic(), metadata.partition(), metadata.offset());
-                });
+                );
 
     }
 }

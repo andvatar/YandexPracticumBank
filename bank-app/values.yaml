@@ -43,6 +43,9 @@ bank-accounts-service:
     DB_NAME: "yandex_bank"
     DB_SCHEMA: "accounts"
     database_username: "postgres"
+    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
+    KAFKA_PORT: "9092"
+    KAFKA_TOPIC: "notification-topic"
 
 
 bank-blocker-service:
@@ -77,7 +80,8 @@ bank-cash-service:
   replicaCount: 1
 
   configmap:
-    enabled: false
+    enabled: true
+    name: bank-cash-service-config
   secret:
     enabled: false
 
@@ -99,6 +103,10 @@ bank-cash-service:
           - path: /
             serviceName: cash
             pathType: ImplementationSpecific
+  config:
+    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
+    KAFKA_PORT: "9092"
+    KAFKA_TOPIC: "notification-topic"
 
 bank-exchange-service:
   replicaCount: 1
@@ -202,7 +210,8 @@ bank-notifications-service:
   replicaCount: 1
 
   configmap:
-    enabled: false
+    enabled: true
+    name: bank-notifications-service-config
   secret:
     enabled: false
 
@@ -224,12 +233,17 @@ bank-notifications-service:
           - path: /
             serviceName: notifications
             pathType: ImplementationSpecific
+  config:
+    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
+    KAFKA_PORT: "9092"
+    KAFKA_TOPIC: "notification-topic"
 
 bank-transfer-service:
   replicaCount: 1
 
   configmap:
-    enabled: false
+    enabled: true
+    name: bank-transfer-service-config
   secret:
     enabled: false
 
@@ -251,6 +265,10 @@ bank-transfer-service:
           - path: /
             serviceName: transfer
             pathType: ImplementationSpecific
+  config:
+    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
+    KAFKA_PORT: "9092"
+    KAFKA_TOPIC: "notification-topic"
 # Configuration for the customer-db (PostgreSQL dependency)
 # Values here are prefixed according to the Bitnami PostgreSQL chart's structure
 # Check the Bitnami chart's values.yaml for all available options

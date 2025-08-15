@@ -1,5 +1,7 @@
 package ru.yandex.practicum.tarasov.accounts.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,9 @@ public class UserService {
     private final UserMapper userMapper;
     private final CurrencyRepository currencyRepository;
     private final AccountRepository accountRepository;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+    @Value("${kafka.topic}")
+    private String kafkaTopic;
 
 
     public UserService(UserRepository userRepository,
@@ -35,13 +40,15 @@ public class UserService {
                        CurrencyRepository currencyRepository,
                        AccountRepository accountRepository,
                        PasswordEncoder passwordEncoder,
-                       UserMapper userMapper) {
+                       UserMapper userMapper,
+                       KafkaTemplate<String, Object> kafkaTemplate) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
         this.currencyRepository = currencyRepository;
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public ResponseDto createUser(SignupRequestDto signupRequestDto) {
@@ -76,6 +83,10 @@ public class UserService {
             User user = optionalUser.get();
             user.setPassword(passwordEncoder.encode(changePasswordDto.password()));
             userRepository.save(user);
+            kafkaTemplate.send(
+                    kafkaTopic,
+                    new NotificationDto("changePassword", 0)
+            );
         }
 
         return responseDto;
@@ -148,6 +159,10 @@ public class UserService {
             user.getAccounts().removeAll(accountsToClose);
             accountRepository.deleteAll(accountsToClose);
             userRepository.save(user);
+            kafkaTemplate.send(
+                    kafkaTopic,
+                    new NotificationDto("changeUserDetails", 0)
+            );
         }
 
         return responseDto;
