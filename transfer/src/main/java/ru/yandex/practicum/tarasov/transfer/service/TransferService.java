@@ -1,5 +1,7 @@
 package ru.yandex.practicum.tarasov.transfer.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.transfer.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.transfer.DTO.TransferDto;
@@ -17,15 +19,20 @@ public class TransferService {
     private final AccountClient accountClient;
     private final BlockerClient blockerClient;
     private final NotificationsClient notificationsClient;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+    @Value("${kafka.topic}")
+    private String kafkaTopic;
 
     public TransferService(ExchangeClient exchangeClient,
                            AccountClient accountClient,
                            BlockerClient blockerClient,
-                           NotificationsClient notificationsClient) {
+                           NotificationsClient notificationsClient,
+                           KafkaTemplate<String, Object> kafkaTemplate) {
         this.exchangeClient = exchangeClient;
         this.accountClient = accountClient;
         this.blockerClient = blockerClient;
         this.notificationsClient = notificationsClient;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public ResponseDto transfer(TransferRequestDto transferRequestDto) {
@@ -56,7 +63,11 @@ public class TransferService {
         responseDto = accountClient.transfer(transferDto);
 
         if(!responseDto.hasErrors()) {
-            notificationsClient.sendNotification(new NotificationDto("transfer", transferRequestDto.getValue()));
+            //notificationsClient.sendNotification(new NotificationDto("transfer", transferRequestDto.getValue()));
+            kafkaTemplate.send(
+                    kafkaTopic,
+                    new NotificationDto("transfer", transferRequestDto.getValue())
+            );
         }
 
         return responseDto;
