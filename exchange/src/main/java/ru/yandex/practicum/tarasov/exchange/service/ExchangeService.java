@@ -3,7 +3,6 @@ package ru.yandex.practicum.tarasov.exchange.service;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.exchange.DTO.ExchangeRateDto;
 import ru.yandex.practicum.tarasov.exchange.DTO.ExchangeRateMapper;
-import ru.yandex.practicum.tarasov.exchange.DTO.ResponseDto;
 import ru.yandex.practicum.tarasov.exchange.entity.ExchangeRate;
 import ru.yandex.practicum.tarasov.exchange.repository.ExchangeRepository;
 
@@ -23,15 +22,6 @@ public class ExchangeService {
     public void addRates(List<ExchangeRate> rates) {
         exchangeRepository.saveAll(rates);
     }
-        //ResponseDto responseDto = new ResponseDto();
-        //try {
-
-        //} catch (Exception e) {
-        //    responseDto.errors().add(e.getMessage());
-        //}
-
-        //return responseDto;
-
 
     public long convert(long amount, String fromCurrency, String toCurrency) {
 

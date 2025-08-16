@@ -41,4 +41,4 @@ management:
         include: health
 
 kafka:
-  topic: ${KAFKA_TOPIC:"notifications-topic"}
+  topic: ${KAFKA_TOPIC:notifications-topic}

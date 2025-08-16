@@ -46,7 +46,7 @@ management:
         include: health
 
 kafka:
-  topic: ${KAFKA_TOPIC:"exchange-rates-topic"}
+  topic: ${KAFKA_TOPIC:exchange-rates-topic}
 #logging:
 #  level:
 #    org.springframework.kafka: DEBUG
