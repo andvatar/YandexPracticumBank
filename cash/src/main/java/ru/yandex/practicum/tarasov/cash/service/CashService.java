@@ -1,5 +1,7 @@
 package ru.yandex.practicum.tarasov.cash.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.cash.client.accounts.AccountsClient;
 import ru.yandex.practicum.tarasov.cash.client.accounts.dto.ResponseDto;
@@ -14,13 +16,18 @@ public class CashService {
     private final AccountsClient accountsClient;
     private final BlockerClient blockerClient;
     private final NotificationsClient notificationsClient;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+    @Value("${kafka.topic}")
+    private String kafkaTopic;
 
     public CashService(AccountsClient accountsClient,
                        BlockerClient blockerClient,
-                       NotificationsClient notificationsClient) {
+                       NotificationsClient notificationsClient,
+                       KafkaTemplate<String, Object> kafkaTemplate) {
         this.accountsClient = accountsClient;
         this.blockerClient = blockerClient;
         this.notificationsClient = notificationsClient;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public ResponseDto getPutCash(CashDto cashDto) {
@@ -37,7 +44,11 @@ public class CashService {
         responseDto = accountsClient.getPutCash(cashDto);
 
         if(!responseDto.hasErrors()) {
-            notificationsClient.sendNotification(new NotificationDto("cash " + cashDto.getAction(), cashDto.getValue() ));
+            //notificationsClient.sendNotification(new NotificationDto("cash " + cashDto.getAction(), cashDto.getValue() ));
+            kafkaTemplate.send(
+                    kafkaTopic,
+                    new NotificationDto("cash " + cashDto.getAction(), cashDto.getValue() )
+            );
         }
 
         return responseDto;

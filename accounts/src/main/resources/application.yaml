@@ -18,6 +18,17 @@ spring:
         jwt:
           issuer-uri: ${KEYCLOAK_URL:http://localhost:8085/realms/master}
 
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
+    admin:
+      client-id: accounts
+      fail-fast: true
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: "all"
+      retries: 3
+
 server:
   port: 8082
 
@@ -30,3 +41,6 @@ management:
     web:
       exposure:
         include: health
+
+kafka:
+  topic: ${KAFKA_TOPIC:notifications-topic}

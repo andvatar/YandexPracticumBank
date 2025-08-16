@@ -18,6 +18,19 @@ spring:
         jwt:
           issuer-uri: ${KEYCLOAK_URL:http://localhost:8085/realms/master}
 
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:9092}
+    admin:
+      client-id: exchange
+      fail-fast: true
+    consumer:
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: exchange
+#      properties:
+#        spring.json.value.default.type: "ru.yandex.practicum.tarasov.exchange.entity.ExchangeRate"
+#        spring.json.trusted.packages: "ru.yandex.practicum.tarasov.exchange.entity"
 server:
   port: 8084
 
@@ -30,3 +43,6 @@ management:
     web:
       exposure:
         include: health
+
+kafka:
+  topic: ${KAFKA_TOPIC:exchange-rates-topic}
