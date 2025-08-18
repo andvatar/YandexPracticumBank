@@ -45,7 +45,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,metrics
+        include: health,metrics,prometheus
   zipkin:
     tracing:
       endpoint: ${ZIPKIN_ENDPOINT:http://127.0.0.1:9411/api/v2/spans}
@@ -55,7 +55,3 @@ management:
 
 kafka:
   topic: ${KAFKA_TOPIC:exchange-rates-topic}
-#logging:
-#  level:
-#    org.springframework.kafka: DEBUG
-#    org.apache.kafka: DEBUG

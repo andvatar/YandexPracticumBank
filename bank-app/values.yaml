@@ -27,6 +27,10 @@ bank-accounts-service:
   service:
     type: ClusterIP
     port: 8082
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8082"
+    prometheus.io/path: "/actuator/prometheus"
   ingress:
     enabled: true
     className: "nginx" # Specify your ingress controller class
@@ -62,6 +66,10 @@ bank-blocker-service:
   service:
     type: ClusterIP
     port: 8088
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8088"
+    prometheus.io/path: "/actuator/prometheus"
   ingress:
     enabled: true
     className: "nginx"
@@ -92,6 +100,10 @@ bank-cash-service:
   service:
     type: ClusterIP
     port: 8083
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8083"
+    prometheus.io/path: "/actuator/prometheus"
   ingress:
     enabled: true
     className: "nginx"
@@ -122,6 +134,10 @@ bank-exchange-service:
   service:
     type: ClusterIP
     port: 8084
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8084"
+    prometheus.io/path: "/actuator/prometheus"
   ingress:
     enabled: true
     className: "nginx"
@@ -157,6 +173,10 @@ bank-exchangegenerator-service:
   service:
     type: ClusterIP
     port: 8086
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8086"
+    prometheus.io/path: "/actuator/prometheus"
   ingress:
     enabled: true
     className: "nginx"
@@ -188,6 +208,10 @@ bank-frontui-service:
   service:
     type: ClusterIP
     port: 8090
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8090"
+    prometheus.io/path: "/actuator/prometheus"
   ingress:
     enabled: true
     className: "nginx"
@@ -216,6 +240,10 @@ bank-notifications-service:
   service:
     type: ClusterIP
     port: 8092
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8092"
+    prometheus.io/path: "/actuator/prometheus"
   ingress:
     enabled: true
     className: "nginx"
@@ -246,6 +274,10 @@ bank-transfer-service:
   service:
     type: ClusterIP
     port: 8087
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8087"
+    prometheus.io/path: "/actuator/prometheus"
   ingress:
     enabled: true
     className: "nginx"
@@ -378,3 +410,39 @@ bank-zipkin:
     enabled: true
     ingressClassName: "nginx"
     hostname: "zipkin.test.local"
+
+bank-prometheus:
+  server:
+    global:
+      scrape_interval: 30s
+      evaluation_interval: 30s
+      scrape_timeout: 10s
+    ingress:
+      enabled: true
+      ingressClassName: "nginx"
+      hostname: "prometheus.test.local"
+
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+          - targets: [ 'http://localhost:9090' ]
+
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [ __meta_kubernetes_pod_annotation_prometheus_io_scrape ]
+            action: keep
+            regex: true
+
+          - source_labels: [ __meta_kubernetes_namespace, __meta_kubernetes_pod_name ]
+            separator: '/'
+            target_label: instance
+
+          - source_labels: [ __meta_kubernetes_namespace ]
+            action: replace
+            target_label: namespace
+
+          - source_labels: [ __meta_kubernetes_pod_name ]
+            action: replace
+            target_label: pod
