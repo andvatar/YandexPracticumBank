@@ -412,6 +412,8 @@ bank-zipkin:
     hostname: "zipkin.test.local"
 
 bank-prometheus:
+  prometheus-node-exporter:
+    enabled: false
   server:
     global:
       scrape_interval: 30s
