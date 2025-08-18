@@ -420,7 +420,8 @@ bank-prometheus:
     ingress:
       enabled: true
       ingressClassName: "nginx"
-      hostname: "prometheus.test.local"
+      hosts:
+        - prometheus.test.local
 
     scrape_configs:
       - job_name: 'prometheus'

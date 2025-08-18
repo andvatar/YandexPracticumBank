@@ -134,7 +134,8 @@ def helmDeploy(namespace, domain) {
             --namespace ${namespace} --create-namespace \\
             --set global.domain=${domain} \\
             --set global.image.tag=${env.IMAGE_TAG} \\
-            --set bank-zipkin.ingress.hostname="zipkin.${namespace}.local"
+            --set bank-zipkin.ingress.hostname="zipkin.${domain}" \\
+            --set bank-prometheus.ingress.hosts[0]="prometheus.${domain}"
         """
     }
 }
