@@ -376,4 +376,3 @@ bank-zipkin:
     enabled: false
   ingress:
     enabled: true
-    hostname: "zipkin.{{ .Release.Namespace }}.local"

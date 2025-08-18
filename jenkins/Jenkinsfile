@@ -132,7 +132,8 @@ def helmDeploy(namespace, domain) {
         helm upgrade --install parent-app . \\
             --namespace ${namespace} --create-namespace \\
             --set global.domain=${domain} \\
-            --set global.image.tag=${env.IMAGE_TAG}
+            --set global.image.tag=${env.IMAGE_TAG} \\
+            --set bank-zipkin.ingress.hostname="zipkin.${namespace}.local"
         """
     }
 }
