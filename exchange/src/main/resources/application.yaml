@@ -28,8 +28,6 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       group-id: exchange
-      properties:
-        spring.kafka.listener.observation-enabled: true
 #      properties:
 #        spring.json.value.default.type: "ru.yandex.practicum.tarasov.exchange.entity.ExchangeRate"
 #        spring.json.trusted.packages: "ru.yandex.practicum.tarasov.exchange.entity"

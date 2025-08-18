@@ -39,6 +39,7 @@ management:
     enable:
       kafka: true
       jdbc: true
+      jpa: true
   endpoint:
     health:
       probes:

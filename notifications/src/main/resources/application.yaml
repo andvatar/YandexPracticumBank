@@ -18,8 +18,6 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       group-id: notifications
-      properties:
-        spring.kafka.listener.observation-enabled: true
 
 server:
   port: 8092
