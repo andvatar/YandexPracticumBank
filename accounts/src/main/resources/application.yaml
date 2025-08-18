@@ -28,6 +28,8 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       acks: "all"
       retries: 3
+      properties:
+        spring.kafka.template.observation-enabled: true
 
 server:
   port: 8082
@@ -36,6 +38,7 @@ management:
   metrics:
     enable:
       kafka: true
+      jdbc: true
   endpoint:
     health:
       probes:
