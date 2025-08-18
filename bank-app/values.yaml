@@ -376,5 +376,5 @@ bank-zipkin:
     enabled: false
   ingress:
     enabled: true
-  service:
-    type: LoadBalancer
+    ingressClassName: "nginx"
+    hostname: "zipkin.test.local"
