@@ -43,8 +43,6 @@ bank-accounts-service:
     DB_NAME: "yandex_bank"
     DB_SCHEMA: "accounts"
     database_username: "postgres"
-    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-    KAFKA_PORT: "9092"
     KAFKA_TOPIC: "notification-topic"
 
 
@@ -104,8 +102,6 @@ bank-cash-service:
             serviceName: cash
             pathType: ImplementationSpecific
   config:
-    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-    KAFKA_PORT: "9092"
     KAFKA_TOPIC: "notification-topic"
 
 bank-exchange-service:
@@ -141,8 +137,6 @@ bank-exchange-service:
     DB_NAME: "yandex_bank"
     DB_SCHEMA: "exchange"
     database_username: "postgres"
-    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-    KAFKA_PORT: "9092"
     KAFKA_TOPIC: "exchange-rates-topic"
 
 bank-exchangegenerator-service:
@@ -174,8 +168,6 @@ bank-exchangegenerator-service:
             pathType: ImplementationSpecific
 
   config:
-    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-    KAFKA_PORT: "9092"
     KAFKA_TOPIC: "exchange-rates-topic"
 
 bank-frontui-service:
@@ -234,8 +226,6 @@ bank-notifications-service:
             serviceName: notifications
             pathType: ImplementationSpecific
   config:
-    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-    KAFKA_PORT: "9092"
     KAFKA_TOPIC: "notification-topic"
 
 bank-transfer-service:
@@ -266,8 +256,6 @@ bank-transfer-service:
             serviceName: transfer
             pathType: ImplementationSpecific
   config:
-    KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-    KAFKA_PORT: "9092"
     KAFKA_TOPIC: "notification-topic"
 # Configuration for the customer-db (PostgreSQL dependency)
 # Values here are prefixed according to the Bitnami PostgreSQL chart's structure
@@ -381,23 +369,11 @@ bank-kafka:
       value: "true"
     - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
       value: "true"
-#  extraInitContainers:
-#    - name: create-topics
-#      image: bitnami/kafka:latest
-#      command:
-#        - /bin/bash
-#        - -c
-#        - |
-#          until /opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092; do sleep 2; done
-#          /opt/bitnami/kafka/bin/kafka-topics.sh --create \
-#            --bootstrap-server localhost:9092 \
-#            --topic notifications-topic \
-#            --partitions 1 \
-#            --replication-factor 1
-#            --config cleanup.policy=delete
-#          /opt/bitnami/kafka/bin/kafka-topics.sh --create \
-#            --bootstrap-server localhost:9092 \
-#            --topic exchange-rates-topic \
-#            --partitions 1 \
-#            --replication-factor 1
-#            --config cleanup.policy=compact
+
+bank-zipkin:
+  storageType: mem
+  cassandra:
+    enabled: false
+  ingress:
+    enabled: true
+    hostname: "zipkin.{{ .Release.Namespace }}.local"

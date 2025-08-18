@@ -32,5 +32,8 @@ dependencies:
 - name: kafka
   repository: https://charts.bitnami.com/bitnami
   version: 26.11.4
-digest: sha256:e61818c1723379b9b308cab65ab9faed2843f80472d5913a4b261fb07a5bf486
-generated: "2025-08-14T14:54:23.6584611+03:00"
+- name: zipkin
+  repository: https://charts.bitnami.com/bitnami
+  version: 1.3.11
+digest: sha256:009db0eb53a20b41ad4072d7cfbeb0529596c2b73916f36ffacec771bc210e35
+generated: "2025-08-18T02:11:02.3531747+03:00"
