@@ -101,7 +101,7 @@ spec:
 - name: KAFKA_PORT
   value: "9092"
 - name: ZIPKIN_ENDPOINT
-  value: "http://{{ .Release.Name }}-bank-zipkin.{{ .Release.Namespace }}.svc.cluster.local/api/v2/spans"
+  value: "http://{{ .Release.Name }}-bank-zipkin.{{ .Release.Namespace }}:9411/api/v2/spans"
 - name: ZIPKIN_PROBABILITY
   value: "1"
 {{- end -}}
