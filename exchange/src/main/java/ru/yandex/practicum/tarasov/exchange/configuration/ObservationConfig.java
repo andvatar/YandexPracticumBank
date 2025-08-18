@@ -1,8 +1,6 @@
 package ru.yandex.practicum.tarasov.exchange.configuration;
 
-import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationPredicate;
-import io.micrometer.observation.ObservationView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.observation.ServerRequestObservationContext;
@@ -14,23 +12,13 @@ public class ObservationConfig {
 
     @Bean
     ObservationPredicate noActuatorServerObservations() {
-        return (name, context) ->
-        {
-            Observation.Context root = getRoot(context);
-            if (root instanceof ServerRequestObservationContext serverContext) {
+        return (name, context) -> {
+            if (name.equals("http.server.requests") && context instanceof ServerRequestObservationContext serverContext) {
                 return !serverContext.getCarrier().getRequestURI().startsWith("/actuator");
-            } else {
+            }
+            else {
                 return true;
             }
         };
-    }
-
-    private Observation.Context getRoot(Observation.Context current) {
-        ObservationView parent = current.getParentObservation();
-        if (parent == null) {
-            return current;
-        } else {
-            return getRoot((Observation.Context) parent.getContextView());
-        }
     }
 }
