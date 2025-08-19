@@ -15,6 +15,9 @@ Contract.make {
                 action: "transfer",
                 amount: 500
         ])
+        headers {
+            contentType(applicationJson())
+        }
     }
     response {
         status 200

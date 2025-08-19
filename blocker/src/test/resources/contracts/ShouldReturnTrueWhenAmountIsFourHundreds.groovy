@@ -15,6 +15,9 @@ Contract.make {
                 action: "PUT",
                 amount: 400
         ])
+        headers {
+            contentType(applicationJson())
+        }
     }
     response {
         status 200
