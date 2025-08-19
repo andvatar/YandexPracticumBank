@@ -27,8 +27,6 @@ bank-accounts-service:
   service:
     type: ClusterIP
     port: 8082
-    labels:
-      app.kubernetes.io/part-of: bank-app
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8082"
@@ -68,8 +66,6 @@ bank-blocker-service:
   service:
     type: ClusterIP
     port: 8088
-    labels:
-      app.kubernetes.io/part-of: bank-app
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8088"
@@ -104,8 +100,6 @@ bank-cash-service:
   service:
     type: ClusterIP
     port: 8083
-    labels:
-      app.kubernetes.io/part-of: bank-app
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8083"
@@ -140,8 +134,6 @@ bank-exchange-service:
   service:
     type: ClusterIP
     port: 8084
-    labels:
-      app.kubernetes.io/part-of: bank-app
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8084"
@@ -181,8 +173,6 @@ bank-exchangegenerator-service:
   service:
     type: ClusterIP
     port: 8086
-    labels:
-      app.kubernetes.io/part-of: bank-app
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8086"
@@ -218,8 +208,6 @@ bank-frontui-service:
   service:
     type: ClusterIP
     port: 8090
-    labels:
-      app.kubernetes.io/part-of: bank-app
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8090"
@@ -252,8 +240,6 @@ bank-notifications-service:
   service:
     type: ClusterIP
     port: 8092
-    labels:
-      app.kubernetes.io/part-of: bank-app
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8092"
@@ -288,8 +274,6 @@ bank-transfer-service:
   service:
     type: ClusterIP
     port: 8087
-    labels:
-      app.kubernetes.io/part-of: bank-app
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8087"
@@ -436,18 +420,27 @@ kube-prometheus-stack:
       ingressClassName: "nginx"
       hosts:
         - prometheus.test.local
-    additionalServiceMonitors:
-      - name: bank-services-monitor
-        endpoints:
-          - port: http
-            path: /actuator/prometheus
-            interval: 30s
-        namespaceSelector:
-          matchNames:
-            - test
-        selector:
-          matchLabels:
-            app.kubernetes.io/part-of: bank-app
+    prometheusSpec:
+      additionalScrapeConfigs:
+        - job_name: 'kubernetes-pods'
+          kubernetes_sd_configs:
+            - role: pod
+          relabel_configs:
+            - source_labels: [ __meta_kubernetes_pod_annotation_prometheus_io_scrape ]
+              action: keep
+              regex: true
+
+            - source_labels: [ __meta_kubernetes_namespace, __meta_kubernetes_pod_name ]
+              separator: '/'
+              target_label: instance
+
+            - source_labels: [ __meta_kubernetes_namespace ]
+              action: replace
+              target_label: namespace
+
+            - source_labels: [ __meta_kubernetes_pod_name ]
+              action: replace
+              target_label: pod
 
   grafana:
     ingress:
