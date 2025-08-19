@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.cash.client.accounts.AccountsClient;
 import ru.yandex.practicum.tarasov.cash.client.accounts.dto.ResponseDto;
 import ru.yandex.practicum.tarasov.cash.client.blocker.BlockerClient;
+import ru.yandex.practicum.tarasov.cash.client.blocker.dto.BlockerRequestDto;
 import ru.yandex.practicum.tarasov.cash.client.blocker.dto.BlockerResponseDto;
 import ru.yandex.practicum.tarasov.cash.client.notifications.NotificationsClient;
 import ru.yandex.practicum.tarasov.cash.client.notifications.dto.NotificationDto;
@@ -34,7 +35,14 @@ public class CashService {
 
         ResponseDto responseDto = new ResponseDto();
 
-        BlockerResponseDto blockerResponseDto = blockerClient.checkTransaction(cashDto.getAction(), cashDto.getValue());
+        BlockerResponseDto blockerResponseDto = blockerClient.checkTransaction(
+                new BlockerRequestDto(cashDto.getUsername(),
+                        "",
+                        cashDto.getCurrency(),
+                        "",
+                        "cash",
+                        cashDto.getValue()
+                ));
 
         if(!blockerResponseDto.isAllowed()) {
             responseDto.errors().add("The operation was blocked: " + blockerResponseDto.reason() + " " + blockerResponseDto.errorMessage());
