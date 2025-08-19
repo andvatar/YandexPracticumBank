@@ -425,3 +425,5 @@ kube-prometheus-stack:
       enabled: true
       hosts:
         - grafana.test.local
+      annotations:
+        kubernetes.io/ingress.class: nginx
