@@ -5,8 +5,16 @@ import org.springframework.cloud.contract.spec.Contract
 Contract.make {
     description "When amount is 400 the service should approve it"
     request {
-        method 'GET'
-        url '/check/PUT/500'
+        method 'POST'
+        url '/check'
+        body([
+                fromUser: "fromUser",
+                toUser: "toUser",
+                fromAccount: "fromAcc",
+                toAccount: "toAcc",
+                action: "transfer",
+                amount: 500
+        ])
     }
     response {
         status 200
