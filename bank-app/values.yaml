@@ -420,31 +420,20 @@ kube-prometheus-stack:
       ingressClassName: "nginx"
       hosts:
         - prometheus.test.local
-    prometheusSpec:
-      additionalScrapeConfigs:
-        - job_name: 'prometheus'
-          static_configs:
-            - targets: [ 'http://localhost:9090' ]
-
-        - job_name: 'kubernetes-pods'
-          kubernetes_sd_configs:
-            - role: pod
-          relabel_configs:
-            - source_labels: [ __meta_kubernetes_pod_annotation_prometheus_io_scrape ]
-              action: keep
-              regex: true
-
-            - source_labels: [ __meta_kubernetes_namespace, __meta_kubernetes_pod_name ]
-              separator: '/'
-              target_label: instance
-
-            - source_labels: [ __meta_kubernetes_namespace ]
-              action: replace
-              target_label: namespace
-
-            - source_labels: [ __meta_kubernetes_pod_name ]
-              action: replace
-              target_label: pod
+    additionalServiceMonitors:
+      - name: bank-services-monitor
+        selector:
+          matchLabels:
+            prometheus.io/scrape: "true"
+        namespaceSelector:
+          matchNames:
+            - test
+        endpoints:
+          - port: http
+            path: /actuator/prometheus
+            interval: 30s
+            scrapeTimeout: 10s
+            honorLabels: true
 
   grafana:
     ingress:
