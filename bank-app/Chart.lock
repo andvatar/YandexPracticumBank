@@ -40,12 +40,12 @@ dependencies:
   version: 76.4.0
 - name: logstash
   repository: https://helm.elastic.co
-  version: 7.17.3
+  version: 8.5.1
 - name: elasticsearch
   repository: https://helm.elastic.co
-  version: 7.17.3
+  version: 8.5.1
 - name: kibana
   repository: https://helm.elastic.co
-  version: 7.17.3
-digest: sha256:9409f8d4a61f67804e3d5b91b3906557a867ff9591f1b51bfb197f9b4ee55e33
-generated: "2025-08-22T10:15:58.2170145+03:00"
+  version: 8.5.1
+digest: sha256:f121fb86ad6b1560e68478281d2fcbc8319234f18a40927b6a16efdae93ae7fd
+generated: "2025-08-22T13:40:42.607324+03:00"

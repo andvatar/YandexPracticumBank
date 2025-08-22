@@ -131,6 +131,7 @@ def helmDeploy(namespace, domain) {
     dir('bank-app') {
         sh """
         helm dependency update
+        helm dependency build
         helm upgrade --install parent-app . \\
             --namespace ${namespace} --create-namespace \\
             --set global.domain=${domain} \\
