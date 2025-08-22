@@ -2,6 +2,7 @@ package ru.yandex.practicum.tarasov.exchange.service;
 
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.exchange.DTO.ExchangeRateDto;
 import ru.yandex.practicum.tarasov.exchange.DTO.ExchangeRateMapper;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@Slf4j
 public class ExchangeService {
     private final ExchangeRepository  exchangeRepository;
     private final ExchangeRateMapper exchangeRateMapper;
@@ -31,13 +33,18 @@ public class ExchangeService {
     }
 
     public void addRates(List<ExchangeRate> rates) {
-        exchangeRepository.saveAll(rates);
-        lastSuccessfulAddRates.set(System.currentTimeMillis());
+        log.info("Adding rates");
+        try {
+            exchangeRepository.saveAll(rates);
+            lastSuccessfulAddRates.set(System.currentTimeMillis());
+        } catch (Exception ex) {
+            log.error("Error adding rates", ex);
+        }
     }
 
     public long convert(long amount, String fromCurrency, String toCurrency) {
 
-
+        log.info("Converting {} from {} to {}", amount, fromCurrency,  toCurrency);
         if(!fromCurrency.equals("RUR") && !toCurrency.equals("RUR")) {
             amount = convert(amount, fromCurrency, "RUR");
             fromCurrency = "RUR";
@@ -50,6 +57,8 @@ public class ExchangeService {
         else {
             amount = Math.round(amount * getRate(fromCurrency));
         }
+
+        log.info("New amount: {}", amount);
 
         return amount;
     }

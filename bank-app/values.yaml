@@ -454,3 +454,15 @@ kube-prometheus-stack:
         - grafana.test.local
       annotations:
         kubernetes.io/ingress.class: nginx
+
+kibana:
+  ingress:
+    enabled: true
+    hosts:
+      - host: kibana.test.local
+  extraEnvs:
+    - name: ELASTICSEARCH_USERNAME
+      value: "kibana_system"
+  envFrom:
+      secretKeyRef:
+        name: elastic-credentials

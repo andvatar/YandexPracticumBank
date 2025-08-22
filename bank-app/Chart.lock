@@ -38,5 +38,14 @@ dependencies:
 - name: kube-prometheus-stack
   repository: https://prometheus-community.github.io/helm-charts
   version: 76.4.0
-digest: sha256:fd88446e3112d976526c80ba2cbe95c4a08220d3500e3d90601b1fb64606972c
-generated: "2025-08-19T18:07:53.0055649+03:00"
+- name: logstash
+  repository: https://helm.elastic.co
+  version: 8.5.1
+- name: elasticsearch
+  repository: https://helm.elastic.co
+  version: 8.5.1
+- name: kibana
+  repository: https://helm.elastic.co
+  version: 8.5.1
+digest: sha256:f121fb86ad6b1560e68478281d2fcbc8319234f18a40927b6a16efdae93ae7fd
+generated: "2025-08-22T02:03:55.5570258+03:00"

@@ -1,0 +1,19 @@
+{
+  "index_patterns": ["logs-*"],
+  "priority": 100,
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "dynamic": "true",
+      "properties": {
+        "@timestamp": { "type": "date" },
+        "source":     { "type": "keyword" },
+        "message":    { "type": "text" },
+        "log.level":  { "type": "keyword" }
+      }
+    }
+  }
+}

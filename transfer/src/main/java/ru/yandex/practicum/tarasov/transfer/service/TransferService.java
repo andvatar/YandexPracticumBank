@@ -1,5 +1,6 @@
 package ru.yandex.practicum.tarasov.transfer.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import ru.yandex.practicum.tarasov.transfer.client.notifications.NotificationsCl
 import ru.yandex.practicum.tarasov.transfer.client.notifications.dto.NotificationDto;
 
 @Service
+@Slf4j
 public class TransferService {
     private final ExchangeClient exchangeClient;
     private final AccountClient accountClient;
@@ -38,6 +40,8 @@ public class TransferService {
 
     public ResponseDto transfer(TransferRequestDto transferRequestDto) {
 
+        log.info("transfer requestDto={}", transferRequestDto);
+
         ResponseDto responseDto = new ResponseDto();
 
         System.out.println(transferRequestDto);
@@ -46,6 +50,8 @@ public class TransferService {
                 transferRequestDto.getToCurrency(),
                 transferRequestDto.getFromCurrency(),
                 transferRequestDto.getValue());
+
+        log.info("fromAmount={}", fromAmount);
 
         BlockerResponseDto blockerResponseDto = blockerClient.checkTransaction(
                 new BlockerRequestDto(transferRequestDto.getFromLogin(),
@@ -58,6 +64,7 @@ public class TransferService {
 
         if(!blockerResponseDto.isAllowed()) {
             responseDto.errors().add("The operation was blocked: " + blockerResponseDto.reason() + " " + blockerResponseDto.errorMessage());
+            log.warn("The transaction was blocked: {}", blockerResponseDto.reason());
             return responseDto;
         }
 

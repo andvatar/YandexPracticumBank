@@ -1,5 +1,6 @@
 package ru.yandex.practicum.tarasov.cash.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import ru.yandex.practicum.tarasov.cash.client.notifications.dto.NotificationDto
 import ru.yandex.practicum.tarasov.cash.dto.CashDto;
 
 @Service
+@Slf4j
 public class CashService {
     private final AccountsClient accountsClient;
     private final BlockerClient blockerClient;
@@ -33,6 +35,8 @@ public class CashService {
 
     public ResponseDto getPutCash(CashDto cashDto) {
 
+        log.info("getPutCash cashDto={}", cashDto);
+
         ResponseDto responseDto = new ResponseDto();
 
         BlockerResponseDto blockerResponseDto = blockerClient.checkTransaction(
@@ -46,6 +50,7 @@ public class CashService {
 
         if(!blockerResponseDto.isAllowed()) {
             responseDto.errors().add("The operation was blocked: " + blockerResponseDto.reason() + " " + blockerResponseDto.errorMessage());
+            log.warn("The transaction was blocked: {} {}", blockerResponseDto.reason(), blockerResponseDto.errorMessage());
             return responseDto;
         }
 
