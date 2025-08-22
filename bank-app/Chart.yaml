@@ -94,3 +94,4 @@ dependencies:
   - name: kibana
     version: 8.5.1
     repository: https://helm.elastic.co
+    condition: elasticsearch.enabled
