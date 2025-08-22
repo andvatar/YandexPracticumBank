@@ -140,7 +140,7 @@ def helmDeploy(namespace, domain) {
             --set bank-zipkin.ingress.hostname="zipkin.${domain}" \\
             --set kube-prometheus-stack.prometheus.ingress.hosts[0]="prometheus.${domain}" \\
             --set kube-prometheus-stack.grafana.ingress.hosts[0]="grafana.${domain}" \\
-            --set kibana.ingress.hosts[0]="kibana.${domain}"
+            --set kibana.ingress.hosts[0].host="kibana.${domain}"
         """
         //             --set-file logstash.logstashPipeline."logstash.conf"=logstash/logstash.conf \\
     }
