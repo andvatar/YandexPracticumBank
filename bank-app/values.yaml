@@ -454,3 +454,76 @@ kube-prometheus-stack:
         - grafana.test.local
       annotations:
         kubernetes.io/ingress.class: nginx
+
+kibana:
+  elasticsearchHosts: "http://elasticsearch-master:9200"
+  automountToken: false
+  ingress:
+    enabled: true
+    hosts:
+      - host: kibana.test.local
+  extraEnvs:
+    - name: server.ssl.enabled
+      value: false
+    - name: elasticsearch.ssl.verificationMode
+      value: none
+  envFrom:
+    - secretRef:
+      name: elasticsearch-master-credentials
+  kibanaConfig:
+    kibana.yml: |
+      server.ssl.enabled: false
+  protocol: http
+
+elasticsearch:
+  replicas: 1
+  minimumMasterNodes: 1
+  extraEnvs:
+    - name: xpack.security.transport.ssl.enabled
+      value: false
+    - name: xpack.security.http.ssl.enabled
+      value: false
+    - name: xpack.security.transport.ssl.verification_mode
+      value: none
+
+
+logstash:
+  extraVolumes:
+    - name: logs-template
+      configMap:
+        name: elasticsearch-template-config
+
+  extraVolumeMounts:
+    - name: logs-template
+      mountPath: /usr/share/logstash/templates
+      readOnly: true
+
+  logstashPipeline:
+    logstash.conf: |
+      input {
+        kafka {
+          bootstrap_servers => "bank-kafka:9092"
+          topics => ["logs-topic"]
+          codec  => json
+        }
+      }
+      filter {
+        mutate { 
+          rename => { "level" => "[log][level]" } 
+          copy => { "[@metadata][kafka][topic]" => "source_topic"}
+        }
+        date { 
+          match => ["timestamp", "ISO8601"] 
+          target => "@timestamp"
+          remove_field => ["timestamp"]
+        }
+      }
+      output {
+        elasticsearch {
+          hosts  => ["http://elasticsearch-master:9200"]
+          index  => "bank-logs-%{+yyyy.MM.dd}"
+        }
+        stdout {
+          codec => rubydebug
+        }
+      }
