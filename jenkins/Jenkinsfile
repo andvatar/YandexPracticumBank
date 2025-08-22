@@ -138,7 +138,9 @@ def helmDeploy(namespace, domain) {
             --set global.image.tag=${env.IMAGE_TAG} \\
             --set bank-zipkin.ingress.hostname="zipkin.${domain}" \\
             --set kube-prometheus-stack.prometheus.ingress.hosts[0]="prometheus.${domain}" \\
-            --set kube-prometheus-stack.grafana.ingress.hosts[0]="grafana.${domain}"
+            --set kube-prometheus-stack.grafana.ingress.hosts[0]="grafana.${domain}" \\
+            --set kibana.ingress.hosts[0].host="kibana.${domain}" \\
+            --set kibana.ingress.hosts[0].paths[0].path="/"
         """
     }
 }
