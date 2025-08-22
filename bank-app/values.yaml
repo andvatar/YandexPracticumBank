@@ -470,7 +470,7 @@ logstash:
     logstash.conf: |
       input {
         kafka {
-          bootstrap_servers => "bank-kafka:9092"
+          bootstrap_servers => "parent-app-bank-kafka:9092"
           topics => ["logs-topic"]
           codec  => json
         }
