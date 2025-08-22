@@ -2,19 +2,20 @@ package ru.yandex.practicum.tarasov.blocker.service;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.blocker.DTO.BlockerRequestDto;
 import ru.yandex.practicum.tarasov.blocker.DTO.BlockerResponseDto;
 
 @Service
-@Slf4j
 public class BlockerService {
     @Value("${suspect-amount}")
     private long suspectAmount;
 
     private final MeterRegistry registry;
+    private final Logger log = LoggerFactory.getLogger(BlockerService.class);
 
     public BlockerService(MeterRegistry registry) {
         this.registry = registry;

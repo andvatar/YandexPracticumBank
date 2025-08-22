@@ -104,4 +104,6 @@ spec:
   value: "http://{{ .Release.Name }}-bank-zipkin.{{ .Release.Namespace }}:9411/api/v2/spans"
 - name: ZIPKIN_PROBABILITY
   value: "1"
+- name: KAFKA_LOGS_TOPIC
+  value: "logs-topic"
 {{- end -}}

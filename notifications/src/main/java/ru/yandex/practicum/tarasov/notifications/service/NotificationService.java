@@ -2,15 +2,16 @@ package ru.yandex.practicum.tarasov.notifications.service;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.notifications.DTO.NotificationDto;
 
 @Service
-@Slf4j
 public class NotificationService {
 
     private final MeterRegistry registry;
+    private final Logger log = LoggerFactory.getLogger(NotificationService.class);
 
     public NotificationService(MeterRegistry registry) {
         this.registry = registry;

@@ -1,6 +1,7 @@
 package ru.yandex.practicum.tarasov.frontui.service;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.frontui.DTO.CashDto;
 import ru.yandex.practicum.tarasov.frontui.DTO.ResponseDto;
@@ -9,11 +10,11 @@ import ru.yandex.practicum.tarasov.frontui.client.transfer.TransferClient;
 import ru.yandex.practicum.tarasov.frontui.client.transfer.dto.TransferRequestDto;
 
 @Service
-@Slf4j
 public class AccountService {
 
     private final CashClient cashClient;
     private final TransferClient transferClient;
+    private final Logger log = LoggerFactory.getLogger(AccountService.class);
 
     public AccountService(CashClient cashClient,
                           TransferClient transferClient) {

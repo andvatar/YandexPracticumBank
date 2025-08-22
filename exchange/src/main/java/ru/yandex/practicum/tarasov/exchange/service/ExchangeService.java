@@ -2,7 +2,8 @@ package ru.yandex.practicum.tarasov.exchange.service;
 
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.exchange.DTO.ExchangeRateDto;
 import ru.yandex.practicum.tarasov.exchange.DTO.ExchangeRateMapper;
@@ -13,11 +14,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
-@Slf4j
 public class ExchangeService {
     private final ExchangeRepository  exchangeRepository;
     private final ExchangeRateMapper exchangeRateMapper;
     private final AtomicLong lastSuccessfulAddRates;
+    private final Logger log = LoggerFactory.getLogger(ExchangeService.class);
 
     public ExchangeService(ExchangeRepository exchangeRepository,
                            ExchangeRateMapper exchangeRateMapper,

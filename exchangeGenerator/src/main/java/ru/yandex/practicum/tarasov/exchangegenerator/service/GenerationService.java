@@ -1,6 +1,7 @@
 package ru.yandex.practicum.tarasov.exchangegenerator.service;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,12 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class GenerationService {
     private final ExchangeClient  exchangeClient;
     private final KafkaTemplate<String, Object> kafkaTemplate;
     @Value("${kafka.topic}")
     private String kafkaTopic;
+    private final Logger log = LoggerFactory.getLogger(GenerationService.class);
 
     public GenerationService(ExchangeClient exchangeClient,
                              KafkaTemplate<String, Object> kafkaTemplate) {

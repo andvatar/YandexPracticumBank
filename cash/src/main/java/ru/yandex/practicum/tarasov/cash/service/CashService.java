@@ -1,6 +1,7 @@
 package ru.yandex.practicum.tarasov.cash.service;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,6 @@ import ru.yandex.practicum.tarasov.cash.client.notifications.dto.NotificationDto
 import ru.yandex.practicum.tarasov.cash.dto.CashDto;
 
 @Service
-@Slf4j
 public class CashService {
     private final AccountsClient accountsClient;
     private final BlockerClient blockerClient;
@@ -22,6 +22,7 @@ public class CashService {
     private final KafkaTemplate<String, Object> kafkaTemplate;
     @Value("${kafka.topic}")
     private String kafkaTopic;
+    private final Logger log = LoggerFactory.getLogger(CashService.class);
 
     public CashService(AccountsClient accountsClient,
                        BlockerClient blockerClient,

@@ -1,7 +1,8 @@
 package ru.yandex.practicum.tarasov.accounts.service;
 
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ru.yandex.practicum.tarasov.accounts.DTO.CashDto;
@@ -15,10 +16,10 @@ import ru.yandex.practicum.tarasov.accounts.repository.UserRepository;
 import java.util.Optional;
 
 @Service
-@Slf4j
 public class AccountService {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
+    private final Logger log = LoggerFactory.getLogger(AccountService.class);
 
     public AccountService(AccountRepository accountRepository, UserRepository userRepository) {
         this.accountRepository = accountRepository;
