@@ -467,6 +467,9 @@ kibana:
       value: false
     - name: elasticsearch.ssl.verificationMode
       value: none
+  envFrom:
+    - secretRef:
+      name: elasticsearch-master-credentials
   kibanaConfig:
     kibana.yml: |
       server.ssl.enabled: false
@@ -519,10 +522,6 @@ logstash:
         elasticsearch {
           hosts  => ["http://elasticsearch-master:9200"]
           index  => "bank-logs-%{+yyyy.MM.dd}"
-          manage_template => true
-          template => "/usr/share/logstash/templates/logs-template.json"
-          template_name => "bank_template"
-          template_overwrite => true
         }
         stdout {
           codec => rubydebug
