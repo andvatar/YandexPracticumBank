@@ -511,6 +511,6 @@ kibana:
   ingress:
     enabled: true
     hosts:
-      - host: grafana.test.local
+      - host: kibana.test.local
         paths:
           - path: /
