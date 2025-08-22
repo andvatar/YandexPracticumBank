@@ -469,7 +469,11 @@ kibana:
       value: none
   envFrom:
     - secretRef:
-      name: elasticsearch-master-credentials.yaml
+      name: elasticsearch-master-credentials
+  kibanaConfig:
+    kibana.yml: |
+      server.ssl.enabled: false
+  protocol: http
 
 elasticsearch:
   replicas: 1
