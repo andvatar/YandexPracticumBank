@@ -464,5 +464,50 @@ kibana:
     - name: ELASTICSEARCH_USERNAME
       value: "kibana_system"
   envFrom:
-      secretKeyRef:
-        name: elastic-credentials
+    secretRef:
+      name: elastic-credentials
+
+logstash:
+  extraVolumes:
+    - name: logs-template
+      configMap:
+        name: elasticsearch-template-config
+
+  extraVolumeMounts:
+    - name: logs-template
+      mountPath: /usr/share/logstash/templates
+      readOnly: true
+
+  logstashPipeline:
+    logstash.conf: |
+      input {
+        kafka {
+          bootstrap_servers => "bank-kafka:9092"
+          topics => ["logs-topic"]
+          codec  => json
+        }
+      }
+      filter {
+        mutate { 
+          rename => { "level" => "[log][level]" } 
+          copy => { "[@metadata][kafka][topic]" => "source_topic"}
+        }
+        date { 
+          match => ["timestamp", "ISO8601"] 
+          target => "@timestamp"
+          remove_field => ["timestamp"]
+        }
+      }
+      output {
+        elasticsearch {
+          hosts  => ["http://elasticsearch:9200"]
+          index  => "bank-logs-%{+yyyy.MM.dd}"
+          manage_template => true
+          template => "/usr/share/logstash/templates/logs-template.json"
+          template_name => "bank_template"
+          template_overwrite => true
+        }
+        stdout {
+          codec => rubydebug
+        }
+      }
