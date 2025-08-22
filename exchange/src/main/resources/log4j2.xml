@@ -13,7 +13,13 @@
         <Root level="info">
             <AppenderRef ref="Kafka"/>
         </Root>
-        <Logger name="org.apache.kafka" level="INFO" >
+        <Logger name="org.apache.kafka" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.kafka.clients" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.kafka.common" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
     </Loggers>

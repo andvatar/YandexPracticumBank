@@ -9,7 +9,6 @@ pipeline {
         DB_NAME         = 'bank-db'
         DB_USER         = 'postgres'
         IMAGE_TAG       = "${env.BUILD_NUMBER}"
-        //IMAGE_TAG       = 'latest'
     }
 
     stages {
@@ -140,8 +139,8 @@ def helmDeploy(namespace, domain) {
             --set bank-zipkin.ingress.hostname="zipkin.${domain}" \\
             --set kube-prometheus-stack.prometheus.ingress.hosts[0]="prometheus.${domain}" \\
             --set kube-prometheus-stack.grafana.ingress.hosts[0]="grafana.${domain}" \\
-            --set kibana.ingress.hosts[0].host="kibana.${domain}"
+            --set kibana.ingress.hosts[0].host="kibana.${domain}" \\
+            --set kibana.ingress.hosts[0].paths[0].path="/"
         """
-        //             --set-file logstash.logstashPipeline."logstash.conf"=logstash/logstash.conf \\
     }
 }
