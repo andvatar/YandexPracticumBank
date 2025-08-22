@@ -455,56 +455,6 @@ kube-prometheus-stack:
       annotations:
         kubernetes.io/ingress.class: nginx
 
-kibana:
-  extraEnvs:
-    - name: ELASTICSEARCH_HOSTS
-      value: "https://elasticsearch-master:9200"
-    - name: ELASTICSEARCH_USERNAME
-      valueFrom: { secretKeyRef: { name: elasticsearch-master-credentials, key: ELASTICSEARCH_USERNAME } }
-    - name: ELASTICSEARCH_PASSWORD
-      valueFrom: { secretKeyRef: { name: elasticsearch-master-credentials, key: ELASTICSEARCH_PASSWORD } }
-  extraVolumes:
-    - name: es-certs
-      secret:
-        secretName: elasticsearch-master-certs
-  extraVolumeMounts:
-    - name: es-certs
-      mountPath: /usr/share/kibana/config/certs
-      readOnly: true
-  service:
-    type: NodePort
-    nodePort: 32000
-  extraInitContainers:
-    - name: wait-for-elasticsearch
-      image: curlimages/curl:8.10.1
-      command: [ "sh","-lc" ]
-      args:
-        - |
-          echo "Waiting for Elasticsearch...";
-          SCHEME="$(echo "$ELASTICSEARCH_HOSTS" | sed 's,://.*,://,')"
-          HOSTPORT="$(echo "$ELASTICSEARCH_HOSTS" | sed 's,.*://,,')"
-          # poll until ES is at least YELLOW
-          until \
-            curl -sS ${ELASTICSEARCH_USERNAME:+-u "$ELASTICSEARCH_USERNAME:$ELASTICSEARCH_PASSWORD"} \
-                 ${SCHEME}$(echo $HOSTPORT)/_cluster/health?wait_for_status=yellow\&timeout=1m \
-            | grep -q '"status":"\(yellow\|green\)"'; do
-            echo "…still waiting"; sleep 5;
-          done
-          echo "Elasticsearch is up."
-
-elasticsearch:
-  replicas: 1
-  minimumMasterNodes: 1
-  esConfig:
-    elasticsearch.yml: |
-      xpack.security.enabled: true
-      xpack.security.transport.ssl.enabled: true
-      xpack.security.transport.ssl.verification_mode: certificate
-      xpack.security.transport.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
-      xpack.security.transport.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
-
-
-
 logstash:
   extraVolumes:
     - name: logs-template
@@ -549,3 +499,34 @@ logstash:
           codec => rubydebug
         }
       }
+
+elasticsearch:
+  replicas: 1
+  minimumMasterNodes: 1
+  esConfig:
+    elasticsearch.yml: |
+      xpack.security.enabled: true
+      xpack.security.transport.ssl.enabled: true
+      xpack.security.transport.ssl.verification_mode: certificate
+      xpack.security.transport.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+      xpack.security.transport.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+
+kibana:
+  extraEnvs:
+    - name: ELASTICSEARCH_HOSTS
+      value: "https://elasticsearch-master:9200"
+    - name: ELASTICSEARCH_USERNAME
+      valueFrom: { secretKeyRef: { name: elasticsearch-master-credentials, key: ELASTICSEARCH_USERNAME } }
+    - name: ELASTICSEARCH_PASSWORD
+      valueFrom: { secretKeyRef: { name: elasticsearch-master-credentials, key: ELASTICSEARCH_PASSWORD } }
+  extraVolumes:
+    - name: es-certs
+      secret:
+        secretName: elasticsearch-master-certs
+  extraVolumeMounts:
+    - name: es-certs
+      mountPath: /usr/share/kibana/config/certs
+      readOnly: true
+  service:
+    type: NodePort
+    nodePort: 32000
