@@ -1,0 +1,37 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ .Release.Name }}-prometheus-alerts
+  labels:
+    app: kube-prometheus-stack
+    release: prometheus
+spec:
+  groups:
+    - name: exchange-service.rules
+      rules:
+        - alert: ExchangeImportTooLong
+          expr: exchange_success_import_time_seconds > 300
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Exchange rate import is delayed"
+            description: "The last successful import of exchange rates happened more than 5 minutes ago"
+    - name: login.rules
+      rules:
+        - alert: TooManyLoginFails
+          expr: increase(user_logins_failure_total[1m]) > 5
+          labels:
+            severity: warning
+          annotations:
+            summary: "Too many login attempts failed"
+            description: "Too many login attempts failed in the last minute"
+    - name: blocker.rules
+      rules:
+        - alert: TooManyBlockedTransactions
+          expr: increase(user_logins_failure_total[1m]) > 5
+          labels:
+            severity: warning
+          annotations:
+            summary: "Too many blocked transactions"
+            description: "Too many transactions were blocked in the last minute"

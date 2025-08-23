@@ -10,11 +10,14 @@ import ru.yandex.practicum.tarasov.notifications.DTO.NotificationDto;
 @Service
 public class NotificationService {
 
-    private final MeterRegistry registry;
+    //private final MeterRegistry registry;
+    private final Counter counter;
     private final Logger log = LoggerFactory.getLogger(NotificationService.class);
 
     public NotificationService(MeterRegistry registry) {
-        this.registry = registry;
+        this.counter = Counter.builder("user.notification.failed")
+                .description("Number of failed notifications")
+                .register(registry);
     }
 
     public void sendNotification(NotificationDto notificationDto) {
@@ -25,10 +28,11 @@ public class NotificationService {
         }
         catch (Exception e) {
             log.error("Error sending notification on operation: {}", notificationDto, e);
-            Counter.builder("user.notification.failed")
+            /*Counter.builder("user.notification.failed")
                     .description("Number of failed notifications")
                     .register(registry)
-                    .increment();
+                    .increment();*/
+            counter.increment();
         }
         //return new ResponseDto();
     }

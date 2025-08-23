@@ -14,11 +14,15 @@ public class BlockerService {
     @Value("${suspect-amount}")
     private long suspectAmount;
 
-    private final MeterRegistry registry;
+    //private final MeterRegistry registry;
+    private final Counter counter;
     private final Logger log = LoggerFactory.getLogger(BlockerService.class);
 
     public BlockerService(MeterRegistry registry) {
-        this.registry = registry;
+        //this.registry = registry;
+        this.counter = Counter.builder("transaction.blocker")
+                .description("number of transactions blocked")
+                .register(registry);
     }
 
     public BlockerResponseDto checkTransaction(BlockerRequestDto blockerRequestDto) {
@@ -30,15 +34,15 @@ public class BlockerService {
 
         if(!isAllowed) {
             reason = "Transactions divisible by " + suspectAmount + " are very suspicious";
-            Counter.builder("transaction.blocker")
+            counter.increment();
+            /*Counter.builder("transaction.blocker")
                     .description("Number of transactions blocked")
                     .tag("fromUser", blockerRequestDto.fromUser())
                     .tag("toUser", blockerRequestDto.toUser())
                     .tag("fromAccount", blockerRequestDto.fromAccount())
                     .tag("toAccount", blockerRequestDto.toAccount())
-                    .tag("operation", blockerRequestDto.action())
                     .register(registry)
-                    .increment();
+                    .increment();*/
 
         }
 
