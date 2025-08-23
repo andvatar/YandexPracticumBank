@@ -23,12 +23,12 @@ public class SecurityMetricsConfig {
     }
 
     @EventListener
-    public void onSuccess() {
+    public void onSuccess(AuthenticationSuccessEvent event) {
         successCounter.increment();
     }
 
     @EventListener
-    public void onFailure() {
+    public void onFailure(AbstractAuthenticationFailureEvent event) {
         failureCounter.increment();
     }
 }

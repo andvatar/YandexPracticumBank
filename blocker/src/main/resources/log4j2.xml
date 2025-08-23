@@ -6,7 +6,7 @@
         </Console>
         <Kafka name="Kafka" topic="${env:KAFKA_LOGS_TOPIC}">
             <JsonLayout compact="true" eventEol="true"/>
-            <Property name="bootstrap.servers">${env:KAFKA_HOST}:${env:KAFKA_PORT}</Property>
+            <Property name="bootstrap.servers">${env:KAFKA_HOST:-bank-kafka}:${env:KAFKA_PORT:-9092}</Property>
         </Kafka>
     </Appenders>
     <Loggers>
