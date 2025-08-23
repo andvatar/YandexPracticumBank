@@ -4,10 +4,10 @@ metadata:
   name: {{ .Release.Name }}-prometheus-alerts
   labels:
     app: kube-prometheus-stack
-    release: prometheus
+    release: {{ .Release.Name }}
 spec:
   groups:
-    - name: exchange-service.rules
+    - name: bank-app.rules
       rules:
         - alert: ExchangeImportTooLong
           expr: exchange_success_import_time_seconds > 300
@@ -17,8 +17,6 @@ spec:
           annotations:
             summary: "Exchange rate import is delayed"
             description: "The last successful import of exchange rates happened more than 5 minutes ago"
-    - name: login.rules
-      rules:
         - alert: TooManyLoginFails
           expr: increase(user_logins_failure_total[1m]) > 5
           labels:
@@ -26,10 +24,8 @@ spec:
           annotations:
             summary: "Too many login attempts failed"
             description: "Too many login attempts failed in the last minute"
-    - name: blocker.rules
-      rules:
         - alert: TooManyBlockedTransactions
-          expr: increase(user_logins_failure_total[1m]) > 5
+          expr: increase(transaction_blocker_total[1m]) > 5
           labels:
             severity: warning
           annotations:
