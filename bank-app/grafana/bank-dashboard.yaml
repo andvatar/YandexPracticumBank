@@ -20,7 +20,6 @@
     {
       "type": "timeseries",
       "title": "Login rate",
-#      "datasource": { "uid": "${DS_PROMETHEUS}" },
       "gridPos": { "h": 9, "w": 12, "x": 0, "y": 6 },
       "targets": [
         {
@@ -39,7 +38,6 @@
     {
       "type": "timeseries",
       "title": "blocker rate",
-#      "datasource": { "uid": "${DS_PROMETHEUS}" },
       "gridPos": { "h": 9, "w": 12, "x": 0, "y": 6 },
       "targets": [
         {
@@ -53,7 +51,6 @@
     {
       "type": "stat",
       "title": "Time since last successful import",
-#      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
       "targets": [ { "expr": "exchange_success_import_time" } ],
       "options": { "reduceOptions": { "calcs": [ "lastNotNull" ] }, "orientation": "horizontal" },
