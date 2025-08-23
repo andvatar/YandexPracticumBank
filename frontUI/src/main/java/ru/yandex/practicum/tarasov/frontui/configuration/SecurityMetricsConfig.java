@@ -10,12 +10,10 @@ import org.springframework.security.authentication.event.AuthenticationSuccessEv
 @Configuration
 public class SecurityMetricsConfig {
 
-    //private final MeterRegistry meterRegistry;
     private final Counter successCounter;
     private final Counter failureCounter;
 
     public SecurityMetricsConfig(MeterRegistry meterRegistry) {
-        //this.meterRegistry = meterRegistry;
         successCounter = Counter.builder("user.logins.success")
                 .description("Successful login")
                 .register(meterRegistry);
@@ -25,24 +23,12 @@ public class SecurityMetricsConfig {
     }
 
     @EventListener
-    public void onSuccess(AuthenticationSuccessEvent event) {
-        //String username = event.getAuthentication().getName();
-        /*Counter.builder("user.logins.success")
-                .description("Successful login")
-                .tags("username", username)
-                .register(meterRegistry)
-                .increment();*/
+    public void onSuccess() {
         successCounter.increment();
     }
 
     @EventListener
-    public void onFailure(AbstractAuthenticationFailureEvent event) {
-        //String username = event.getAuthentication().getName();
-        /*Counter.builder("user.logins.failure")
-                .description("Failed login")
-                .tags("username", username)
-                .register(meterRegistry)
-                .increment();*/
+    public void onFailure() {
         failureCounter.increment();
     }
 }

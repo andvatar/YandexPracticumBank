@@ -142,7 +142,8 @@ def helmDeploy(namespace, domain) {
             --set kube-prometheus-stack.prometheus.ingress.hosts[0]="prometheus.${domain}" \\
             --set kube-prometheus-stack.grafana.ingress.hosts[0]="grafana.${domain}" \\
             --set kibana.ingress.hosts[0].host="kibana.${domain}" \\
-            --set kibana.ingress.hosts[0].paths[0].path="/"
+            --set kibana.ingress.hosts[0].paths[0].path="/" \\
+            --set kube-prometheus-stack.alertmanager.ingress.hosts[0]="alertmanager.${domain}"
         """
     }
 }
