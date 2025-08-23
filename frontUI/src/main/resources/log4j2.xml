@@ -4,7 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level: %msg%n"/>
         </Console>
-        <Kafka name="Kafka" topic="${env:KAFKA_LOGS_TOPIC}">
+        <Kafka name="Kafka" topic="${env:KAFKA_LOGS_TOPIC:-logs-topic}">
             <JsonLayout compact="true" eventEol="true"/>
             <Property name="bootstrap.servers">${env:KAFKA_HOST:-bank-kafka}:${env:KAFKA_PORT:-9092}</Property>
         </Kafka>

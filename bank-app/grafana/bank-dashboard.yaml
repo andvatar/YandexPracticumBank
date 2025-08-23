@@ -9,7 +9,7 @@
       "pluginName": "Prometheus"
     }
   ],
-  "title": "Bank metrics",
+  "title": "bank app metrics",
   "uid": "bank-app-10m",
   "schemaVersion": 39,
   "version": 1,
