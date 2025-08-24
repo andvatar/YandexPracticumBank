@@ -96,4 +96,14 @@ spec:
 {{- define "microservice.commonEnv" -}}
 - name: KEYCLOAK_URL
   value: "http://{{ .Release.Name }}-bank-keycloak.{{ .Release.Namespace }}.svc.cluster.local/realms/master"
+- name: KAFKA_HOST
+  value: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
+- name: KAFKA_PORT
+  value: "9092"
+- name: ZIPKIN_ENDPOINT
+  value: "http://{{ .Release.Name }}-bank-zipkin.{{ .Release.Namespace }}:9411/api/v2/spans"
+- name: ZIPKIN_PROBABILITY
+  value: "1"
+- name: KAFKA_LOGS_TOPIC
+  value: "logs-topic"
 {{- end -}}

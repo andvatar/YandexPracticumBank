@@ -31,6 +31,8 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       acks: "0"
       retries: 0
+      properties:
+        spring.kafka.template.observation-enabled: true
 
 server:
   port: 8086
@@ -43,11 +45,13 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,metrics,prometheus
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_ENDPOINT:http://127.0.0.1:9411/api/v2/spans}
+  tracing:
+    sampling:
+      probability: ${ZIPKIN_PROBABILITY:1}
 
 kafka:
   topic: ${KAFKA_TOPIC:exchange-rates-topic}
-#logging:
-#  level:
-#    org.springframework.kafka: DEBUG
-#    org.apache.kafka: DEBUG

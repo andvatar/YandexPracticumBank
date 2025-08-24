@@ -1,5 +1,7 @@
 package ru.yandex.practicum.tarasov.transfer.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import ru.yandex.practicum.tarasov.transfer.DTO.TransferDto;
 import ru.yandex.practicum.tarasov.transfer.DTO.TransferRequestDto;
 import ru.yandex.practicum.tarasov.transfer.client.account.AccountClient;
 import ru.yandex.practicum.tarasov.transfer.client.blocker.BlockerClient;
+import ru.yandex.practicum.tarasov.transfer.client.blocker.dto.BlockerRequestDto;
 import ru.yandex.practicum.tarasov.transfer.client.blocker.dto.BlockerResponseDto;
 import ru.yandex.practicum.tarasov.transfer.client.exchange.ExchangeClient;
 import ru.yandex.practicum.tarasov.transfer.client.notifications.NotificationsClient;
@@ -22,6 +25,7 @@ public class TransferService {
     private final KafkaTemplate<String, Object> kafkaTemplate;
     @Value("${kafka.topic}")
     private String kafkaTopic;
+    private final Logger log = LoggerFactory.getLogger(TransferService.class);
 
     public TransferService(ExchangeClient exchangeClient,
                            AccountClient accountClient,
@@ -37,6 +41,8 @@ public class TransferService {
 
     public ResponseDto transfer(TransferRequestDto transferRequestDto) {
 
+        log.info("transfer requestDto={}", transferRequestDto);
+
         ResponseDto responseDto = new ResponseDto();
 
         System.out.println(transferRequestDto);
@@ -46,10 +52,20 @@ public class TransferService {
                 transferRequestDto.getFromCurrency(),
                 transferRequestDto.getValue());
 
-        BlockerResponseDto blockerResponseDto = blockerClient.checkTransaction("transfer", fromAmount);
+        log.info("fromAmount={}", fromAmount);
+
+        BlockerResponseDto blockerResponseDto = blockerClient.checkTransaction(
+                new BlockerRequestDto(transferRequestDto.getFromLogin(),
+                        transferRequestDto.getToLogin(),
+                        transferRequestDto.getFromCurrency(),
+                        transferRequestDto.getToCurrency(),
+                        "transfer",
+                        transferRequestDto.getValue()
+                ));
 
         if(!blockerResponseDto.isAllowed()) {
             responseDto.errors().add("The operation was blocked: " + blockerResponseDto.reason() + " " + blockerResponseDto.errorMessage());
+            log.warn("The transaction was blocked: {}", blockerResponseDto.reason());
             return responseDto;
         }
 
@@ -63,7 +79,6 @@ public class TransferService {
         responseDto = accountClient.transfer(transferDto);
 
         if(!responseDto.hasErrors()) {
-            //notificationsClient.sendNotification(new NotificationDto("transfer", transferRequestDto.getValue()));
             kafkaTemplate.send(
                     kafkaTopic,
                     new NotificationDto("transfer", transferRequestDto.getValue())

@@ -1,11 +1,14 @@
 package ru.yandex.practicum.tarasov.cash.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.tarasov.cash.client.accounts.AccountsClient;
 import ru.yandex.practicum.tarasov.cash.client.accounts.dto.ResponseDto;
 import ru.yandex.practicum.tarasov.cash.client.blocker.BlockerClient;
+import ru.yandex.practicum.tarasov.cash.client.blocker.dto.BlockerRequestDto;
 import ru.yandex.practicum.tarasov.cash.client.blocker.dto.BlockerResponseDto;
 import ru.yandex.practicum.tarasov.cash.client.notifications.NotificationsClient;
 import ru.yandex.practicum.tarasov.cash.client.notifications.dto.NotificationDto;
@@ -19,6 +22,7 @@ public class CashService {
     private final KafkaTemplate<String, Object> kafkaTemplate;
     @Value("${kafka.topic}")
     private String kafkaTopic;
+    private final Logger log = LoggerFactory.getLogger(CashService.class);
 
     public CashService(AccountsClient accountsClient,
                        BlockerClient blockerClient,
@@ -32,12 +36,22 @@ public class CashService {
 
     public ResponseDto getPutCash(CashDto cashDto) {
 
+        log.info("getPutCash cashDto={}", cashDto);
+
         ResponseDto responseDto = new ResponseDto();
 
-        BlockerResponseDto blockerResponseDto = blockerClient.checkTransaction(cashDto.getAction(), cashDto.getValue());
+        BlockerResponseDto blockerResponseDto = blockerClient.checkTransaction(
+                new BlockerRequestDto(cashDto.getUsername(),
+                        "",
+                        cashDto.getCurrency(),
+                        "",
+                        "cash",
+                        cashDto.getValue()
+                ));
 
         if(!blockerResponseDto.isAllowed()) {
             responseDto.errors().add("The operation was blocked: " + blockerResponseDto.reason() + " " + blockerResponseDto.errorMessage());
+            log.warn("The transaction was blocked: {} {}", blockerResponseDto.reason(), blockerResponseDto.errorMessage());
             return responseDto;
         }
 

@@ -21,3 +21,9 @@ Sprint 11
 Добавил Spring Kafka, перевел на него взаимодействие между Exchange и Exchange Generator и всех с Notifications
 Kafka добавил как dependency в umbrella chart, параметры подключения передаю через envs
 Тесты написал только для Exchange и Exchange Generator так как у меня катастрофически не хватает времени
+
+===============================================================================================
+Sprint 12
+
+Добавил Zipkin, Prometheus, Grafana и логирование с доставкой логов с помощью Elasticsearch, Logstash, Kibana
+Не получилось настроить security в elastics 8.x.x, сделал на 7.17.3, там security выключен по умолчанию

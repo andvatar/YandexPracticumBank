@@ -9,7 +9,6 @@ pipeline {
         DB_NAME         = 'bank-db'
         DB_USER         = 'postgres'
         IMAGE_TAG       = "${env.BUILD_NUMBER}"
-        //IMAGE_TAG       = 'latest'
     }
 
     stages {
@@ -92,10 +91,14 @@ pipeline {
         stage('Setup Ingress Nginx') {
             steps {
                 script {
-                    sh 'helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx'
-                    sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
-                    sh 'helm repo update'
-                    sh 'helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --set controller.admissionWebhooks.service.targetPort=443'
+                    sh """
+                    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+                    helm repo add bitnami https://charts.bitnami.com/bitnami
+                    helm repo add kube-prometheus-stack https://prometheus-community.github.io/helm-charts
+                    helm repo add elastic https://helm.elastic.co
+                    helm repo update
+                    helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --set controller.admissionWebhooks.service.targetPort=443
+                    """
                 }
             }
         }
@@ -126,13 +129,22 @@ pipeline {
 
 def helmDeploy(namespace, domain) {
     dir('bank-app') {
+    //      helm dependency update
+    //      helm dependency build
         sh """
         helm dependency update
         helm dependency build
         helm upgrade --install parent-app . \\
             --namespace ${namespace} --create-namespace \\
             --set global.domain=${domain} \\
-            --set global.image.tag=${env.IMAGE_TAG}
+            --set global.image.tag=${env.IMAGE_TAG} \\
+            --set bank-zipkin.ingress.hostname="zipkin.${domain}" \\
+            --set kube-prometheus-stack.prometheus.ingress.hosts[0]="prometheus.${domain}" \\
+            --set kube-prometheus-stack.grafana.ingress.hosts[0]="grafana.${domain}" \\
+            --set kibana.ingress.hosts[0].host="kibana.${domain}" \\
+            --set kibana.ingress.hosts[0].paths[0].path="/" \\
+            --set kube-prometheus-stack.alertmanager.ingress.hosts[0]="alertmanager.${domain}" \\
+            --set kube-prometheus-stack.grafana.sidecar.dashboards.searchNamespace=${namespace}
         """
     }
 }

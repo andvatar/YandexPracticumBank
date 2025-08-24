@@ -1,5 +1,7 @@
 package ru.yandex.practicum.tarasov.accounts.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +35,7 @@ public class UserService {
     private final KafkaTemplate<String, Object> kafkaTemplate;
     @Value("${kafka.topic}")
     private String kafkaTopic;
+    private final Logger log = LoggerFactory.getLogger(UserService.class);
 
 
     public UserService(UserRepository userRepository,
@@ -52,6 +55,7 @@ public class UserService {
     }
 
     public ResponseDto createUser(SignupRequestDto signupRequestDto) {
+        log.info("createUser {}", signupRequestDto);
         ResponseDto responseDto = new ResponseDto();
 
         User user = userMapper.signupRequestDtoToUser(signupRequestDto);
@@ -59,6 +63,7 @@ public class UserService {
         Optional<Authority> optionalAuthority = authorityRepository.findByName("USER");
         if(optionalAuthority.isEmpty()) {
             responseDto.errors().add("Authority 'USER' not found");
+            log.warn("No authority found");
             return responseDto;
         }
         user.setAuthorities(Set.of(optionalAuthority.get()));
@@ -68,15 +73,18 @@ public class UserService {
     }
 
     public ResponseDto changePassword(ChangePasswordDto changePasswordDto) {
+        log.info("changePassword {}", changePasswordDto);
         ResponseDto responseDto = new ResponseDto();
         if(!changePasswordDto.password().equals(changePasswordDto.confirmPassword())) {
             responseDto.errors().add("Passwords do not match");
+            log.warn("Passwords do not match");
         }
 
         Optional<User> optionalUser = userRepository.findByUsername(changePasswordDto.login());
 
         if(optionalUser.isEmpty()) {
             responseDto.errors().add("Username not found");
+            log.warn("Username not found");
         }
 
         if(!responseDto.hasErrors()) {
@@ -93,11 +101,13 @@ public class UserService {
     }
 
     public UserAccountsDto getUserAccounts(String username) {
+        log.info("getUserAccounts {}", username);
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
         return userMapper.userToUserAccountsDto(user);
     }
 
     public List<UserDto> getOtherUsers(String username) {
+        log.info("getOtherUsers {}", username);
         List<User> users = userRepository.findAll();
         return users.stream()
                 .filter(u -> !u.getUsername().equals(username))
@@ -107,12 +117,14 @@ public class UserService {
 
     @Transactional
     public ResponseDto updateUserAccounts(ChangeUserAccountsDto changeUserAccountsDto, String login) {
+        log.info("updateUserAccounts {}", changeUserAccountsDto);
         ResponseDto responseDto = new ResponseDto();
 
         Optional<User> userOptional = userRepository.findByUsername(login);
 
         if(userOptional.isEmpty()) {
             responseDto.errors().add("User not found");
+            log.warn("User not found");
             return responseDto;
         }
 
@@ -121,6 +133,7 @@ public class UserService {
         if(changeUserAccountsDto.getBirthDate() != null) {
             if (Period.between(changeUserAccountsDto.getBirthDate(), LocalDate.now()).getYears() < 18) {
                 responseDto.errors().add("You must be at least 18 years old");
+                log.warn("You must be at least 18 years old");
             }
             else {
                 user.setBirthDate(changeUserAccountsDto.getBirthDate());
@@ -142,6 +155,7 @@ public class UserService {
             if(changeUserAccountsDto.getAccounts().stream().noneMatch(s -> s.equals(account.getCurrency().getCode()))) {
                 if(account.getBalance() > 0) {
                     responseDto.errors().add("Cannot close the " + account.getCurrency().getCode() + " account because the balance is greater than 0");
+                    log.warn("Cannot close the {} account", account.getCurrency().getCode());
                 } else {
                     accountsToClose.add(account);
                 }

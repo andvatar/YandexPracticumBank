@@ -1,8 +1,7 @@
 package ru.yandex.practicum.tarasov.blocker.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.tarasov.blocker.DTO.BlockerRequestDto;
 import ru.yandex.practicum.tarasov.blocker.DTO.BlockerResponseDto;
 import ru.yandex.practicum.tarasov.blocker.service.BlockerService;
 
@@ -14,8 +13,13 @@ public class BlockerController {
         this.blockerService = blockerService;
     }
 
-    @GetMapping("/check/{operation}/{amount}")
+    /*@GetMapping("/check/{operation}/{amount}")
     public BlockerResponseDto checkTransaction(@PathVariable String operation, @PathVariable long amount) {
         return blockerService.checkTransaction(operation, amount);
+    }*/
+
+    @PostMapping("/check")
+    public BlockerResponseDto checkTransaction(@RequestBody BlockerRequestDto blockerRequestDto) {
+        return blockerService.checkTransaction(blockerRequestDto);
     }
 }

@@ -137,6 +137,4 @@ tolerations: []
 affinity: {}
 
 config:
-  KAFKA_HOST: "{{ .Release.Name }}-bank-kafka.{{ .Release.Namespace }}.svc.cluster.local"
-  KAFKA_PORT: "9092"
   KAFKA_TOPIC: "notification-topic"

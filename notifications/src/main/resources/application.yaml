@@ -18,13 +18,6 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       group-id: notifications
-#      properties:
-#        spring.json.value.default.type: "ru.yandex.practicum.tarasov.notifications.DTO.NotificationDto"
-#        spring.json.trusted.packages:
-#          - ru.yandex.practicum.tarasov.accounts.DTO
-#          - ru.yandex.practicum.tarasov.transfer.DTO
-#          - ru.yandex.practicum.tarasov.cash.client.notifications.dto
-#          - ru.yandex.practicum.tarasov.notifications.DTO
 
 server:
   port: 8092
@@ -37,7 +30,13 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,metrics,prometheus
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_ENDPOINT:http://127.0.0.1:9411/api/v2/spans}
+  tracing:
+    sampling:
+      probability: ${ZIPKIN_PROBABILITY:1}
 
 kafka:
   topic: ${KAFKA_TOPIC:"notifications-topic"}
